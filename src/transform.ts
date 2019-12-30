@@ -62,6 +62,17 @@ function replace(cssText: string, options: IPluginConfiguration): string {
 export function transform(template: ts.TemplateLiteral, options: IPluginConfiguration): ts.TemplateLiteral {
   if (ts.isNoSubstitutionTemplateLiteral(template)) {
     return ts.createNoSubstitutionTemplateLiteral(replace(template.text, options));
+  } else if (ts.isTemplateExpression(template)) {
+    return ts.createTemplateExpression(
+      template.head.text ? ts.createTemplateHead(replace(template.head.text, options)) : template.head,
+      template.templateSpans.map(span => {
+        if (ts.isTemplateTail(span.literal)) {
+          return ts.createTemplateSpan(span.expression, ts.createTemplateTail(replace(span.literal.text, options)));
+        } else {
+          return span;
+        }
+      }),
+    );
   }
   return template;
 }
