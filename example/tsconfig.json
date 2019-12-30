@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "plugins": [
       {
-        "transform": "..",
+        "transform": "typescript-styled-components-px2rem",
         "rootValue": 100,
         "unitPrecision": 5,
         "minPixelValue": 2,
