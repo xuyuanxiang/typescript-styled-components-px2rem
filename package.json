@@ -7,13 +7,13 @@
     "styled-components",
     "typescript"
   ],
-  "homepage": "https://github.com/xuyuanxiang/styled-components-px2rem",
+  "homepage": "https://github.com/xuyuanxiang/typescript-styled-components-px2rem",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/xuyuanxiang/styled-components-px2rem.git"
+    "url": "git+https://github.com/xuyuanxiang/typescript-styled-components-px2rem.git"
   },
   "bugs": {
-    "url": "https://github.com/xuyuanxiang/styled-components-px2rem/issues"
+    "url": "https://github.com/xuyuanxiang/typescript-styled-components-px2rem/issues"
   },
   "author": "xuyuanxiang <hi@xuyuanxaing.cn>",
   "license": "MIT",
