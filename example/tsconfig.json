@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "transform": "..",
+        "rootValue": 100,
+        "unitPrecision": 5,
+        "minPixelValue": 2,
+        "multiplier": 2
+      }
+    ]
+  },
+  "exclude": ["dist"],
+  "include": ["src"]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "typescript-styled-components-px2rem-example",
+  "version": "1.0.0",
+  "description": "Example for typescript-styled-components-px2rem",
+  "private": true,
+  "keywords": [
+    "px2rem",
+    "styled-components",
+    "typescript"
+  ],
+  "author": "xuyuanxiang <hi@xuyuanxaing.cn>",
+  "license": "MIT",
+  "dependencies": {
+    "styled-components": "^4.1.4"
+  },
+  "devDependencies": {
+    "@types/styled-components": "^4.1.4",
+    "ttypescript": "^1.5.8"
+  },
+  "scripts": {
+    "build": "ttsc"
+  }
+}
