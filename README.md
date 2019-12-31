@@ -124,7 +124,7 @@ tsconfig.json:
 | unitPrecision | number | false | 5 | The decimal numbers to allow the REM units to grow to |
 | minPixelValue | number | false | 2 | Set the minimum pixel value to replace |
 | multiplier | number | false | 2 | The multiplier of input value |
-| tags | string[] | false | ["styled", "css", "extend", "createGlobalStyle"] | [styled-components](https://www.styled-components.com/) template literal [tagged](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) |
+| tags | string[] | false | ["styled", "css", "createGlobalStyle"] | [styled-components](https://www.styled-components.com/) template literal [tagged](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) |
 
 Simple version of the formula：
 
