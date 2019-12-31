@@ -12,7 +12,7 @@ npm install typescript-styled-components-px2rem --save
 
 ### ttypescript compiler
 
-see [example](example);
+see [example](example)
 
 ### rollup
 

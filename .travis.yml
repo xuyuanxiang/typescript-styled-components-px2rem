@@ -1,0 +1,20 @@
+language: node_js
+node_js:
+- node
+branches:
+  only:
+  - /^\d{1}\.\d{1,2}.\d{1,2}$/
+notifications:
+  email:
+    recipients:
+      - chaos@xuyuanxiang.cn
+    on_success: never
+    on_failure: always
+before_deploy: "npm run build"
+deploy:
+  on:
+    tags: true
+  provider: npm
+  email: chaos@xuyuanxiang.cn
+  api_key:
+    secure: fR99OSmjVrJIdQ0MnRi+njtIAWezxWqXbzw3iURBvHTE8XWxhrbHBMFJaPoLyqyuNZtcuA4uHpbfeOFqePzm/b0seA9HmgvpFy6fhceu/uy7x6jEXiZdWIF2Ew5+ooRrl39XyaRFpuQ1f/D/+913kPsImY6B02pzkdmfu7sHfIJhtHWaB+OLHQKBoDXH+iXpEGKUbHYIuNtHgJunvqIhdCMdYrfBPAsptW0PGYy5x3ts1W5CVAuSbRHJxdjqd0ata2QqaSq9V1E7TEFGdiEH0tG+/nxIjFIn/g1IUOBNSbkAO/hReCpGim3O91YBF9RviBSwA+CeCsZ9kOnM9kJSKR0NdP+lc5IOg69sQpe5uIyQhb0sLJjRbOtzTwUJUpzw4TsXlp2Ey7lXGV6ThflfqSWHaehGH4YafjJ4/9efP2YAC1JtUvv00j0diHNAPVS3d/jQI9l4g34Eug4oHS2T5teXLoKau07TEAJGseX3FdHceN5P9OL6rIbPNMfMG21vGpF+cHq5IaRoqv9Wbn9uxxk5olRByWYY/lWzYGbwLHGdXriI/IGyHYbVFXhPkCj+F80zm4cgxXjDvSO2j1RvtqNlIM1eJn1qSOwhmiWUY5532up8GO01m9ZnsvfTtz+2gtR5/3lNKVafUq6X+3YjBU/9xeuQ2+39IDDC9EeTrwA=

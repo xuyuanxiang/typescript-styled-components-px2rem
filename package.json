@@ -1,6 +1,6 @@
 {
   "name": "typescript-styled-components-px2rem",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "TypeScript transformer for convert px to rem units of styled-components",
   "keywords": [
     "px2rem",
@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.25",
+    "coveralls": "^3.0.9",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "ts-jest": "^24.2.0",
@@ -43,7 +44,9 @@
   },
   "scripts": {
     "test": "jest",
+    "prebuild": "npm test -- --no-cache --coverage",
     "build": "tsc",
+    "postbuild": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "watch": "tsc -w"
   }
 }
