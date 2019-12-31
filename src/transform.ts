@@ -16,21 +16,18 @@ function isStyledTagged(node: ts.TaggedTemplateExpression): boolean {
 function transformTemplateLiteral(templateLiteral: ts.TemplateLiteral): ts.TemplateLiteral {
   if (ts.isNoSubstitutionTemplateLiteral(templateLiteral)) {
     return ts.createNoSubstitutionTemplateLiteral(replace(templateLiteral.text));
-  } else if (ts.isTemplateExpression(templateLiteral)) {
+  } else {
     return ts.createTemplateExpression(
       ts.createTemplateHead(replace(templateLiteral.head.text)),
       templateLiteral.templateSpans.map(span => {
         if (ts.isTemplateTail(span.literal)) {
           return ts.createTemplateSpan(span.expression, ts.createTemplateTail(replace(span.literal.text)));
-        } else if (ts.isTemplateMiddle(span.literal)) {
+        } else {
           return ts.createTemplateSpan(span.expression, ts.createTemplateMiddle(replace(span.literal.text)));
         }
-        return span;
       }),
     );
   }
-
-  return templateLiteral;
 }
 
 export function transform(node: ts.Node): ts.Node {
@@ -63,6 +60,10 @@ export function transform(node: ts.Node): ts.Node {
         }
       }
     }
+  } else if (ts.isTemplateExpression(node)) {
+    const newNode = transformTemplateLiteral(node);
+    newNode.parent = node.parent;
+    return newNode;
   }
 
   return node;

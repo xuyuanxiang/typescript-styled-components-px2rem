@@ -1,6 +1,6 @@
 {
   "name": "typescript-styled-components-px2rem",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TypeScript transformer for convert px to rem units of styled-components",
   "keywords": [
     "px2rem",
@@ -32,7 +32,10 @@
     "typescript": "^3.0.0"
   },
   "dependencies": {
-    "memoizerific": "^1.11.3"
+    "memoizerific": "^1.11.3",
+    "postcss": "^7.0.26",
+    "postcss-plugin-px2rem": "^0.8.1",
+    "postcss-scss": "^2.0.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.25",

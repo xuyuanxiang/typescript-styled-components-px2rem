@@ -4,6 +4,13 @@ export interface IConfiguration {
   minPixelValue: number;
   multiplier: number;
   tags: ReadonlyArray<string>;
+  propWhiteList: ReadonlyArray<string>;
+  propBlackList: ReadonlyArray<string>;
+  exclude: boolean;
+  selectorBlackList: ReadonlyArray<string>;
+  ignoreIdentifier: boolean;
+  replace: boolean;
+  mediaQuery: boolean;
 }
 
 class ConfigurationManager {
@@ -11,8 +18,15 @@ class ConfigurationManager {
     rootValue: 100,
     unitPrecision: 5,
     minPixelValue: 2,
-    multiplier: 2,
+    multiplier: 1,
     tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
+    propWhiteList: [],
+    propBlackList: [],
+    exclude: false,
+    selectorBlackList: [],
+    ignoreIdentifier: false,
+    replace: true,
+    mediaQuery: false,
   };
   private _config: IConfiguration = ConfigurationManager.defaultConfiguration;
 
