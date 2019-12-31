@@ -60,10 +60,6 @@ export function transform(node: ts.Node): ts.Node {
         }
       }
     }
-  } else if (ts.isTemplateExpression(node)) {
-    const newNode = transformTemplateLiteral(node);
-    newNode.parent = node.parent;
-    return newNode;
   }
 
   return node;

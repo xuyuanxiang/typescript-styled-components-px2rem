@@ -52,23 +52,6 @@ describe('transform()', () => {
       throw new Error('Transformed Node should be the same type with raw');
     }
   });
-  it('should transform TemplateExpression directly', function() {
-    const spans: ts.TemplateSpan[] = [];
-    spans.push(
-      ts.createTemplateSpan(
-        ts.createIdentifier('Mixins'),
-        ts.createTemplateMiddle('px;\n height: 44px;\n line-height: 44px;\n width: '),
-      ),
-    );
-    const template = ts.createTemplateExpression(ts.createTemplateHead('\n width: '), spans);
-    const result = transform(template);
-    if (ts.isTemplateExpression(result)) {
-      expect(result.head.text).toBe('\n width: ');
-      expect(result.templateSpans[0].literal.text).toBe('px;\n height: 0.44rem;\n line-height: 0.44rem;\n width: ');
-    } else {
-      throw new Error('Transformed Node should be the same type with raw');
-    }
-  });
 
   it('should transform styled function', function() {
     /*
