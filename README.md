@@ -77,7 +77,7 @@ module.exports = {
 };
 ```
 
-### Jest(https://github.com/facebook/jest)
+### [Jest](https://github.com/facebook/jest)
 
 Integration with [ts-jest](https://github.com/kulshekhar/ts-jest) and [ttypescript](https://github.com/cevek/ttypescript):
 
