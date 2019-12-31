@@ -48,9 +48,6 @@
     "tslint-plugin-prettier": "^2.1.0",
     "typescript": "^3.7.4"
   },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
-  },
   "scripts": {
     "test": "jest --no-cache --coverage",
     "lint": "tslint -c tslint.json -p tsconfig.json",
