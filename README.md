@@ -143,7 +143,7 @@ return `${fixedVal}rem`;
 
 ## TODO
 
-### Should support TemplateExpression
+### Should support embedded expressions in template strings
 
 Example:
 
