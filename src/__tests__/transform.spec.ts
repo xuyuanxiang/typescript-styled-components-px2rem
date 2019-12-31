@@ -2,16 +2,7 @@ import * as ts from 'typescript';
 import { transform } from '../transform';
 
 describe('transform()', () => {
-  it('should transform NoSubstitutionTemplateLiteral', function() {
-    const result = transform(
-      ts.createNoSubstitutionTemplateLiteral(
-        '\n  padding: 0 16px;\n  width: 200px;\n  border: 1px solid red;\n  padding: 8px 16px 32px 40px;\n',
-      ),
-    );
-    expect(ts.isNoSubstitutionTemplateLiteral(result) && result.text).toBe(
-      '\n  padding: 0 0.32rem;\n  width: 4rem;\n  border: 1px solid red;\n  padding: 0.16rem 0.32rem 0.64rem 0.8rem;\n',
-    );
-  });
+  it('should transform NoSubstitutionTemplateLiteral', function() {});
   it('should transform TemplateExpression', function() {
     const spans: ts.TemplateSpan[] = [];
     spans.push(

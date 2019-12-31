@@ -35,7 +35,7 @@ export default {
               unitPrecision: 5,
               minPixelValue: 2,
               multiplier: 2,
-              tags: ['styled', 'css', 'createGlobalStyle'],
+              tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
             },
           ],
         },
@@ -58,7 +58,7 @@ const customTransformer = createCustomTransformer({
   unitPrecision: 5,
   minPixelValue: 2,
   multiplier: 2,
-  tags: ['styled', 'css', 'createGlobalStyle'],
+  tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
 });
 
 module.exports = {
@@ -109,7 +109,7 @@ tsconfig.json:
         "unitPrecision": 5,
         "minPixelValue": 2,
         "multiplier": 2,
-        "tags": ["styled", "css", "createGlobalStyle"]
+        "tags": ["styled", "css", "createGlobalStyle", "keyframes"]
       }
     ]
   }
@@ -124,7 +124,7 @@ tsconfig.json:
 | unitPrecision | number | false | 5 | The decimal numbers to allow the REM units to grow to |
 | minPixelValue | number | false | 2 | Set the minimum pixel value to replace |
 | multiplier | number | false | 2 | The multiplier of input value |
-| tags | string[] | false | ["styled", "css", "createGlobalStyle"] | [styled-components](https://www.styled-components.com/) template literal [tagged](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) |
+| tags | string[] | false | ["styled", "css", "createGlobalStyle", "keyframes"] | [styled-components](https://www.styled-components.com/) template literal [tagged](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) |
 
 Simple version of the formula：
 
@@ -161,11 +161,7 @@ const TransformedInlineButton = styled.button<{ width: number }>`
   height: 0.96rem;
   line-height: 0.96rem;
 `;
-```
 
-### Should support TemplateExpress in ArrowFunction
-
-```typescript
 const SizeableButton = styled.button<{ width: number; height: number }>(
   props => `
   display: inline;
@@ -182,7 +178,7 @@ const TransformedSizeableButton = styled.button<{ width: number; height: number 
   width: ${props.width}px; /* not work */
   height: ${props.height}px; /* not work */
   line-height: ${props.height}px; /* not work */
-  font-size: 16px; /* not work */
+  font-size: 0.32rem; 
 `,
 );
 ```

@@ -32,8 +32,7 @@
     "typescript": "^3.0.0"
   },
   "dependencies": {
-    "memoizerific": "^1.11.3",
-    "typescript-template-language-service-decorator": "^2.2.0"
+    "memoizerific": "^1.11.3"
   },
   "devDependencies": {
     "@types/jest": "^24.0.25",

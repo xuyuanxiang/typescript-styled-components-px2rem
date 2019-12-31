@@ -7,7 +7,7 @@ describe('configuration', () => {
       unitPrecision: 5,
       minPixelValue: 2,
       multiplier: 2,
-      tags: ['styled', 'css', 'createGlobalStyle'],
+      tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
     });
   });
   it('should return update configuration', function() {
@@ -16,7 +16,7 @@ describe('configuration', () => {
       unitPrecision: 5,
       minPixelValue: 2,
       multiplier: 2,
-      tags: ['styled', 'css', 'createGlobalStyle'],
+      tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
     });
     configuration.updateConfig({ rootValue: 75, tags: ['sty', 'inject'] });
     expect(configuration.config).toEqual({

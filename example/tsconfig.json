@@ -8,13 +8,13 @@
     "esModuleInterop": true,
     "plugins": [
       {
-        "transform": "typescript-styled-components-px2rem",
+        "transform": "..",
         "type": "config",
         "rootValue": 100,
         "unitPrecision": 5,
         "minPixelValue": 2,
         "multiplier": 2,
-        "tags": ["styled", "css", "createGlobalStyle"]
+        "tags": ["styled", "css", "createGlobalStyle", "keyframes"]
       }
     ]
   },

@@ -12,7 +12,7 @@ class ConfigurationManager {
     unitPrecision: 5,
     minPixelValue: 2,
     multiplier: 2,
-    tags: ['styled', 'css', 'createGlobalStyle'],
+    tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
   };
   private _config: IConfiguration = ConfigurationManager.defaultConfiguration;
 

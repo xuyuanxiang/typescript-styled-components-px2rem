@@ -1,8 +1,30 @@
-import styled, { css, createGlobalStyle } from 'styled-components';
+import styled, { css, createGlobalStyle, keyframes } from 'styled-components';
 
 const mixins = css`
   padding: 0 16px;
   margin: 16px 32px 16px 32px;
+`;
+
+const Animation = keyframes`
+  from {
+    transform: translateX(100px);
+  }
+
+  to {
+    transform: translateX(-100px);
+  }
+`;
+
+const Input = styled.input.attrs(props => ({
+  type: 'password',
+  size: props.size || '1em',
+}))`
+  color: palevioletred;
+  font-size: 14px;
+  border: 1px solid palevioletred;
+  border-radius: 8px;
+  margin: ${props => props.size};
+  padding: ${props => props.size};
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -27,7 +49,7 @@ const InlineButton = styled.button<{ width: number }>`
   line-height: 96px;
 `;
 
-const SmallButton = styled(InlineButton)`
+const ExtendedButton = styled(InlineButton)`
   width: 120px;
   height: 32px;
   line-height: 32px;
@@ -36,7 +58,6 @@ const SmallButton = styled(InlineButton)`
 
 const SizeableButton = styled.button<{ width: number; height: number }>(
   props => `
-  ${mixins};
   display: inline;
   width: ${props.width}px;
   height: ${props.height}px;
