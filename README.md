@@ -68,9 +68,9 @@ export default {
 Integration with [awesome-typescript-loader](https://github.com/s-panferov/awesome-typescript-loader) or [ts-loader](https://github.com/TypeStrong/ts-loader)：
 
 ```js
-const createCustomerTransformer = require('typescript-styled-components-px2rem').default;
+const createCustomTransformer = require('typescript-styled-components-px2rem').default;
 
-const customerTransformer = createCustomerTransformer({
+const customTransformer = createCustomTransformer({
   rootValue: 100,
   unitPrecision: 5,
   minPixelValue: 2,
