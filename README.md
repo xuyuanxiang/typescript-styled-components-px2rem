@@ -121,7 +121,7 @@ return `${fixedVal}rem`;
 
 ## TODO
 
-### Should support TemplateExpression with Middle
+### Should support TemplateExpression
 
 Example:
 
