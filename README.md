@@ -8,24 +8,6 @@ TypeScript transformer for convert `px` to `rem` units of [styled-components](ht
 
 ### [ttypescript](https://github.com/cevek/ttypescript) compiler
 
-tsconfig.json:
-
-```json
-{
-  "compilerOptions": {
-    "plugins": [
-      {
-        "transform": "typescript-styled-components-px2rem",
-        "rootValue": 100,
-        "unitPrecision": 5,
-        "minPixelValue": 2,
-        "multiplier": 2
-      }
-    ]
-  }
-}
-```
-
 see [example](example)
 
 ### [rollup](https://github.com/rollup/rollup)
@@ -87,12 +69,48 @@ module.exports = {
         loader: 'ts-loader', // ts-loader or awesome-typescript-loader
         options: {
           // ... other loader options
-          getCustomTransformers: () => ({ before: [customerTransformer] }),
+          getCustomTransformers: () => ({ before: [customTransformer] }),
         },
       },
     ],
   },
 };
+```
+
+### Jest(https://github.com/facebook/jest)
+
+Integration with [ts-jest](https://github.com/kulshekhar/ts-jest) and [ttypescript](https://github.com/cevek/ttypescript):
+
+jest.config.js:
+
+```js
+module.exports = {
+  // other jest configs
+  globals: {
+    'ts-jest': {
+      compiler: 'ttypescript',
+    },
+  },
+};
+```
+
+tsconfig.json:
+
+```json
+{
+  "compilerOptions": {
+    "plugins": [
+      {
+        "transform": "typescript-styled-components-px2rem",
+        "type": "config",
+        "rootValue": 100,
+        "unitPrecision": 5,
+        "minPixelValue": 2,
+        "multiplier": 2
+      }
+    ]
+  }
+}
 ```
 
 ## Options

@@ -9,6 +9,7 @@
     "plugins": [
       {
         "transform": "typescript-styled-components-px2rem",
+        "type": "config",
         "rootValue": 100,
         "unitPrecision": 5,
         "minPixelValue": 2,
