@@ -145,8 +145,6 @@ return `${fixedVal}rem`;
 
 ### Should support embedded expressions in template strings
 
-Example:
-
 ```typescript
 import styled from 'styled-components';
 
@@ -163,7 +161,11 @@ const TransformedInlineButton = styled.button<{ width: number }>`
   height: 0.96rem;
   line-height: 0.96rem;
 `;
+```
 
+### Should support TemplateExpress in ArrowFunction
+
+```typescript
 const SizeableButton = styled.button<{ width: number; height: number }>(
   props => `
   display: inline;
@@ -180,7 +182,7 @@ const TransformedSizeableButton = styled.button<{ width: number; height: number 
   width: ${props.width}px; /* not work */
   height: ${props.height}px; /* not work */
   line-height: ${props.height}px; /* not work */
-  font-size: 0.32rem;
+  font-size: 16px; /* not work */
 `,
 );
 ```

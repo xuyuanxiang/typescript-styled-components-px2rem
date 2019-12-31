@@ -1,6 +1,5 @@
 import styled, { css, createGlobalStyle } from 'styled-components';
 
-
 const mixins = css`
   padding: 0 16px;
   margin: 16px 32px 16px 32px;
@@ -42,5 +41,6 @@ const SizeableButton = styled.button<{ width: number; height: number }>(
   width: ${props.width}px;
   height: ${props.height}px;
   line-height: ${props.height}px;
+  font-size: 16px;
 `,
 );
