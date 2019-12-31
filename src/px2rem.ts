@@ -1,4 +1,4 @@
-import { IPluginConfiguration } from './IPluginConfiguration';
+import configuration, { IConfiguration } from './configuration';
 
 export function toFixed(value: number, precision: number): number {
   const multiplier = Math.pow(10, precision + 1);
@@ -7,10 +7,16 @@ export function toFixed(value: number, precision: number): number {
 }
 
 export function px2rem(
-  input: string | number,
-  { rootValue, minPixelValue, unitPrecision, multiplier }: IPluginConfiguration,
+  input: unknown,
+  {
+    rootValue = configuration.config.rootValue,
+    unitPrecision = configuration.config.unitPrecision,
+    minPixelValue = configuration.config.minPixelValue,
+    multiplier = configuration.config.multiplier,
+  }: Partial<IConfiguration> = configuration.config,
 ): string {
-  const pixels = typeof input === 'string' ? parseFloat(input) : input;
+  const value = typeof input === 'string' ? parseFloat(input) : typeof input === 'number' ? input : 0;
+  const pixels = Number.isNaN(value) ? 0 : value;
   if (pixels < minPixelValue) {
     return `${pixels}px`;
   }

@@ -34,19 +34,35 @@
   "devDependencies": {
     "@types/jest": "^24.0.25",
     "coveralls": "^3.0.9",
+    "husky": "^3.1.0",
     "jest": "^24.9.0",
+    "lint-staged": "^9.5.0",
     "prettier": "^1.19.1",
     "ts-jest": "^24.2.0",
+    "tslint": "^5.20.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.1.0",
     "typescript": "^3.7.4"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
   "scripts": {
-    "test": "jest",
-    "prebuild": "npm test -- --no-cache --coverage",
+    "test": "jest --no-cache --coverage",
+    "lint": "tslint -c tslint.json -p tsconfig.json",
     "build": "tsc",
     "postbuild": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "watch": "tsc -w"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "**/*.ts": [
+      "tslint -c tslint.json --fix",
+      "git add"
+    ]
   }
 }
