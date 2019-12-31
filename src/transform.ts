@@ -1,5 +1,7 @@
 import * as ts from 'typescript';
+import memoize from 'memoizerific';
 import { px2rem } from './px2rem';
+
 type State = 'px' | ';' | ':';
 
 function isWhitespace(ch: string): boolean {
@@ -10,11 +12,7 @@ function isNumeric(ch: string): boolean {
   return /\d/.test(ch);
 }
 
-// function isSymbol(ch: string): boolean {
-//   return ch == '$' || ch == '{' || ch == '}';
-// }
-
-function replace(cssText: string): string {
+const replace = memoize(10)(function(cssText: string): string {
   let state: State = ':';
   let replaced: string = '';
   const len = cssText.length;
@@ -55,18 +53,18 @@ function replace(cssText: string): string {
     replaced += ch;
   }
   return replaced;
-}
+});
 
 export function transform(template: ts.TemplateLiteral): ts.TemplateLiteral {
-  if (ts.isNoSubstitutionTemplateLiteral(template) && template.text.trim()) {
+  if (ts.isNoSubstitutionTemplateLiteral(template)) {
     return ts.createNoSubstitutionTemplateLiteral(replace(template.text));
   } else if (ts.isTemplateExpression(template)) {
     return ts.createTemplateExpression(
-      template.head.text.trim() ? ts.createTemplateHead(replace(template.head.text)) : template.head,
+      ts.createTemplateHead(replace(template.head.text)),
       template.templateSpans.map(span => {
-        if (ts.isTemplateTail(span) && span.literal.text.trim()) {
+        if (ts.isTemplateTail(span.literal)) {
           return ts.createTemplateSpan(span.expression, ts.createTemplateTail(replace(span.literal.text)));
-        } else if (span.literal.text.trim()) {
+        } else if (ts.isTemplateMiddle(span.literal)) {
           return ts.createTemplateSpan(span.expression, ts.createTemplateMiddle(replace(span.literal.text)));
         }
         return span;

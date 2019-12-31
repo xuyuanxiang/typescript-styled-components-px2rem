@@ -31,6 +31,10 @@
   "peerDependencies": {
     "typescript": "^3.0.0"
   },
+  "dependencies": {
+    "memoizerific": "^1.11.3",
+    "typescript-template-language-service-decorator": "^2.2.0"
+  },
   "devDependencies": {
     "@types/jest": "^24.0.25",
     "coveralls": "^3.0.9",
@@ -51,7 +55,7 @@
     "test": "jest --no-cache --coverage",
     "lint": "tslint -c tslint.json -p tsconfig.json",
     "build": "tsc",
-    "postbuild": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
     "watch": "tsc -w"
   },
   "husky": {

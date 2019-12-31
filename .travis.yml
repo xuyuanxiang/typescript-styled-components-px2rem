@@ -10,7 +10,7 @@ notifications:
       - chaos@xuyuanxiang.cn
     on_success: never
     on_failure: always
-before_deploy: "npm run build"
+before_deploy: "npm run build && npm run coveralls"
 deploy:
   on:
     tags: true

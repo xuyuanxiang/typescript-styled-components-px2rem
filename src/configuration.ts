@@ -3,6 +3,7 @@ export interface IConfiguration {
   unitPrecision: number;
   minPixelValue: number;
   multiplier: number;
+  tags: ReadonlyArray<string>;
 }
 
 class ConfigurationManager {
@@ -11,6 +12,7 @@ class ConfigurationManager {
     unitPrecision: 5,
     minPixelValue: 2,
     multiplier: 2,
+    tags: ['styled', 'css', 'createGlobalStyle'],
   };
   private _config: IConfiguration = ConfigurationManager.defaultConfiguration;
 

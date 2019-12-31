@@ -1,5 +1,6 @@
 import styled, { css, createGlobalStyle } from 'styled-components';
 
+
 const mixins = css`
   padding: 0 16px;
   margin: 16px 32px 16px 32px;
@@ -27,7 +28,7 @@ const InlineButton = styled.button<{ width: number }>`
   line-height: 96px;
 `;
 
-const SmallButton = styled.extend(InlineButton)`
+const SmallButton = styled(InlineButton)`
   width: 120px;
   height: 32px;
   line-height: 32px;

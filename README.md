@@ -35,6 +35,7 @@ export default {
               unitPrecision: 5,
               minPixelValue: 2,
               multiplier: 2,
+              tags: ['styled', 'css', 'createGlobalStyle'],
             },
           ],
         },
@@ -57,6 +58,7 @@ const customTransformer = createCustomTransformer({
   unitPrecision: 5,
   minPixelValue: 2,
   multiplier: 2,
+  tags: ['styled', 'css', 'extend', 'createGlobalStyle'],
 });
 
 module.exports = {
@@ -106,7 +108,8 @@ tsconfig.json:
         "rootValue": 100,
         "unitPrecision": 5,
         "minPixelValue": 2,
-        "multiplier": 2
+        "multiplier": 2,
+        "tags": ["styled", "css", "createGlobalStyle"]
       }
     ]
   }
@@ -115,12 +118,13 @@ tsconfig.json:
 
 ## Options
 
-| name          |  type  | required | default |                                           description |
-| :------------ | :----: | :------: | :------ | ----------------------------------------------------: |
-| rootValue     | number |  false   | 100     |                            The root element font size |
-| unitPrecision | number |  false   | 5       | The decimal numbers to allow the REM units to grow to |
-| minPixelValue | number |  false   | 2       |                Set the minimum pixel value to replace |
-| multiplier    | number |  false   | 2       |                         The multiplier of input value |
+| name | type | required | default | description |
+| :-- | :-: | :-: | :-- | --: |
+| rootValue | number | false | 100 | The root element font size |
+| unitPrecision | number | false | 5 | The decimal numbers to allow the REM units to grow to |
+| minPixelValue | number | false | 2 | Set the minimum pixel value to replace |
+| multiplier | number | false | 2 | The multiplier of input value |
+| tags | string[] | false | ["styled", "css", "extend", "createGlobalStyle"] | [styled-components](https://www.styled-components.com/) template literal [tagged](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) |
 
 Simple version of the formula：
 

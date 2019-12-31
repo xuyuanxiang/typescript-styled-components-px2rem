@@ -24,9 +24,9 @@ describe('transform()', () => {
     const body = ts.createPropertyAccess(ts.createIdentifier('props'), ts.createIdentifier('width'));
     const arrowFn = ts.createArrowFunction(undefined, undefined, [params], undefined, undefined, body);
     spans.push(ts.createTemplateSpan(arrowFn, ts.createTemplateTail('px;\n font-size: 16px;\n')));
-
-    const template = ts.createTemplateExpression(ts.createTemplateHead('styled'), spans);
+    const template = ts.createTemplateExpression(ts.createTemplateHead('\n padding: 0 24px;\n'), spans);
     const result = transform(template);
+    expect(ts.isTemplateExpression(result) && result.head.text).toBe('\n padding: 0 0.48rem;\n');
     expect(ts.isTemplateExpression(result) && result.templateSpans[0].literal.text).toBe(
       ';\n display: block;\n width: 100%;\n height: 0.88rem;\n line-height: 0.88rem;\n width: ',
     );
