@@ -12,7 +12,6 @@ notifications:
     on_success: never
     on_failure: always
 before_deploy: npm run build
-after_deploy: npm run coveralls
 deploy:
   edge: true
   provider: npm
@@ -22,3 +21,4 @@ deploy:
   on:
     tags: true
     repo: xuyuanxiang/typescript-styled-components-px2rem
+after_success: npm run coveralls
