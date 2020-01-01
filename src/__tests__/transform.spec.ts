@@ -1,6 +1,5 @@
 import * as ts from 'typescript';
 import { transform } from '../transform';
-import { SyntaxKind } from 'typescript';
 
 describe('transform()', () => {
   it('should transform TaggedTemplateExpression with NoSubstitutionTemplateLiteral', function() {
@@ -120,5 +119,8 @@ describe('transform()', () => {
       ts.createNoSubstitutionTemplateLiteral('font-size: 16px;'),
     );
     expect(transform(unknownIdentifierTagged)).toBe(unknownIdentifierTagged);
+    const otherTag = ts.createCall(ts.createPropertyAccess(ts.createIdentifier('my'), 'tagged'), undefined, []);
+    const otherTaggedTemplate = ts.createTaggedTemplate(otherTag, ts.createNoSubstitutionTemplateLiteral('foo'));
+    expect(transform(otherTaggedTemplate)).toBe(otherTaggedTemplate);
   });
 });

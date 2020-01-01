@@ -6,22 +6,17 @@ import configuration from './configuration';
 
 const FAKE_OPENING_WRAPPER = 'ts-styled-fake-wrapper/* start of ts-styled-fake-wrapper */{';
 const FAKE_CLOSING_WRAPPER = '}/* end of ts-styled-fake-wrapper */';
-const WRAPPER_REG = /\\{.*\\}/;
 const PAIR_REG = /[\s\w-]+:[\s\w-]+/;
 
 export const replace = memoize(10)(function(cssText: string): string {
   const { tags, multiplier, rootValue, ...others } = configuration.config;
-  const hasWrapper = WRAPPER_REG.test(cssText);
   try {
     const replaced = postcss([px2rem({ ...others, rootValue: rootValue / multiplier })]).process(
-      hasWrapper ? cssText : `${FAKE_OPENING_WRAPPER}${cssText}${FAKE_CLOSING_WRAPPER}`,
+      `${FAKE_OPENING_WRAPPER}${cssText}${FAKE_CLOSING_WRAPPER}`,
       {
         syntax: scss,
       },
     ).css;
-    if (hasWrapper) {
-      return replaced;
-    }
     return replaced.replace(FAKE_OPENING_WRAPPER, '').replace(FAKE_CLOSING_WRAPPER, '');
   } catch (ignored) {
     const results: string[] = [];
