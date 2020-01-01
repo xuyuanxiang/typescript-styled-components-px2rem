@@ -6,6 +6,8 @@ TypeScript transformer for convert `px` to `rem` units of [styled-components](ht
 
 Use [postcss-plugin-px2rem](https://github.com/pigcan/postcss-plugin-px2rem#readme) to process all css text in template strings.
 
+Babel plugin with similar functionality：[babel-plugin-styled-components-px2rem](https://github.com/xuyuanxiang/babel-plugin-styled-components-px2rem).
+
 ## Usage
 
 ### [ttypescript](https://github.com/cevek/ttypescript) compiler
