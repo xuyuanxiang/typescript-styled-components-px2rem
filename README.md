@@ -4,6 +4,8 @@
 
 TypeScript transformer for convert `px` to `rem` units of [styled-components](https://www.styled-components.com/)
 
+Use [postcss-plugin-px2rem](https://github.com/pigcan/postcss-plugin-px2rem#readme) to process all css text in template strings.
+
 ## Usage
 
 ### [ttypescript](https://github.com/cevek/ttypescript) compiler
@@ -116,6 +118,29 @@ tsconfig.json:
 }
 ```
 
+## Composition
+
+It should put before [typescript-plugin-styled-components](https://github.com/Igorbek/typescript-plugin-styled-components)
+
+tsconfig.json:
+
+```json
+{
+  "compilerOptions": {
+    "plugins": [
+      {
+        "transform": "typescript-styled-components-px2rem",
+        "type": "config"
+      },
+      {
+        "transform": "typescript-plugin-styled-components",
+        "type": "config"
+      }
+    ]
+  }
+}
+```
+
 ## Options
 
 | name | type | required | default | description |
@@ -140,6 +165,8 @@ const fixedVal = toFixed((pixels * multiplier) / rootValue, unitPrecision);
 
 return `${fixedVal}rem`;
 ```
+
+Remaining options ara consistent with [postcss-plugin-px2rem](https://github.com/pigcan/postcss-plugin-px2rem#readme).
 
 ## TODO
 
