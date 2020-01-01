@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "module": "commonjs",
+    "skipLibCheck": true,
+    "target": "es2015",
+    "module": "es2015",
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
@@ -13,8 +14,9 @@
         "rootValue": 100,
         "unitPrecision": 5,
         "minPixelValue": 2,
-        "multiplier": 2,
-        "tags": ["styled", "css", "createGlobalStyle", "keyframes"]
+        "multiplier": 1,
+        "tags": ["styled", "css", "createGlobalStyle", "keyframes"],
+        "transformRuntime": true
       }
     ]
   },

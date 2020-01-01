@@ -15,6 +15,7 @@ describe('configuration', () => {
       ignoreIdentifier: false,
       replace: true,
       mediaQuery: false,
+      transformRuntime: false,
     });
   });
   it('should return update configuration', function() {
@@ -31,8 +32,9 @@ describe('configuration', () => {
       ignoreIdentifier: false,
       replace: true,
       mediaQuery: false,
+      transformRuntime: false,
     });
-    configuration.updateConfig({ rootValue: 75, tags: ['sty', 'inject'] });
+    configuration.updateConfig({ rootValue: 75, tags: ['sty', 'inject'], transformRuntime: true });
     expect(configuration.config).toEqual({
       rootValue: 75,
       unitPrecision: 5,
@@ -46,6 +48,7 @@ describe('configuration', () => {
       ignoreIdentifier: false,
       replace: true,
       mediaQuery: false,
+      transformRuntime: true,
     });
   });
 });
