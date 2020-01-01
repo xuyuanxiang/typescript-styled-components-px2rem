@@ -29,11 +29,11 @@
     "example": "example/src"
   },
   "peerDependencies": {
-    "typescript": "^3.0.0"
+    "typescript": "^3.0.0",
+    "postcss": "^7.0.0"
   },
   "dependencies": {
     "memoizerific": "^1.11.3",
-    "postcss": "^7.0.26",
     "postcss-plugin-px2rem": "^0.8.1",
     "postcss-scss": "^2.0.0"
   },
@@ -43,6 +43,7 @@
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
+    "postcss": "^7.0.26",
     "prettier": "^1.19.1",
     "ts-jest": "^24.2.0",
     "tslint": "^5.20.1",
