@@ -11,12 +11,13 @@
   "author": "xuyuanxiang <hi@xuyuanxaing.cn>",
   "license": "MIT",
   "dependencies": {
-    "styled-components": "^4.1.4",
-    "typescript-styled-components-px2rem": "^1.0.1"
+    "styled-components": "^4.1.4"
   },
   "devDependencies": {
     "@types/styled-components": "^4.1.4",
-    "ttypescript": "^1.5.8"
+    "postcss": "^7.0.26",
+    "ttypescript": "^1.5.8",
+    "typescript-styled-components-px2rem": "../"
   },
   "scripts": {
     "build": "ttsc"

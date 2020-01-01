@@ -30,7 +30,7 @@ function transformTemplateLiteral(templateLiteral: ts.TemplateLiteral): ts.Templ
   }
 }
 
-export function transform(node: ts.Node): ts.Node {
+export function transform(node: ts.Node, context: ts.TransformationContext): ts.Node {
   if (ts.isTaggedTemplateExpression(node) && isStyledTagged(node)) {
     const newNode = ts.createTaggedTemplate(node.tag, transformTemplateLiteral(node.template));
     newNode.parent = node.parent;

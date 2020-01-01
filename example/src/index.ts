@@ -18,13 +18,14 @@ const Animation = keyframes`
 const Input = styled.input.attrs(props => ({
   type: 'password',
   size: props.size || '1em',
+  width: props.width || 100,
 }))`
   color: palevioletred;
   font-size: 14px;
   border: 1px solid palevioletred;
-  border-radius: 8px;
-  margin: ${props => props.size};
+  width: ${props => props.width}px;
   padding: ${props => props.size};
+  border-radius: 8px;
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -56,12 +57,11 @@ const ExtendedButton = styled(InlineButton)`
   font-size: 14px;
 `;
 
-const SizeableButton = styled.button<{ width: number; height: number }>(
+const SizeableButton = styled.button<{ width: number; height: string }>(
   props => `
   display: inline;
   width: ${props.width}px;
-  height: ${props.height}px;
-  line-height: ${props.height}px;
+  height: ${props.height};
   font-size: 16px;
 `,
 );
