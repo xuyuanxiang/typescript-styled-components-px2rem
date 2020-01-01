@@ -4,7 +4,7 @@ node_js:
 - node
 branches:
   only:
-  - "/^\\d{1}\\.\\d{1,2}.\\d{1,2}$/"
+  - master
 notifications:
   email:
     recipients:
