@@ -17,7 +17,7 @@
     "@types/styled-components": "^4.1.4",
     "postcss": "^7.0.26",
     "ttypescript": "^1.5.8",
-    "typescript-styled-components-px2rem": "^1.1.0"
+    "typescript-styled-components-px2rem": "^1.2.0"
   },
   "scripts": {
     "build": "ttsc"
