@@ -229,12 +229,12 @@ const lineHeight = '44';
 const InlineButton = styled.button<{ width: number | string; height: number | string }>`
   display: inline;
   width: ${props => {
-  if (props.width) {
-    return props.width;
-  } else {
-    return 0;
-  }
-}}px;
+    if (props.width) {
+      return props.width;
+    } else {
+      return 0;
+    }
+  }}px;
   line-height: ${lineHeight}px;
 `;
 
@@ -246,74 +246,70 @@ const SizeableButton = styled.button<{ width: number; height: string }>(
   font-size: 16px;
 `,
 );
-
 ```
 
 will be transformed to:
 
 ```typescript
-import { px2rem as px2rem_1 } from "typescript-styled-components-px2rem/lib/px2rem";
-var OPTIONS_1 = {
-    rootValue: 100,
-    unitPrecision: 5,
-    minPixelValue: 2,
-    multiplier: 1
-};
 import styled, { createGlobalStyle } from 'styled-components';
-
 const Input = styled.input.attrs(props => ({
-    type: 'password',
-    size: props.size || '1em',
-    width: props.width || 100,
-})) `
+  type: 'password',
+  size: props.size || '1em',
+  width: props.width || 100,
+}))`
   color: palevioletred;
   font-size: 0.14rem;
   border: 1px solid palevioletred;
   border-radius: 0.08rem;
-  width: ${props => px2rem_1(props.width, OPTIONS_1)};
+  width: ${props => px2rem_1(props.width)};
   padding: ${props => props.size}; /* ignored, only expressions end with px will be processed. */
 `;
-
 const fontSize = 18;
-const GlobalStyle = createGlobalStyle `
+const GlobalStyle = createGlobalStyle`
   html body {
-    font-size: ${px2rem_1(fontSize, OPTIONS_1)};
+    font-size: ${px2rem_1(fontSize)};
   }
 `;
-
 function getHeight() {
-    const height = 100;
-    return height + window.screen.availHeight / 2;
+  const height = 100;
+  return height + window.screen.availHeight / 2;
 }
-const BlockButton = styled.button `
+const BlockButton = styled.button`
   display: block;
   width: 100%;
-  height: ${px2rem_1(getHeight(), OPTIONS_1)};
+  height: ${px2rem_1(getHeight())};
   line-height: 0.96rem;
 `;
-
 const lineHeight = '44';
-const InlineButton = styled.button `
+const InlineButton = styled.button`
   display: inline;
-  width: ${(props) => px2rem_1(() => {
-    if (props.width) {
+  width: ${props =>
+    px2rem_1(() => {
+      if (props.width) {
         return props.width;
-    }
-    else {
+      } else {
         return 0;
-    }
-}, OPTIONS_1)};
-  line-height: ${px2rem_1(lineHeight, OPTIONS_1)};
+      }
+    })};
+  line-height: ${px2rem_1(lineHeight)};
 `;
-
-
-const SizeableButton = styled.button(props => `
+const SizeableButton = styled.button(
+  props => `
   display: inline;
-  width: ${px2rem_1(props.width, OPTIONS_1)};
+  width: ${px2rem_1(props.width)};
   height: ${props.height}; /* ignored, only expressions end with px will be processed. */
   font-size: 0.16rem;
-`);
-
+`,
+);
+function px2rem_1(input) {
+  if (typeof input === 'function') return px2rem_1(input());
+  var value = parseFloat(input);
+  var pixels = Number.isNaN(value) ? 0 : value;
+  if (pixels < 2) return `${pixels}px`;
+  var multiplier = Math.pow(10, 5 + 1);
+  var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
+  return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
+}
 ```
 
 **Note:** Only expressions that end in `px` will be processed.
