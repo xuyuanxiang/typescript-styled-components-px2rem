@@ -2,9 +2,9 @@ import * as ts from 'typescript';
 import { replace } from './replace';
 import configuration from './configuration';
 import { createToken } from 'typescript';
+import createPx2rem from './px2rem';
 
 let _px2rem: ts.Identifier | undefined;
-let _options: ts.Identifier | undefined;
 
 function isStyledTagged(node: ts.TaggedTemplateExpression): boolean {
   const tag = node.tag;
@@ -54,13 +54,13 @@ function createTemplateExpressionVisitor(context: ts.TransformationContext): ts.
       const span = node as ts.TemplateSpan;
       if (configuration.config.transformRuntime && /^px/.test(span.literal.text)) {
         let newExpression: ts.Expression | undefined;
-        if (_px2rem && _options) {
+        if (_px2rem) {
           if (ts.isPropertyAccessExpression(span.expression)) {
             newExpression = ts.createCall(
               // ts.createPropertyAccess(_px2rem, ts.createIdentifier('px2rem')),
               _px2rem,
               undefined,
-              [span.expression, _options],
+              [span.expression],
             );
           } else if (ts.isArrowFunction(span.expression)) {
             if (ts.isBlock(span.expression.body)) {
@@ -83,7 +83,6 @@ function createTemplateExpressionVisitor(context: ts.TransformationContext): ts.
                       createToken(ts.SyntaxKind.EqualsGreaterThanToken),
                       span.expression.body,
                     ),
-                    _options,
                   ],
                 ),
               );
@@ -99,7 +98,7 @@ function createTemplateExpressionVisitor(context: ts.TransformationContext): ts.
                   // ts.createPropertyAccess(_px2rem, ts.createIdentifier('px2rem')),
                   _px2rem,
                   undefined,
-                  [span.expression.body, _options],
+                  [span.expression.body],
                 ),
               );
             }
@@ -108,7 +107,7 @@ function createTemplateExpressionVisitor(context: ts.TransformationContext): ts.
               // ts.createPropertyAccess(_px2rem, ts.createIdentifier('px2rem')),
               _px2rem,
               undefined,
-              [span.expression, _options],
+              [span.expression],
             );
           }
         }
@@ -169,54 +168,11 @@ export const transformerFactory: ts.TransformerFactory<ts.SourceFile> = context 
   return node => {
     if (configuration.config.transformRuntime) {
       _px2rem = ts.createUniqueName('px2rem');
-      _options = ts.createUniqueName('OPTIONS');
     } else {
       _px2rem = undefined;
-      _options = undefined;
     }
-    if (ts.isSourceFile(node) && _px2rem && _options) {
-      const namespace = ts.createNamespaceImport(_px2rem);
-      const names = ts.createNamedImports([ts.createImportSpecifier(ts.createIdentifier('px2rem'), _px2rem)]);
-      const importClause = ts.createImportClause(undefined, names);
-      node = ts.updateSourceFileNode(node, [
-        ts.createImportDeclaration(
-          undefined,
-          undefined,
-          importClause,
-          ts.createStringLiteral('typescript-styled-components-px2rem/lib/px2rem'),
-        ),
-        ts.createVariableStatement(
-          undefined,
-          ts.createVariableDeclarationList([
-            ts.createVariableDeclaration(
-              _options,
-              undefined,
-              ts.createObjectLiteral(
-                [
-                  ts.createPropertyAssignment(
-                    'rootValue',
-                    ts.createNumericLiteral(configuration.config.rootValue + ''),
-                  ),
-                  ts.createPropertyAssignment(
-                    'unitPrecision',
-                    ts.createNumericLiteral(configuration.config.unitPrecision + ''),
-                  ),
-                  ts.createPropertyAssignment(
-                    'minPixelValue',
-                    ts.createNumericLiteral(configuration.config.minPixelValue + ''),
-                  ),
-                  ts.createPropertyAssignment(
-                    'multiplier',
-                    ts.createNumericLiteral(configuration.config.multiplier + ''),
-                  ),
-                ],
-                true,
-              ),
-            ),
-          ]),
-        ),
-        ...node.statements,
-      ]);
+    if (ts.isSourceFile(node) && _px2rem) {
+      node = ts.updateSourceFileNode(node, [...node.statements, createPx2rem(_px2rem)]);
     }
     return ts.visitNode(node, visitor);
   };

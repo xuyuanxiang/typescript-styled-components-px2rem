@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "plugins": [
       {
-        "transform": "typescript-styled-components-px2rem",
+        "transform": "../",
         "type": "config",
         "rootValue": 100,
         "unitPrecision": 5,
