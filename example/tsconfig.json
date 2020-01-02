@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
     "skipLibCheck": true,
-    "target": "es2015",
-    "module": "es2015",
+    "target": "es5",
+    "module": "commonjs",
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
+    "jsx": "react",
     "esModuleInterop": true,
     "plugins": [
       {

@@ -27,6 +27,8 @@ You need to install the following `peerDependencies` of typescript-styled-compon
 
 see [example](example)
 
+The use of React and styled-components [test cases](example/src/__tests__/index.spec.tsx).
+
 ### [rollup](https://github.com/rollup/rollup)
 
 Integration with [rollup-plugin-typescript2](https://github.com/ezolenko/rollup-plugin-typescript2) and [ttypescript](https://github.com/cevek/ttypescript)：

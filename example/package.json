@@ -11,15 +11,24 @@
   "author": "xuyuanxiang <hi@xuyuanxaing.cn>",
   "license": "MIT",
   "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "styled-components": "^4.1.4"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.25",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
     "@types/styled-components": "^4.1.4",
+    "jest": "^24.9.0",
+    "jest-styled-components": "^6.3.4",
     "postcss": "^7.0.26",
+    "ts-jest": "^24.2.0",
     "ttypescript": "^1.5.8",
     "typescript-styled-components-px2rem": "^1.2.0"
   },
   "scripts": {
-    "build": "ttsc"
+    "build": "ttsc",
+    "test": "jest"
   }
 }
