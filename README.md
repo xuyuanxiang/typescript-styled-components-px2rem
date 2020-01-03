@@ -188,27 +188,23 @@ Remaining options ara consistent with [postcss-plugin-px2rem](https://github.com
 
 ## Transform Runtime
 
-If enabled `transformRuntime` option, expression embedded in template strings are processed as follows:
+If enabled `transformRuntime` option, all supported expressions embedded in template strings are processed as follows:
 
-Source code:
+### ArrowFunctionExpression
 
-```typescript jsx
-import React from 'react';
-import styled, { css, createGlobalStyle } from 'styled-components';
+source code:
+
+```typescript
+import styled from 'styled-components';
 
 export const ArrowFunctionExpression = styled.input.attrs(props => ({
   type: 'password',
   size: props.size || '16px',
   width: props.width || 100,
 }))`
-  color: palevioletred;
-  font-size: 14px;
-  border: 1px solid palevioletred;
-  border-radius: 8px;
   width: ${props => props.width}px;
   padding: ${props => props.size};
 `;
-const lineHeight = '44';
 export const ArrowFunctionExpressionWithBlockBody = styled.button<{ width?: number | string }>`
   width: ${props => {
     if (props.width) {
@@ -217,57 +213,85 @@ export const ArrowFunctionExpressionWithBlockBody = styled.button<{ width?: numb
       return 0;
     }
   }}px;
-  line-height: ${lineHeight}px;
 `;
+```
 
-const fontSize = 18;
-export const GlobalStyle = createGlobalStyle`
-  html body {
-    font-size: ${fontSize}px;
-    width: 1024px;
-    min-height: 800px;
-  }
+compiled:
+
+```typescript
+import styled from 'styled-components';
+export const ArrowFunctionExpression = styled.input.attrs(props => ({
+  type: 'password',
+  size: props.size || '16px',
+  width: props.width || 100,
+}))`
+  width: ${props => px2rem_1(props.width)};
+  padding: ${props => props.size};
 `;
-
-function getHeight() {
-  const height = 100;
-
-  return height / 2;
+export const ArrowFunctionExpressionWithBlockBody = styled.button`
+  width: ${props =>
+    px2rem_1(() => {
+      if (props.width) {
+        return props.width;
+      } else {
+        return 0;
+      }
+    })};
+`;
+function px2rem_1(input, ...args) {
+  if (typeof input === 'function') return px2rem_1(input(...args));
+  var value = parseFloat(input);
+  var pixels = Number.isNaN(value) ? 0 : value;
+  if (pixels < 2) return `${pixels}px`;
+  var multiplier = Math.pow(10, 5 + 1);
+  var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
+  return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
 }
-const mixins = css`
-  padding: 0 16px;
-  margin: 16px 32px 16px 32px;
-`;
-export const MixinsButton = styled.button`
-  ${mixins};
-  display: block;
-  width: 100%;
-  height: ${getHeight()}px;
-  line-height: 32px;
-`;
+```
 
-export const StyledButton = styled.button`
-  width: 120px;
-  height: 32px;
-  font-size: 14px;
-`;
-export const ExtendStyledButton = styled(StyledButton)<{ padding: number }>`
-  padding: ${props => props.padding}px;
-`;
+### PropertyAccessExpression
+
+source code:
+
+```typescript
+import styled from 'styled-components';
 
 export const PropertyAccessExpression = styled.button<{ width: number; height: string }>(
   props => `
-  display: inline;
   width: ${props.width}px;
   height: ${props.height};
-  font-size: 16px;
 `,
 );
+```
 
-export const ThemeConsumer = styled.div`
-  font-size: ${props => props?.theme.fontSize}px;
-  color: ${props => props?.theme.color};
-`;
+compiled:
+
+```typescript
+import styled from 'styled-components';
+export const PropertyAccessExpression = styled.button(
+  props => `
+  width: ${px2rem_1(props.width)};
+  height: ${props.height};
+`,
+);
+function px2rem_1(input, ...args) {
+  if (typeof input === 'function') return px2rem_1(input(...args));
+  var value = parseFloat(input);
+  var pixels = Number.isNaN(value) ? 0 : value;
+  if (pixels < 2) return `${pixels}px`;
+  var multiplier = Math.pow(10, 5 + 1);
+  var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
+  return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
+}
+```
+
+### ConditionalExpression
+
+source code:
+
+```typescript jsx
+import React from 'react';
+import styled from 'styled-components';
 
 export const ConditionalExpression = function({ fontSize }: { fontSize?: unknown }) {
   const StyledButton = styled.button`
@@ -278,78 +302,11 @@ export const ConditionalExpression = function({ fontSize }: { fontSize?: unknown
 };
 ```
 
-will be transformed to:
+compiled:
 
 ```typescript
 import React from 'react';
-import styled, { css, createGlobalStyle } from 'styled-components';
-export const ArrowFunctionExpression = styled.input.attrs(props => ({
-  type: 'password',
-  size: props.size || '16px',
-  width: props.width || 100,
-}))`
-  color: palevioletred;
-  font-size: 0.14rem;
-  border: 1px solid palevioletred;
-  border-radius: 0.08rem;
-  width: ${props => px2rem_1(props.width)};
-  padding: ${props => props.size};
-`;
-const lineHeight = '44';
-export const ArrowFunctionExpressionWithBlockBody = styled.button`
-  width: ${props =>
-    px2rem_1(() => {
-      if (props.width) {
-        return props.width;
-      } else {
-        return 0;
-      }
-    })};
-  line-height: ${px2rem_1(lineHeight)};
-`;
-const fontSize = 18;
-export const GlobalStyle = createGlobalStyle`
-  html body {
-    font-size: ${px2rem_1(fontSize)};
-    width: 10.24rem;
-    min-height: 8rem;
-  }
-`;
-function getHeight() {
-  const height = 100;
-  return height / 2;
-}
-const mixins = css`
-  padding: 0 0.16rem;
-  margin: 0.16rem 0.32rem 0.16rem 0.32rem;
-`;
-export const MixinsButton = styled.button`
-  ${mixins};
-  display: block;
-  width: 100%;
-  height: ${px2rem_1(getHeight())};
-  line-height: 0.32rem;
-`;
-export const StyledButton = styled.button`
-  width: 1.2rem;
-  height: 0.32rem;
-  font-size: 0.14rem;
-`;
-export const ExtendStyledButton = styled(StyledButton)`
-  padding: ${props => px2rem_1(props.padding)};
-`;
-export const PropertyAccessExpression = styled.button(
-  props => `
-  display: inline;
-  width: ${px2rem_1(props.width)};
-  height: ${props.height};
-  font-size: 0.16rem;
-`,
-);
-export const ThemeConsumer = styled.div`
-  font-size: ${props => px2rem_1(props?.theme.fontSize)};
-  color: ${props => props?.theme.color};
-`;
+import styled from 'styled-components';
 export const ConditionalExpression = function({ fontSize }) {
   const StyledButton = styled.button`
     font-size: ${typeof fontSize === 'number' ? px2rem_1(fontSize) : props => px2rem_1(props?.theme.fontSize)};
@@ -367,83 +324,19 @@ function px2rem_1(input, ...args) {
 }
 ```
 
-**Note:** Only expressions that end in `px` will be processed.
-
-### Current Supported Expression
-
-#### PropertyAccessExpression
-
-```typescript
-import styled from 'styled-components';
-
-export const PropertyAccessExpression = styled.button<{ width: number; height: string }>(
-  props => `
-  display: inline;
-  width: ${props.width}px;
-  height: ${props.height};
-  font-size: 16px;
-`,
-);
-```
-
-#### ArrowFunctionExpression
-
-```typescript
-import styled from 'styled-components';
-
-export const ArrowFunctionExpression = styled.input.attrs(props => ({
-  type: 'password',
-  size: props.size || '16px',
-  width: props.width || 100,
-}))`
-  color: palevioletred;
-  font-size: 14px;
-  border: 1px solid palevioletred;
-  border-radius: 8px;
-  width: ${props => props.width}px;
-  padding: ${props => props.size};
-`;
-const lineHeight = '44';
-export const ArrowFunctionExpressionWithBlockBody = styled.button<{ width?: number | string }>`
-  width: ${props => {
-    if (props.width) {
-      return props.width;
-    } else {
-      return 0;
-    }
-  }}px;
-  line-height: ${lineHeight}px;
-`;
-```
-
-#### ConditionalExpression
-
-```typescript jsx
-import React from 'react';
-import styled from 'styled-components';
-
-export const ConditionalExpression = function({ fontSize }: { fontSize?: unknown }) {
-  const StyledButton = styled.button`
-    font-size: ${typeof fontSize === 'number' ? fontSize : props => props?.theme.fontSize}px;
-  `;
-
-  return <StyledButton />;
-};
-```
-
-#### Other Expressions
+### Other Expressions
 
 Identifier, CallExpression...
 
+source code:
+
 ```typescript
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { css, createGlobalStyle } from 'styled-components';
 
 const fontSize = 18;
 export const GlobalStyle = createGlobalStyle`
   html body {
     font-size: ${fontSize}px;
-    width: 1024px;
-    min-height: 800px;
   }
 `;
 
@@ -452,10 +345,44 @@ function getHeight() {
 
   return height / 2;
 }
-export const MixinsButton = styled.button`
-  display: block;
-  width: 100%;
-  height: ${getHeight()}px;
-  line-height: 32px;
+const mixins = css`
+  padding: 0 16px;
 `;
+export const MixinsButton = styled.button`
+  ${mixins};
+  height: ${getHeight()}px;
+`;
+```
+
+compiled:
+
+```typescript
+import styled, { css, createGlobalStyle } from 'styled-components';
+
+const fontSize = 18;
+export const GlobalStyle = createGlobalStyle`
+  html body {
+    font-size: ${px2rem_1(fontSize)};
+  }
+`;
+function getHeight() {
+  const height = 100;
+  return height / 2;
+}
+const mixins = css`
+  padding: 0 0.16rem;
+`;
+export const MixinsButton = styled.button`
+  ${mixins};
+  height: ${px2rem_1(getHeight())};
+`;
+function px2rem_1(input, ...args) {
+  if (typeof input === 'function') return px2rem_1(input(...args));
+  var value = parseFloat(input);
+  var pixels = Number.isNaN(value) ? 0 : value;
+  if (pixels < 2) return `${pixels}px`;
+  var multiplier = Math.pow(10, 5 + 1);
+  var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
+  return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
+}
 ```
