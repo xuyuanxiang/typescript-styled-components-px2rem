@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import TestUtils from 'react-dom/test-utils';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import {
   StyledButton,
   SizeableButton,
@@ -22,6 +22,32 @@ beforeEach(() => {
 afterEach(() => {
   ReactDOM.unmountComponentAtNode(div);
   document.body.removeChild(div);
+});
+
+it('was deprecated expression', function() {
+  function FreakButton({ fontSize }: { fontSize?: unknown }): JSX.Element {
+    return React.createElement(styled.button`
+      /* not recommend:  */
+      /*  it will be transformed to  font-size: \$\{_px2rem(typeof fontSize === 'number' ? fontSize : props => props?.theme.globalFontSize)} */
+      /*  the 'props' parameter was undefined */
+      font-size: ${typeof fontSize === 'number' ? fontSize : props => props?.theme.globalFontSize}px;
+    `);
+  }
+  TestUtils.act(() => {
+    ReactDOM.render(
+      <ThemeProvider theme={{ globalFontSize: 12 }}>
+        <FreakButton />
+      </ThemeProvider>,
+      div,
+    );
+  });
+  const button = div.querySelector('button');
+  if (button) {
+    const style = getComputedStyle(button);
+    expect(style.fontSize).toBe('0px'); // undefined will be transformed to zero
+  } else {
+    throw new Error('Input should be render');
+  }
 });
 
 it('should render <Input/>', function() {
