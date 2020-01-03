@@ -222,7 +222,7 @@ export const ArrowFunctionExpressionWithBlockBody = styled.button<{ width?: numb
 
 compiled:
 
-```typescript
+```javascript
 import styled from 'styled-components';
 export const ArrowFunctionExpression = styled.input.attrs(props => ({
   type: 'password',
@@ -270,7 +270,7 @@ export const PropertyAccessExpression = styled.button<{ width: number; height: s
 
 compiled:
 
-```typescript
+```javascript
 import styled from 'styled-components';
 export const PropertyAccessExpression = styled.button(
   props => `
@@ -308,7 +308,7 @@ export const ConditionalExpression = function({ fontSize }: { fontSize?: unknown
 
 compiled:
 
-```typescript
+```javascript
 import React from 'react';
 import styled from 'styled-components';
 export const ConditionalExpression = function({ fontSize }) {
@@ -360,9 +360,8 @@ export const MixinsButton = styled.button`
 
 compiled:
 
-```typescript
+```javascript
 import styled, { css, createGlobalStyle } from 'styled-components';
-
 const fontSize = 18;
 export const GlobalStyle = createGlobalStyle`
   html body {
