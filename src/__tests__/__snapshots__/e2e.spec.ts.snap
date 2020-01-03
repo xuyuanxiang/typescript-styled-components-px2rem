@@ -26,7 +26,7 @@ export const Input = styled.input.attrs(props => ({
   font-size: 0.14rem;
   border: 1px solid palevioletred;
   border-radius: 0.08rem;
-  width: \${props => px2rem_1(props.width)};
+  width: \${props => px2rem_1(px2rem_1(props.width))};
   padding: \${props => props.size};
 \`;
 const fontSize = 18;
@@ -66,7 +66,7 @@ export const StyledButton = styled.button \`
   font-size: 0.14rem;
 \`;
 export const ExtendButton = styled(StyledButton) \`
-  padding: \${props => px2rem_1(props.padding)};
+  padding: \${props => px2rem_1(px2rem_1(props.padding))};
 \`;
 export const SizeableButton = styled.button(props => \`
   display: inline;
@@ -75,12 +75,12 @@ export const SizeableButton = styled.button(props => \`
   font-size: 0.16rem;
 \`);
 export const ThemeConsumer = styled.div \`
-  font-size: \${props => px2rem_1(props.theme.fontSize)};
+  font-size: \${props => px2rem_1(px2rem_1(props.theme.fontSize))};
   color: \${props => props.theme.color};
 \`;
 export const ConditionalExpressionButton = function ({ fontSize }) {
     const StyledButton = styled.button \`
-    font-size: \${typeof fontSize === 'number' ? px2rem_1(fontSize) : props => { var _a; return px2rem_1((_a = props) === null || _a === void 0 ? void 0 : _a.theme.globalFontSize); }};
+    font-size: \${typeof fontSize === 'number' ? px2rem_1(fontSize) : props => { var _a; return px2rem_1(px2rem_1((_a = props) === null || _a === void 0 ? void 0 : _a.theme.globalFontSize)); }};
   \`;
     return />;;
 };

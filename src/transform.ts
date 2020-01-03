@@ -73,7 +73,7 @@ function transformArrowFunction(expression: ts.ArrowFunction, px2rem: ts.Identif
       expression.parameters,
       expression.type,
       expression.equalsGreaterThanToken,
-      ts.createCall(px2rem, undefined, [expression.body]),
+      ts.createCall(px2rem, undefined, [transformTemplateSpanExpression(expression.body, px2rem)]),
     );
   }
 }
@@ -90,6 +90,9 @@ function transformTemplateSpanExpression(expression: ts.Expression, px2rem: ts.I
       expression.colonToken,
       expression.whenFalse ? transformTemplateSpanExpression(expression.whenFalse, px2rem) : expression.whenFalse,
     );
+  } else if (ts.isLiteralExpression(expression)) {
+    expression.text = replace(expression.text);
+    newExpression = ts.createCall(px2rem, undefined, [expression]);
   } else {
     newExpression = ts.createCall(px2rem, undefined, [expression]);
   }
