@@ -80,9 +80,7 @@ function transformArrowFunction(expression: ts.ArrowFunction, px2rem: ts.Identif
 
 function transformTemplateSpanExpression(expression: ts.Expression, px2rem: ts.Identifier): ts.Expression {
   let newExpression: ts.Expression;
-  if (ts.isPropertyAccessExpression(expression)) {
-    newExpression = ts.createCall(px2rem, undefined, [expression]);
-  } else if (ts.isArrowFunction(expression)) {
+  if (ts.isArrowFunction(expression)) {
     newExpression = transformArrowFunction(expression, px2rem);
   } else if (ts.isConditionalExpression(expression)) {
     newExpression = ts.createConditional(
