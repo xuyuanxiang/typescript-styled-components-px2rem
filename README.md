@@ -190,6 +190,8 @@ Remaining options ara consistent with [postcss-plugin-px2rem](https://github.com
 
 If enabled `transformRuntime` option, all supported expressions embedded in template strings are processed as follows:
 
+**Note:** Only expression that end with `px` will be processed.
+
 ### ArrowFunctionExpression
 
 source code:
