@@ -80,3 +80,8 @@ export const SizeableButton = styled.button<{ width: number; height: string }>(
   font-size: 16px;
 `,
 );
+
+export const ThemeConsumer = styled.div`
+  font-size: ${props => props.theme.fontSize}px;
+  color: ${props => props.theme.color}
+`;
