@@ -27,10 +27,12 @@ afterEach(() => {
 it('was deprecated expression', function() {
   function FreakButton({ fontSize }: { fontSize?: unknown }): JSX.Element {
     return React.createElement(styled.button`
-      /* not recommend:  */
-      /*  it will be transformed to  font-size: \$\{_px2rem(typeof fontSize === 'number' ? fontSize : props => props?.theme.globalFontSize)} */
-      /*  the 'props' parameter was undefined */
+      /* Deprecated:  */
+      /*  It will be transformed to font-size: \$\{_px2rem(typeof fontSize === 'number' ? fontSize : props => props?.theme.globalFontSize)} */
+      /*  The props parameter was undefined */
       font-size: ${typeof fontSize === 'number' ? fontSize : props => props?.theme.globalFontSize}px;
+      /* Recommend: */
+      /*  font-size: \${props => typeof fontSize === 'number' ? fontSize : props?.theme.globalFontSize}px; */
     `);
   }
   TestUtils.act(() => {
