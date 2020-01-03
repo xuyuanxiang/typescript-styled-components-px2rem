@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import { replace } from './replace';
 import configuration from './configuration';
-import { createToken } from 'typescript';
+import { createToken, isArrowFunction } from 'typescript';
 import createPx2rem from './px2rem';
 
 let _px2rem: ts.Identifier | undefined;
@@ -46,101 +46,147 @@ function createIfDifference<T extends ts.Node>(text: string, create: (replaced: 
   return origin;
 }
 
-function transformArrowFunction(expression: ts.ArrowFunction, px2rem: ts.Identifier): ts.ArrowFunction {
-  if (ts.isBlock(expression.body)) {
-    return ts.createArrowFunction(
-      expression.modifiers,
-      expression.typeParameters,
-      expression.parameters,
-      expression.type,
-      expression.equalsGreaterThanToken,
-      ts.createCall(px2rem, undefined, [
-        ts.createArrowFunction(
-          undefined,
-          undefined,
-          [],
-          undefined,
-          createToken(ts.SyntaxKind.EqualsGreaterThanToken),
-          expression.body,
-        ),
-      ]),
-    );
-  } else {
-    return ts.updateArrowFunction(
-      expression,
-      expression.modifiers,
-      expression.typeParameters,
-      expression.parameters,
-      expression.type,
-      expression.equalsGreaterThanToken,
-      ts.createCall(px2rem, undefined, [transformTemplateSpanExpression(expression.body, px2rem)]),
-    );
-  }
+function isPureExpression(
+  expression: ts.Node,
+): expression is ts.LiteralExpression | ts.Identifier | ts.PropertyAccessExpression | ts.CallExpression {
+  return (
+    ts.isIdentifier(expression) ||
+    ts.isLiteralExpression(expression) ||
+    ts.isPropertyAccessExpression(expression) ||
+    ts.isCallExpression(expression) ||
+    ts.isBinaryExpression(expression)
+  );
 }
 
-function transformTemplateSpanExpression(expression: ts.Expression, px2rem: ts.Identifier): ts.Expression {
-  let newExpression: ts.Expression;
-  if (ts.isArrowFunction(expression)) {
-    newExpression = transformArrowFunction(expression, px2rem);
-  } else if (ts.isConditionalExpression(expression)) {
-    newExpression = ts.createConditional(
-      expression.condition,
-      expression.questionToken,
-      expression.whenTrue ? transformTemplateSpanExpression(expression.whenTrue, px2rem) : expression.whenTrue,
-      expression.colonToken,
-      expression.whenFalse ? transformTemplateSpanExpression(expression.whenFalse, px2rem) : expression.whenFalse,
-    );
-  } else if (ts.isLiteralExpression(expression)) {
-    expression.text = replace(expression.text);
-    newExpression = ts.createCall(px2rem, undefined, [expression]);
-  } else {
-    newExpression = ts.createCall(px2rem, undefined, [expression]);
-  }
-  return newExpression;
+function createCallPx2rem(px2rem: ts.Identifier, ...expression: ts.Expression[]): ts.CallExpression {
+  return ts.createCall(px2rem, undefined, expression);
 }
 
-function createTemplateExpressionVisitor(context: ts.TransformationContext): ts.Visitor {
-  const templateExpressionVisitor: ts.Visitor = node => {
-    if (ts.isTemplateHead(node)) {
-      return createIfDifference(node.text, replaced => ts.createTemplateHead(replaced), node);
-    } else if (ts.isTemplateSpan(node)) {
-      const span = node as ts.TemplateSpan;
-      let newNode: ts.Node;
-      if (span.expression && configuration.config.transformRuntime && /^px/.test(span.literal.text) && _px2rem) {
-        const newExpression: ts.Expression = transformTemplateSpanExpression(span.expression, _px2rem);
-        const text = span.literal.text.replace(/^px/, '');
-        newNode = ts.updateTemplateSpan(
-          span,
-          newExpression || span.expression,
-          ts.isTemplateMiddle(span.literal)
-            ? ts.createTemplateMiddle(replace(text))
-            : ts.createTemplateTail(replace(text)),
+function createTemplateSpanExpressionVisitor(context: ts.TransformationContext, px2rem: ts.Identifier): ts.Visitor {
+  const visitor: ts.Visitor = node => {
+    if (isArrowFunction(node)) {
+      if (isPureExpression(node.body)) {
+        return ts.updateArrowFunction(
+          node,
+          node.modifiers,
+          node.typeParameters,
+          node.parameters,
+          node.type,
+          node.equalsGreaterThanToken,
+          createCallPx2rem(px2rem, node.body),
         );
-      } else {
-        newNode = createIfDifference(
-          span.literal.text,
-          replaced =>
-            ts.createTemplateSpan(
-              span.expression,
-              ts.isTemplateTail(span.literal) ? ts.createTemplateTail(replaced) : ts.createTemplateMiddle(replaced),
+      } else if (ts.isBlock(node.body)) {
+        return ts.updateArrowFunction(
+          node,
+          node.modifiers,
+          node.typeParameters,
+          node.parameters,
+          node.type,
+          node.equalsGreaterThanToken,
+          ts.createCall(px2rem, undefined, [
+            ts.createArrowFunction(
+              undefined,
+              undefined,
+              [],
+              undefined,
+              createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+              node.body,
             ),
-          span,
+          ]),
         );
       }
-      newNode.parent = node.parent;
-      node = newNode;
+    } else if (ts.isConditionalExpression(node)) {
+      if (isPureExpression(node.whenTrue) && isPureExpression(node.whenFalse)) {
+        return ts.updateConditional(
+          node,
+          node.condition,
+          node.questionToken,
+          createCallPx2rem(px2rem, node.whenTrue),
+          node.colonToken,
+          createCallPx2rem(px2rem, node.whenFalse),
+        );
+      } else if (isPureExpression(node.whenTrue)) {
+        node = ts.updateConditional(
+          node,
+          node.condition,
+          node.questionToken,
+          createCallPx2rem(px2rem, node.whenTrue),
+          node.colonToken,
+          node.whenFalse,
+        );
+      } else if (isPureExpression(node.whenFalse)) {
+        node = ts.updateConditional(
+          node,
+          node.condition,
+          node.questionToken,
+          node.whenTrue,
+          node.colonToken,
+          createCallPx2rem(px2rem, node.whenFalse),
+        );
+      }
     }
-    return ts.visitEachChild(node, templateExpressionVisitor, context);
+    // else if (ts.isBinaryExpression(node)) {
+    //   switch (node.operatorToken.kind) {
+    //     case ts.SyntaxKind.AmpersandAmpersandToken:
+    //       if (isPureExpression(node.right)) {
+    //         return ts.updateBinary(node, node.left, createCallPx2rem(px2rem, node.right), node.operatorToken);
+    //       }
+    //       break;
+    //     case ts.SyntaxKind.BarBarToken:
+    //       if (isPureExpression(node.left) && isPureExpression(node.right)) {
+    //         return ts.updateBinary(
+    //           node,
+    //           createCallPx2rem(px2rem, node.left),
+    //           createCallPx2rem(px2rem, node.right),
+    //           node.operatorToken,
+    //         );
+    //       } else if (isPureExpression(node.left)) {
+    //         node = ts.updateBinary(node, createCallPx2rem(px2rem, node.left), node.right, node.operatorToken);
+    //       } else if (isPureExpression(node.right)) {
+    //         node = ts.updateBinary(node, node.left, createCallPx2rem(px2rem, node.right), node.operatorToken);
+    //       }
+    //       break;
+    //     default:
+    //       return createCallPx2rem(px2rem, node);
+    //   }
+    // }
+    return ts.visitEachChild(node, visitor, context);
   };
-  return templateExpressionVisitor;
+
+  return visitor;
 }
 
 function createStyledVisitor(context: ts.TransformationContext): ts.Visitor {
   const visitor: ts.Visitor = node => {
     if (ts.isNoSubstitutionTemplateLiteral(node)) {
       return createIfDifference(node.text, replaced => ts.createNoSubstitutionTemplateLiteral(replaced), node);
-    } else if (ts.isTemplateExpression(node)) {
-      return ts.visitNode(node, createTemplateExpressionVisitor(context));
+    } else if (ts.isTemplateHead(node)) {
+      return createIfDifference(node.text, replaced => ts.createTemplateHead(replaced), node);
+    } else if (ts.isStringLiteral(node)) {
+      return createIfDifference(node.text, replaced => ts.createStringLiteral(replaced), node);
+    } else if (ts.isTemplateTail(node)) {
+      return createIfDifference(node.text, replaced => ts.createTemplateTail(replaced), node);
+    } else if (ts.isTemplateMiddle(node)) {
+      return createIfDifference(node.text, replaced => ts.createTemplateMiddle(replaced), node);
+    }
+
+    if (configuration.config.transformRuntime && _px2rem) {
+      if (ts.isTemplateSpan(node) && node.literal.text && node.literal.text.startsWith('px')) {
+        const text = node.literal.text.replace(/^px/, '');
+        if (isPureExpression(node.expression)) {
+          node = ts.updateTemplateSpan(
+            node,
+            createCallPx2rem(_px2rem, node.expression),
+            ts.isTemplateMiddle(node.literal) ? ts.createTemplateMiddle(text) : ts.createTemplateTail(text),
+          );
+        } else {
+          node = ts.updateTemplateSpan(
+            node,
+            ts.visitNode(node.expression, createTemplateSpanExpressionVisitor(context, _px2rem)),
+            ts.isTemplateMiddle(node.literal) ? ts.createTemplateMiddle(text) : ts.createTemplateTail(text),
+          );
+        }
+      }
     }
     return ts.visitEachChild(node, visitor, context);
   };
@@ -162,6 +208,7 @@ export const transformerFactory: ts.TransformerFactory<ts.SourceFile> = context 
         return ts.visitNode(node, styledVisitor);
       }
     }
+
     return ts.visitEachChild(node, visitor, context);
   };
   return node => {

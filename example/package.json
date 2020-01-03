@@ -25,10 +25,10 @@
     "postcss": "^7.0.26",
     "ts-jest": "^24.2.0",
     "ttypescript": "^1.5.8",
-    "typescript-styled-components-px2rem": "^1.3.1"
+    "typescript-styled-components-px2rem": "^1.4.0"
   },
   "scripts": {
-    "build": "ttsc",
+    "build": "ttsc -p ./tsconfig.prod.json",
     "test": "jest"
   }
 }

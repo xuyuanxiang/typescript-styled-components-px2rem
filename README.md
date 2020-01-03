@@ -204,22 +204,43 @@ source code:
 ```typescript
 import styled from 'styled-components';
 
-export const ArrowFunctionExpression = styled.input.attrs(props => ({
+const height = '44';
+export const ArrowFunction = styled.input.attrs(props => ({
   type: 'password',
   size: props.size || '16px',
   width: props.width || 100,
 }))`
-  width: ${props => props.width}px;
+  color: palevioletred;
+  font-size: 14px;
+  border: 1px solid palevioletred;
+  border-radius: 8px;
+  width: ${props => props.width}px; /* PropertyAccess Body */
+  height: ${() => height}px; /* Identifier Body */
+  line-height: ${() => '44'}px; /* StringLiteral Body */
+  margin: ${() => 32}px; /* NumericLiteral Body */
   padding: ${props => props.size};
 `;
-export const ArrowFunctionExpressionWithBlockBody = styled.button<{ width?: number | string }>`
+export const ArrowFunctionWithBlockBody = styled.button<{ width?: number | string }>`
   width: ${props => {
     if (props.width) {
       return props.width;
     } else {
       return 0;
     }
-  }}px;
+  }}px; /* Block Body */
+  ${props => (props.disabled ? 'height: 400px' : 'height: 200px')};
+`;
+export const ArrowFunctionWithBinaryBody = styled.button<{ height?: number }>`
+  ${props =>
+    props.disabled &&
+    `
+    width: 200px;
+    font-size: 14px;
+  `};
+  height: ${props => !props.disabled && props.height}px; /* Binary Body */
+`;
+export const ArrowFunctionWithConditionalBody = styled.button<{ height?: number }>`
+  height: ${props => (props.height ? height : 100)}px; /* Conditional Body */
 `;
 ```
 
@@ -227,23 +248,42 @@ compiled:
 
 ```javascript
 import styled from 'styled-components';
-export const ArrowFunctionExpression = styled.input.attrs(props => ({
-  type: 'password',
-  size: props.size || '16px',
-  width: props.width || 100,
-}))`
-  width: ${props => px2rem_1(props.width)};
+const height = '44';
+export const ArrowFunction = styled.input.attrs(props => ({
+    type: 'password',
+    size: props.size || '16px',
+    width: props.width || 100,
+})) `
+  color: palevioletred;
+  font-size: 0.14rem;
+  border: 1px solid palevioletred;
+  border-radius: 0.08rem;
+  width: ${props => px2rem_1(props.width)}; /* PropertyAccess Body */
+  height: ${() => px2rem_1(height)}; /* Identifier Body */
+  line-height: ${() => px2rem_1('44')}; /* StringLiteral Body */
+  margin: ${() => px2rem_1(32)}; /* NumericLiteral Body */
   padding: ${props => props.size};
 `;
-export const ArrowFunctionExpressionWithBlockBody = styled.button`
-  width: ${props =>
-    px2rem_1(() => {
-      if (props.width) {
+export const ArrowFunctionWithBlockBody = styled.button `
+  width: ${props => px2rem_1(() => {
+    if (props.width) {
         return props.width;
-      } else {
+    }
+    else {
         return 0;
-      }
-    })};
+    }
+})}; /* Block Body */
+  ${props => (props.disabled ? "height: 4rem" : "height: 2rem")};
+`;
+export const ArrowFunctionWithBinaryBody = styled.button `
+  ${props => props.disabled && `
+    width: 2rem;
+    font-size: 0.14rem;
+  `};
+  height: ${props => px2rem_1(!props.disabled && props.height)}; /* Binary Body */
+`;
+export const ArrowFunctionWithConditionalBody = styled.button `
+  height: ${props => (props.height ? px2rem_1(height) : px2rem_1(100))}; /* Conditional Body */
 `;
 function px2rem_1(input, ...args) {
   if (typeof input === 'function') return px2rem_1(input(...args));
@@ -307,6 +347,13 @@ export const ConditionalExpression = function({ fontSize }: { fontSize?: unknown
 
   return <StyledButton />;
 };
+export const ConditionalExpressionWhenTrue = function({ fontSize }: { fontSize?: unknown }) {
+  const StyledButton = styled.button`
+    font-size: ${typeof fontSize !== 'number' ? props => props?.theme.fontSize : fontSize}px;
+  `;
+
+  return <StyledButton />;
+};
 ```
 
 compiled:
@@ -319,6 +366,12 @@ export const ConditionalExpression = function({ fontSize }) {
     font-size: ${typeof fontSize === 'number' ? px2rem_1(fontSize) : props => px2rem_1(props?.theme.fontSize)};
   `;
   return React.createElement(StyledButton, null);
+};
+export const ConditionalExpressionWhenTrue = function ({ fontSize }) {
+    const StyledButton = styled.button `
+    font-size: ${typeof fontSize !== 'number' ? props => px2rem_1(props?.theme.fontSize) : px2rem_1(fontSize)};
+  `;
+    return React.createElement(StyledButton, null);
 };
 function px2rem_1(input, ...args) {
   if (typeof input === 'function') return px2rem_1(input(...args));
@@ -333,7 +386,7 @@ function px2rem_1(input, ...args) {
 
 ### Other Expressions
 
-Identifier, CallExpression...
+Identifier, CallExpression, BinaryExpression, ...
 
 source code:
 
@@ -359,6 +412,20 @@ export const MixinsButton = styled.button`
   ${mixins};
   height: ${getHeight()}px;
 `;
+
+const condition = false;
+function calc() {
+  return 20;
+}
+export const BinaryExpression = styled.button`
+  ${condition ||
+    `
+    width: 200px;
+  `};
+  height: ${condition || 100}px;
+  padding: ${40 + 50}px;
+  line-height: ${calc() - 2}px;
+`;
 ```
 
 compiled:
@@ -381,6 +448,18 @@ const mixins = css`
 export const MixinsButton = styled.button`
   ${mixins};
   height: ${px2rem_1(getHeight())};
+`;
+const condition = false;
+function calc() {
+    return 20;
+}
+export const BinaryExpression = styled.button `
+  ${condition || `
+    width: 2rem;
+  `};
+  height: ${px2rem_1(condition || 100)};
+  padding: ${px2rem_1(40 + 50)};
+  line-height: ${px2rem_1(calc() - 2)};
 `;
 function px2rem_1(input, ...args) {
   if (typeof input === 'function') return px2rem_1(input(...args));

@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "skipLibCheck": true,
-    "target": "es5",
-    "module": "commonjs",
+    "target": "esnext",
+    "module": "esnext",
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
@@ -21,6 +21,6 @@
       }
     ]
   },
-  "exclude": ["dist"],
+  "exclude": ["dist", "src/__tests__"],
   "include": ["src"]
 }
