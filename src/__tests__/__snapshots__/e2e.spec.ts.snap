@@ -90,6 +90,25 @@ foo
 const Bar = [].foo \`
  bar
 \`;
+const icon = true;
+const BinaryExpression = styled.button \`
+  width: 1rem;
+  \${icon &&
+    \`background-position: 0.09rem center;background-repeat: no-repeat;
+     background-size: 0.09rem 0.15rem;
+     background-image: url(\\"\${typeof icon === 'string' ? icon : theme === 'dark' ? iconLight : iconDark}\\");
+     padding-left: 0.25rem;
+  \`}
+\`;
+const Styled = styled.button \`
+  width: 1rem;
+  \${props => props.disabled &&
+    \`
+     background-position: 9px center;
+     background-repeat: no-repeat;
+     padding-left: 25px;
+  \`}
+\`;
 function px2rem_1(input, ...args) { if (typeof input === \\"function\\")
     return px2rem_1(input(...args)); var value = parseFloat(input); var pixels = Number.isNaN(value) ? 0 : value; if (pixels < 2)
     return \`\${pixels}px\`; var multiplier = Math.pow(10, 5 + 1); var wholeNumber = Math.floor((pixels * 1) / 100 * multiplier); return \`\${(Math.round(wholeNumber / 10) * 10) / multiplier}rem\`; }
@@ -187,6 +206,25 @@ foo
 \`;
 const Bar = [].foo \`
  bar
+\`;
+const icon = true;
+const BinaryExpression = styled.button \`
+  width: 1rem;
+  \${icon &&
+    \`background-position: 0.09rem center;background-repeat: no-repeat;
+     background-size: 0.09rem 0.15rem;
+     background-image: url(\\"\${typeof icon === 'string' ? icon : theme === 'dark' ? iconLight : iconDark}\\");
+     padding-left: 0.25rem;
+  \`}
+\`;
+const Styled = styled.button \`
+  width: 1rem;
+  \${props => props.disabled &&
+    \`
+     background-position: 9px center;
+     background-repeat: no-repeat;
+     padding-left: 25px;
+  \`}
 \`;
 ",
   "sourceMapText": undefined,

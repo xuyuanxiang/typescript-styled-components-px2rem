@@ -102,10 +102,11 @@ function createTemplateExpressionVisitor(context: ts.TransformationContext): ts.
       return createIfDifference(node.text, replaced => ts.createTemplateHead(replaced), node);
     } else if (ts.isTemplateSpan(node)) {
       const span = node as ts.TemplateSpan;
+      let newNode: ts.Node;
       if (span.expression && configuration.config.transformRuntime && /^px/.test(span.literal.text) && _px2rem) {
         const newExpression: ts.Expression = transformTemplateSpanExpression(span.expression, _px2rem);
         const text = span.literal.text.replace(/^px/, '');
-        return ts.updateTemplateSpan(
+        newNode = ts.updateTemplateSpan(
           span,
           newExpression || span.expression,
           ts.isTemplateMiddle(span.literal)
@@ -113,7 +114,7 @@ function createTemplateExpressionVisitor(context: ts.TransformationContext): ts.
             : ts.createTemplateTail(replace(text)),
         );
       } else {
-        return createIfDifference(
+        newNode = createIfDifference(
           span.literal.text,
           replaced =>
             ts.createTemplateSpan(
@@ -123,13 +124,15 @@ function createTemplateExpressionVisitor(context: ts.TransformationContext): ts.
           span,
         );
       }
+      newNode.parent = node.parent;
+      node = newNode;
     }
     return ts.visitEachChild(node, templateExpressionVisitor, context);
   };
   return templateExpressionVisitor;
 }
 
-function createTemplateLiteralVisitor(context: ts.TransformationContext): ts.Visitor {
+function createStyledVisitor(context: ts.TransformationContext): ts.Visitor {
   const visitor: ts.Visitor = node => {
     if (ts.isNoSubstitutionTemplateLiteral(node)) {
       return createIfDifference(node.text, replaced => ts.createNoSubstitutionTemplateLiteral(replaced), node);
@@ -143,17 +146,17 @@ function createTemplateLiteralVisitor(context: ts.TransformationContext): ts.Vis
 }
 
 export const transformerFactory: ts.TransformerFactory<ts.SourceFile> = context => {
-  const templateLiteralVisitor = createTemplateLiteralVisitor(context);
+  const styledVisitor = createStyledVisitor(context);
   const visitor: ts.Visitor = node => {
     if (ts.isTaggedTemplateExpression(node) && isStyledTagged(node)) {
-      return ts.visitNode(node, templateLiteralVisitor);
+      return ts.visitNode(node, styledVisitor);
     } else if (ts.isCallExpression(node) && node.arguments.length > 0) {
       if (
         ts.isPropertyAccessExpression(node.expression) &&
         ts.isIdentifier(node.expression.expression) &&
         isStyled(node.expression.expression)
       ) {
-        return ts.visitNode(node, templateLiteralVisitor);
+        return ts.visitNode(node, styledVisitor);
       }
     }
     return ts.visitEachChild(node, visitor, context);

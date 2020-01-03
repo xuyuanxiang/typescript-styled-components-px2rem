@@ -94,3 +94,13 @@ export const ConditionalExpression = function({ fontSize }: { fontSize?: unknown
 
   return <StyledButton />;
 };
+
+const BinaryExpression = styled.button`
+  font-size: 16px;
+  ${props =>
+    props.disabled &&
+    `
+      opacity: 0.5;
+      font-size: 14px;
+  `}
+`;

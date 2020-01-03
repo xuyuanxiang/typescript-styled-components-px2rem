@@ -103,3 +103,24 @@ foo
 const Bar  = [].foo`
  bar
 `;
+
+const icon = true;
+const BinaryExpression = styled.button`
+  width: 100px;
+  ${icon &&
+    `background-position: 9px center;background-repeat: no-repeat;
+     background-size: 9px 15px;
+     background-image: url("${typeof icon === 'string' ? icon : theme === 'dark' ? iconLight : iconDark}");
+     padding-left: 25px;
+  `}
+`;
+
+const Styled = styled.button`
+  width: 100px;
+  ${props => props.disabled &&
+    `
+     background-position: 9px center;
+     background-repeat: no-repeat;
+     padding-left: 25px;
+  `}
+`;
