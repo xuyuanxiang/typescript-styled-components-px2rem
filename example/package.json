@@ -29,6 +29,6 @@
   },
   "scripts": {
     "build": "ttsc -p ./tsconfig.prod.json",
-    "test": "jest"
+    "test": "jest --no-cache"
   }
 }
