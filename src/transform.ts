@@ -46,72 +46,67 @@ function createIfDifference<T extends ts.Node>(text: string, create: (replaced: 
   return origin;
 }
 
+function transformArrowFunction(expression: ts.ArrowFunction, px2rem: ts.Identifier): ts.ArrowFunction {
+  if (ts.isBlock(expression.body)) {
+    return ts.createArrowFunction(
+      expression.modifiers,
+      expression.typeParameters,
+      expression.parameters,
+      expression.type,
+      expression.equalsGreaterThanToken,
+      ts.createCall(px2rem, undefined, [
+        ts.createArrowFunction(
+          undefined,
+          undefined,
+          [],
+          undefined,
+          createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+          expression.body,
+        ),
+      ]),
+    );
+  } else {
+    return ts.updateArrowFunction(
+      expression,
+      expression.modifiers,
+      expression.typeParameters,
+      expression.parameters,
+      expression.type,
+      expression.equalsGreaterThanToken,
+      ts.createCall(px2rem, undefined, [expression.body]),
+    );
+  }
+}
+
+function transformTemplateSpanExpression(expression: ts.Expression, px2rem: ts.Identifier): ts.Expression {
+  let newExpression: ts.Expression;
+  if (ts.isPropertyAccessExpression(expression)) {
+    newExpression = ts.createCall(px2rem, undefined, [expression]);
+  } else if (ts.isArrowFunction(expression)) {
+    newExpression = transformArrowFunction(expression, px2rem);
+  } else if (ts.isConditionalExpression(expression)) {
+    newExpression = ts.createConditional(
+      expression.condition,
+      expression.questionToken,
+      expression.whenTrue ? transformTemplateSpanExpression(expression.whenTrue, px2rem) : expression.whenTrue,
+      expression.colonToken,
+      expression.whenFalse ? transformTemplateSpanExpression(expression.whenFalse, px2rem) : expression.whenFalse,
+    );
+  } else {
+    newExpression = ts.createCall(px2rem, undefined, [expression]);
+  }
+  return newExpression;
+}
+
 function createTemplateExpressionVisitor(context: ts.TransformationContext): ts.Visitor {
   const templateExpressionVisitor: ts.Visitor = node => {
     if (ts.isTemplateHead(node)) {
       return createIfDifference(node.text, replaced => ts.createTemplateHead(replaced), node);
     } else if (ts.isTemplateSpan(node)) {
       const span = node as ts.TemplateSpan;
-      if (configuration.config.transformRuntime && /^px/.test(span.literal.text)) {
-        let newExpression: ts.Expression | undefined;
-        if (_px2rem) {
-          if (ts.isPropertyAccessExpression(span.expression)) {
-            newExpression = ts.createCall(
-              // ts.createPropertyAccess(_px2rem, ts.createIdentifier('px2rem')),
-              _px2rem,
-              undefined,
-              [span.expression],
-            );
-          } else if (ts.isArrowFunction(span.expression)) {
-            if (ts.isBlock(span.expression.body)) {
-              newExpression = ts.createArrowFunction(
-                span.expression.modifiers,
-                span.expression.typeParameters,
-                span.expression.parameters,
-                span.expression.type,
-                span.expression.equalsGreaterThanToken,
-                ts.createCall(
-                  // ts.createPropertyAccess(_px2rem, ts.createIdentifier('px2rem')),
-                  _px2rem,
-                  undefined,
-                  [
-                    ts.createArrowFunction(
-                      undefined,
-                      undefined,
-                      [],
-                      undefined,
-                      createToken(ts.SyntaxKind.EqualsGreaterThanToken),
-                      span.expression.body,
-                    ),
-                  ],
-                ),
-              );
-            } else {
-              newExpression = ts.updateArrowFunction(
-                span.expression,
-                span.expression.modifiers,
-                span.expression.typeParameters,
-                span.expression.parameters,
-                span.expression.type,
-                span.expression.equalsGreaterThanToken,
-                ts.createCall(
-                  // ts.createPropertyAccess(_px2rem, ts.createIdentifier('px2rem')),
-                  _px2rem,
-                  undefined,
-                  [span.expression.body],
-                ),
-              );
-            }
-          } else {
-            newExpression = ts.createCall(
-              // ts.createPropertyAccess(_px2rem, ts.createIdentifier('px2rem')),
-              _px2rem,
-              undefined,
-              [span.expression],
-            );
-          }
-        }
-        const text = newExpression ? span.literal.text.replace(/^px/, '') : span.literal.text;
+      if (span.expression && configuration.config.transformRuntime && /^px/.test(span.literal.text) && _px2rem) {
+        const newExpression: ts.Expression = transformTemplateSpanExpression(span.expression, _px2rem);
+        const text = span.literal.text.replace(/^px/, '');
         return ts.updateTemplateSpan(
           span,
           newExpression || span.expression,

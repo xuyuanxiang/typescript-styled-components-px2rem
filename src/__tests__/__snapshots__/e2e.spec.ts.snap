@@ -17,9 +17,9 @@ const Animation = keyframes \`
     transform: translateX(-1rem);
   }
 \`;
-const Input = styled.input.attrs(props => ({
+export const Input = styled.input.attrs(props => ({
     type: 'password',
-    size: props.size || '1em',
+    size: props.size || '16px',
     width: props.width || 100,
 })) \`
   color: palevioletred;
@@ -30,25 +30,26 @@ const Input = styled.input.attrs(props => ({
   padding: \${props => props.size};
 \`;
 const fontSize = 18;
-const GlobalStyle = createGlobalStyle \`
+export const GlobalStyle = createGlobalStyle \`
   html body {
     font-size: \${px2rem_1(fontSize)};
+    width: 10.24rem;
+    min-height: 8rem;
   }
 \`;
 function getHeight() {
     const height = 100;
-    return height + window.screen.availHeight / 2;
+    return height / 2;
 }
-const BlockButton = styled.button \`
+export const MixinsButton = styled.button \`
   \${mixins};
   display: block;
   width: 100%;
   height: \${px2rem_1(getHeight())};
-  line-height: 0.96rem;
+  line-height: 0.32rem;
 \`;
 const lineHeight = '44';
-const InlineButton = styled.button \`
-  display: inline;
+export const LineHeightButton = styled.button \`
   width: \${(props) => px2rem_1(() => {
     if (props.width) {
         return props.width;
@@ -59,20 +60,32 @@ const InlineButton = styled.button \`
 })};
   line-height: \${px2rem_1(lineHeight)};
 \`;
-const ExtendedButton = styled(InlineButton) \`
+export const StyledButton = styled.button \`
   width: 1.2rem;
   height: 0.32rem;
-  line-height: 0.32rem;
   font-size: 0.14rem;
 \`;
-const SizeableButton = styled.button(props => \`
+export const ExtendButton = styled(StyledButton) \`
+  padding: \${props => px2rem_1(props.padding)};
+\`;
+export const SizeableButton = styled.button(props => \`
   display: inline;
   width: \${px2rem_1(props.width)};
   height: \${props.height};
   font-size: 0.16rem;
 \`);
-function px2rem_1(input) { if (typeof input === \\"function\\")
-    return px2rem_1(input()); var value = parseFloat(input); var pixels = Number.isNaN(value) ? 0 : value; if (pixels < 2)
+export const ThemeConsumer = styled.div \`
+  font-size: \${props => px2rem_1(props.theme.fontSize)};
+  color: \${props => props.theme.color};
+\`;
+export const ConditionalExpressionButton = function ({ fontSize }) {
+    const StyledButton = styled.button \`
+    font-size: \${typeof fontSize === 'number' ? px2rem_1(fontSize) : props => { var _a; return px2rem_1((_a = props) === null || _a === void 0 ? void 0 : _a.theme.globalFontSize); }};
+  \`;
+    return />;;
+};
+function px2rem_1(input, ...args) { if (typeof input === \\"function\\")
+    return px2rem_1(input(...args)); var value = parseFloat(input); var pixels = Number.isNaN(value) ? 0 : value; if (pixels < 2)
     return \`\${pixels}px\`; var multiplier = Math.pow(10, 5 + 1); var wholeNumber = Math.floor((pixels * 1) / 100 * multiplier); return \`\${(Math.round(wholeNumber / 10) * 10) / multiplier}rem\`; }
 ",
   "sourceMapText": undefined,
@@ -96,9 +109,9 @@ const Animation = keyframes \`
     transform: translateX(-1rem);
   }
 \`;
-const Input = styled.input.attrs(props => ({
+export const Input = styled.input.attrs(props => ({
     type: 'password',
-    size: props.size || '1em',
+    size: props.size || '16px',
     width: props.width || 100,
 })) \`
   color: palevioletred;
@@ -109,25 +122,26 @@ const Input = styled.input.attrs(props => ({
   padding: \${props => props.size};
 \`;
 const fontSize = 18;
-const GlobalStyle = createGlobalStyle \`
+export const GlobalStyle = createGlobalStyle \`
   html body {
     font-size: \${fontSize}px;
+    width: 10.24rem;
+    min-height: 8rem;
   }
 \`;
 function getHeight() {
     const height = 100;
-    return height + window.screen.availHeight / 2;
+    return height / 2;
 }
-const BlockButton = styled.button \`
+export const MixinsButton = styled.button \`
   \${mixins};
   display: block;
   width: 100%;
   height: \${getHeight()}px;
-  line-height: 0.96rem;
+  line-height: 0.32rem;
 \`;
 const lineHeight = '44';
-const InlineButton = styled.button \`
-  display: inline;
+export const LineHeightButton = styled.button \`
   width: \${props => {
     if (props.width) {
         return props.width;
@@ -138,18 +152,30 @@ const InlineButton = styled.button \`
 }}px;
   line-height: \${lineHeight}px;
 \`;
-const ExtendedButton = styled(InlineButton) \`
+export const StyledButton = styled.button \`
   width: 1.2rem;
   height: 0.32rem;
-  line-height: 0.32rem;
   font-size: 0.14rem;
 \`;
-const SizeableButton = styled.button(props => \`
+export const ExtendButton = styled(StyledButton) \`
+  padding: \${props => props.padding}px;
+\`;
+export const SizeableButton = styled.button(props => \`
   display: inline;
   width: \${props.width}px;
   height: \${props.height};
   font-size: 0.16rem;
 \`);
+export const ThemeConsumer = styled.div \`
+  font-size: \${props => props.theme.fontSize}px;
+  color: \${props => props.theme.color};
+\`;
+export const ConditionalExpressionButton = function ({ fontSize }) {
+    const StyledButton = styled.button \`
+    font-size: \${typeof fontSize === 'number' ? fontSize : props => { var _a; return (_a = props) === null || _a === void 0 ? void 0 : _a.theme.globalFontSize; }}px;
+  \`;
+    return />;;
+};
 ",
   "sourceMapText": undefined,
 }

@@ -315,6 +315,3 @@ function px2rem_1(input) {
 ```
 
 **Note:** Only expressions that end in `px` will be processed.
-
-### Deprecated Expression
-

@@ -22,17 +22,27 @@ export default (_px2rem: ts.Identifier) => {
         undefined,
         ts.createKeywordTypeNode(ts.SyntaxKind.UnknownKeyword),
       ),
+      ts.createParameter(
+        undefined,
+        undefined,
+        ts.createToken(ts.SyntaxKind.DotDotDotToken),
+        ts.createIdentifier('args'),
+      ),
     ],
     ts.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
     ts.createBlock([
-      //  if (typeof input === 'function') return px2rem(input());
+      //  if (typeof input === 'function') return px2rem(input(...args));
       ts.createIf(
         ts.createBinary(
           ts.createTypeOf(input),
           ts.SyntaxKind.EqualsEqualsEqualsToken,
           ts.createStringLiteral('function'),
         ),
-        ts.createReturn(ts.createCall(_px2rem, undefined, [ts.createCall(input, undefined, undefined)])),
+        ts.createReturn(
+          ts.createCall(_px2rem, undefined, [
+            ts.createCall(input, undefined, [ts.createSpread(ts.createIdentifier('args'))]),
+          ]),
+        ),
         undefined,
       ),
       // const value = parseFloat(input);
