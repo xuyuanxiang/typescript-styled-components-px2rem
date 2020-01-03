@@ -57,6 +57,7 @@ export default {
               minPixelValue: 2,
               multiplier: 1,
               tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
+              transformRuntime: false,
             },
           ],
         },
@@ -80,6 +81,7 @@ const customTransformer = createCustomTransformer({
   minPixelValue: 2,
   multiplier: 1,
   tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
+  transformRuntime: false,
 });
 
 module.exports = {
@@ -130,7 +132,8 @@ tsconfig.json:
         "unitPrecision": 5,
         "minPixelValue": 2,
         "multiplier": 1,
-        "tags": ["styled", "css", "createGlobalStyle", "keyframes"]
+        "tags": ["styled", "css", "createGlobalStyle", "keyframes"],
+        "transformRuntime": false
       }
     ]
   }
