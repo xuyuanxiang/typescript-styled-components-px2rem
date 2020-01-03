@@ -94,3 +94,12 @@ export const ConditionalExpressionButton = function({ fontSize }: { fontSize?: u
 
   return <StyledButton />;
 };
+
+export const Foo = (function() {})`
+foo
+`;
+
+
+const Bar  = [].foo`
+ bar
+`;

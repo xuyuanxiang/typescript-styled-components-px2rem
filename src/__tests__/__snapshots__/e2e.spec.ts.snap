@@ -84,6 +84,12 @@ export const ConditionalExpressionButton = function ({ fontSize }) {
   \`;
     return />;;
 };
+export const Foo = (function () { }) \`
+foo
+\`;
+const Bar = [].foo \`
+ bar
+\`;
 function px2rem_1(input, ...args) { if (typeof input === \\"function\\")
     return px2rem_1(input(...args)); var value = parseFloat(input); var pixels = Number.isNaN(value) ? 0 : value; if (pixels < 2)
     return \`\${pixels}px\`; var multiplier = Math.pow(10, 5 + 1); var wholeNumber = Math.floor((pixels * 1) / 100 * multiplier); return \`\${(Math.round(wholeNumber / 10) * 10) / multiplier}rem\`; }
@@ -176,6 +182,12 @@ export const ConditionalExpressionButton = function ({ fontSize }) {
   \`;
     return />;;
 };
+export const Foo = (function () { }) \`
+foo
+\`;
+const Bar = [].foo \`
+ bar
+\`;
 ",
   "sourceMapText": undefined,
 }
