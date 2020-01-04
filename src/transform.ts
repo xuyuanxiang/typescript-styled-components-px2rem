@@ -49,11 +49,18 @@ function createIfDifference<T extends ts.Node>(text: string, create: (replaced: 
 
 function isPureExpression(
   expression: ts.Node,
-): expression is ts.LiteralExpression | ts.Identifier | ts.PropertyAccessExpression | ts.CallExpression {
+): expression is
+  | ts.LiteralExpression
+  | ts.Identifier
+  | ts.PropertyAccessExpression
+  | ts.ElementAccessExpression
+  | ts.CallExpression
+  | ts.BinaryExpression {
   return (
     ts.isIdentifier(expression) ||
     ts.isLiteralExpression(expression) ||
     ts.isPropertyAccessExpression(expression) ||
+    ts.isElementAccessExpression(expression) ||
     ts.isCallExpression(expression) ||
     ts.isBinaryExpression(expression)
   );
@@ -67,17 +74,7 @@ function createCallPx2rem(px2rem: ts.Identifier, ...expression: ts.Expression[])
 function createTemplateSpanExpressionVisitor(context: ts.TransformationContext, px2rem: ts.Identifier): ts.Visitor {
   const visitor: ts.Visitor = node => {
     if (isArrowFunction(node)) {
-      if (isPureExpression(node.body)) {
-        return ts.updateArrowFunction(
-          node,
-          node.modifiers,
-          node.typeParameters,
-          node.parameters,
-          node.type,
-          node.equalsGreaterThanToken,
-          createCallPx2rem(px2rem, node.body),
-        );
-      } else if (ts.isBlock(node.body)) {
+      if (ts.isBlock(node.body)) {
         return ts.updateArrowFunction(
           node,
           node.modifiers,
@@ -95,6 +92,16 @@ function createTemplateSpanExpressionVisitor(context: ts.TransformationContext, 
               node.body,
             ),
           ]),
+        );
+      } else {
+        return ts.updateArrowFunction(
+          node,
+          node.modifiers,
+          node.typeParameters,
+          node.parameters,
+          node.type,
+          node.equalsGreaterThanToken,
+          createCallPx2rem(px2rem, node.body),
         );
       }
     } else if (ts.isConditionalExpression(node)) {
@@ -246,7 +253,7 @@ export const transformerFactory: ts.TransformerFactory<ts.SourceFile> = context 
     _used = false;
     const sourceFile = ts.visitNode(node, visitor);
     if (_used && _px2rem) {
-      return ts.updateSourceFileNode(sourceFile, [...node.statements, createPx2rem(_px2rem)]);
+      return ts.updateSourceFileNode(sourceFile, [...sourceFile.statements, createPx2rem(_px2rem)]);
     }
     return sourceFile;
   };

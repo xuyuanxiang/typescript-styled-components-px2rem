@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "skipLibCheck": true,
     "target": "es5",
     "module": "commonjs",
@@ -8,6 +9,7 @@
     "strict": true,
     "jsx": "react",
     "esModuleInterop": true,
+    "moduleResolution": "node",
     "plugins": [
       {
         "transform": "typescript-styled-components-px2rem",

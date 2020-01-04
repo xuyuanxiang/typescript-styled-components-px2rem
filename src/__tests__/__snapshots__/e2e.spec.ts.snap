@@ -16,18 +16,18 @@ Object {
   "outputText": "import styled, { css, createGlobalStyle, keyframes } from 'styled-components';
 const Animation = keyframes \`
   from {
-    transform: translateX(100px);
+    transform: translateX(1rem);
   }
 
   to {
-    transform: translateX(-100px);
+    transform: translateX(-1rem);
   }
 \`;
 export const FunctionExpression = styled.button \`
-  width: \${function (props) {
+  width: \${(...args) => px2rem_1(function (props) {
     return props.width;
-}}px; /* Block Body */
-  \${props => (props.disabled ? 'height: 400px' : 'height: 200px')};
+}, ...args)}; /* Block Body */
+  \${props => (props.disabled ? \\"height: 4rem\\" : \\"height: 2rem\\")};
 \`;
 const height = '44';
 export const ArrowFunction = styled.input.attrs(props => ({
@@ -36,36 +36,35 @@ export const ArrowFunction = styled.input.attrs(props => ({
     width: props.width || 100,
 })) \`
   color: palevioletred;
-  font-size: 14px;
+  font-size: 0.14rem;
   border: 1px solid palevioletred;
-  border-radius: 8px;
-  width: \${props => props.width}px; /* PropertyAccess Body */
-  height: \${() => height}px; /* Identifier Body */
-  line-height: \${() => '44'}px; /* StringLiteral Body */
-  margin: \${() => 32}px; /* NumericLiteral Body */
+  border-radius: 0.08rem;
+  width: \${props => px2rem_1(props.width)}; /* PropertyAccess Body */
+  height: \${() => px2rem_1(height)}; /* Identifier Body */
+  line-height: \${() => px2rem_1('44')}; /* StringLiteral Body */
+  margin: \${() => px2rem_1(32)}; /* NumericLiteral Body */
   padding: \${props => props.size};
 \`;
 export const ArrowFunctionWithBlockBody = styled.button \`
-  width: \${props => {
+  width: \${props => px2rem_1(() => {
     if (props.width) {
         return props.width;
     }
     else {
         return 0;
     }
-}}px; /* Block Body */
-  \${props => (props.disabled ? 'height: 400px' : 'height: 200px')};
+})}; /* Block Body */
+  \${props => (props.disabled ? \\"height: 4rem\\" : \\"height: 2rem\\")};
 \`;
 export const ArrowFunctionWithBinaryBody = styled.button \`
-  \${props => props.disabled &&
-    \`
-    width: 200px;
-    font-size: 14px;
+  \${props => props.disabled && \`
+    width: 2rem;
+    font-size: 0.14rem;
   \`};
-  height: \${props => !props.disabled && props.height}px; /* Binary Body */
+  height: \${props => px2rem_1(!props.disabled && props.height)}; /* Binary Body */
 \`;
 export const ArrowFunctionWithConditionalBody = styled.button \`
-  height: \${props => (props.height ? height : 100)}px; /* Conditional Body */
+  height: \${props => px2rem_1((props.height ? height : 100))}; /* Conditional Body */
 \`;
 const fontSize = 18;
 function getHeight() {
@@ -73,55 +72,54 @@ function getHeight() {
     return height / 2;
 }
 const mixins = css \`
-  padding: 0 16px;
-  margin: 16px 32px 16px 32px;
+  padding: 0 0.16rem;
+  margin: 0.16rem 0.32rem 0.16rem 0.32rem;
 \`;
 export const GlobalStyle = createGlobalStyle \`
   html body {
     \${mixins};
-    font-size: \${fontSize}px; /* Identifier */
-    width: 1024px;
-    height: \${getHeight()}px; /* CallExpression */
+    font-size: \${px2rem_1(fontSize)}; /* Identifier */
+    width: 10.24rem;
+    height: \${px2rem_1(getHeight())}; /* CallExpression */
   }
 \`;
 export const StyledButton = styled.button \`
-  width: 120px;
-  height: 32px;
-  font-size: 14px;
+  width: 1.2rem;
+  height: 0.32rem;
+  font-size: 0.14rem;
 \`;
 export const ExtendStyledButton = styled(StyledButton)(({ padding }) => \`
-  padding-left: 15px;
+  padding-left: 0.15rem;
   \${padding
     ? \`
-      padding-left: 25px;
-  \`
-    : ''}
+      padding-left: 0.25rem;
+  \` : ''}
 \`);
 export const PropertyAccessExpression = styled.button(props => \`
   display: inline;
-  width: \${props.width}px;
+  width: \${px2rem_1(props.width)};
   height: \${props.height};
-  font-size: 16px;
+  font-size: 0.16rem;
 \`);
 export const ThemeConsumer = styled.div \`
-  font-size: \${props => props.theme.fontSize}px;
+  font-size: \${props => px2rem_1(props.theme.fontSize)};
   color: \${props => props.theme.color};
 \`;
 export const ConditionalExpression = function ({ fontSize }) {
     const StyledButton = styled.button \`
-    font-size: \${typeof fontSize === 'number' ? fontSize : props => { var _a; return (_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize; }}px;
+    font-size: \${typeof fontSize === 'number' ? px2rem_1(fontSize) : props => { var _a; return px2rem_1((_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize); }};
   \`;
     return />;;
 };
 export const ConditionalExpressionWhenTrue = function ({ fontSize }) {
     const StyledButton = styled.button \`
-    font-size: \${typeof fontSize !== 'number' ? props => { var _a; return (_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize; } : fontSize}px;
+    font-size: \${typeof fontSize !== 'number' ? props => { var _a; return px2rem_1((_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize); } : px2rem_1(fontSize)};
   \`;
     return />;;
 };
 export const ConditionalExpressionWhenFalse = function ({ fontSize }) {
     const StyledButton = styled.button \`
-    font-size: \${typeof fontSize === 'number' ? fontSize : 16}px;
+    font-size: \${typeof fontSize === 'number' ? px2rem_1(fontSize) : px2rem_1(16)};
   \`;
     return />;;
 };
@@ -130,13 +128,12 @@ function calc() {
     return 20;
 }
 export const BinaryExpression = styled.button \`
-  \${condition ||
-    \`
-    width: 200px;
+  \${condition || \`
+    width: 2rem;
   \`};
-  height: \${condition || 100}px;
-  padding: \${40 + 50}px;
-  line-height: \${calc() - 2}px;
+  height: \${px2rem_1(condition || 100)};
+  padding: \${px2rem_1(40 + 50)};
+  line-height: \${px2rem_1(calc() - 2)};
 \`;
 export const ConditaionalExpression = styled.div(props => \`
   flex: 0 0 30%;

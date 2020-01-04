@@ -25,7 +25,7 @@
     "postcss": "^7.0.26",
     "ts-jest": "^24.2.0",
     "ttypescript": "^1.5.8",
-    "typescript-styled-components-px2rem": "^1.4.4"
+    "typescript-styled-components-px2rem": "^1.4.5"
   },
   "scripts": {
     "build": "ttsc -p ./tsconfig.prod.json",
