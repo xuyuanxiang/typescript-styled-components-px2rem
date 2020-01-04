@@ -1,9 +1,8 @@
 import * as ts from 'typescript';
 import { replace } from './replace';
 import configuration from './configuration';
-import { createToken, isArrowFunction } from 'typescript';
+import { createToken, isArrowFunction, isPropertyAccessExpression } from 'typescript';
 import createPx2rem from './px2rem';
-import { callExpression } from '@babel/types';
 
 let _px2rem: ts.Identifier | undefined;
 
@@ -178,6 +177,7 @@ function createTemplateSpanExpressionVisitor(context: ts.TransformationContext, 
 function createStyledVisitor(context: ts.TransformationContext): ts.Visitor {
   const visitor: ts.Visitor = node => {
     if (ts.isNoSubstitutionTemplateLiteral(node)) {
+      console.log('NoSubstitutionTemplateLiteral', node.kind);
       return createIfDifference(node.text, replaced => ts.createNoSubstitutionTemplateLiteral(replaced), node);
     } else if (ts.isTemplateHead(node)) {
       return createIfDifference(node.text, replaced => ts.createTemplateHead(replaced), node);
@@ -213,19 +213,25 @@ function createStyledVisitor(context: ts.TransformationContext): ts.Visitor {
   return visitor;
 }
 
+function isStyledFunction(call: ts.CallExpression): boolean {
+  const expression = call.expression;
+  if (isPropertyAccessExpression(expression)) {
+    return isStyledMember(expression);
+  } else if (ts.isCallExpression(expression)) {
+    return isStyledFunction(expression);
+  } else if (ts.isIdentifier(expression)) {
+    return isStyled(expression);
+  }
+  return false;
+}
+
 export const transformerFactory: ts.TransformerFactory<ts.SourceFile> = context => {
   const styledVisitor = createStyledVisitor(context);
   const visitor: ts.Visitor = node => {
     if (ts.isTaggedTemplateExpression(node) && isStyledTagged(node)) {
       return ts.visitNode(node, styledVisitor);
-    } else if (ts.isCallExpression(node) && node.arguments.length > 0) {
-      if (
-        ts.isPropertyAccessExpression(node.expression) &&
-        ts.isIdentifier(node.expression.expression) &&
-        isStyled(node.expression.expression)
-      ) {
-        return ts.visitNode(node, styledVisitor);
-      }
+    } else if (ts.isCallExpression(node) && isStyledFunction(node)) {
+      return ts.visitNode(node, styledVisitor);
     }
 
     return ts.visitEachChild(node, visitor, context);

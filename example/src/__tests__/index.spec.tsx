@@ -119,15 +119,12 @@ it('should transform <StyledButton/>', function() {
 
 it('should transform <ExtendStyledButton/>', function() {
   TestUtils.act(() => {
-    ReactDOM.render(<ExtendStyledButton id="btnId" padding={64} />, div);
+    ReactDOM.render(<ExtendStyledButton id="btnId" padding />, div);
   });
   const button: HTMLElement | null = div.querySelector('button#btnId');
   if (button) {
     const style = getComputedStyle(button);
-    expect(style.fontSize).toBe('0.14rem');
-    expect(style.height).toBe('0.32rem');
-    expect(style.width).toBe('1.2rem');
-    expect(style.padding).toBe('0.64rem');
+    expect(style.paddingLeft).toBe('0.25rem');
   } else {
     throw new Error('ExtendStyledButton should be render');
   }

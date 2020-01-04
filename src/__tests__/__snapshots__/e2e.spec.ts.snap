@@ -78,9 +78,13 @@ export const StyledButton = styled.button \`
   height: 0.32rem;
   font-size: 0.14rem;
 \`;
-export const ExtendStyledButton = styled(StyledButton) \`
-  padding: \${props => px2rem_1(props.padding)};
-\`;
+export const ExtendStyledButton = styled(StyledButton)(({ padding }) => \`
+  padding-left: 0.15rem;
+  \${padding
+    ? \`
+      padding-left: 0.25rem;
+  \` : ''}
+\`);
 export const PropertyAccessExpression = styled.button(props => \`
   display: inline;
   width: \${px2rem_1(props.width)};
@@ -121,6 +125,18 @@ export const BinaryExpression = styled.button \`
   padding: \${px2rem_1(40 + 50)};
   line-height: \${px2rem_1(calc() - 2)};
 \`;
+export const ConditaionalExpression = styled.div(props => \`
+  flex: 0 0 30%;
+  padding-left: 0.15rem;
+  \${props.icon
+    ? \`
+     background-position: 0.09rem center;
+     background-repeat: no-repeat;
+     background-size: 0.09rem 0.15rem;
+     padding-left: 0.25rem;
+  \`
+    : ''}
+\`);
 export const Foo = (function () { }) \`
 foo
 \`;
@@ -213,9 +229,13 @@ export const StyledButton = styled.button \`
   height: 0.32rem;
   font-size: 0.14rem;
 \`;
-export const ExtendStyledButton = styled(StyledButton) \`
-  padding: \${props => props.padding}px;
-\`;
+export const ExtendStyledButton = styled(StyledButton)(({ padding }) => \`
+  padding-left: 0.15rem;
+  \${padding
+    ? \`
+      padding-left: 0.25rem;
+  \` : ''}
+\`);
 export const PropertyAccessExpression = styled.button(props => \`
   display: inline;
   width: \${props.width}px;
@@ -256,6 +276,18 @@ export const BinaryExpression = styled.button \`
   padding: \${40 + 50}px;
   line-height: \${calc() - 2}px;
 \`;
+export const ConditaionalExpression = styled.div(props => \`
+  flex: 0 0 30%;
+  padding-left: 0.15rem;
+  \${props.icon
+    ? \`
+     background-position: 0.09rem center;
+     background-repeat: no-repeat;
+     background-size: 0.09rem 0.15rem;
+     padding-left: 0.25rem;
+  \`
+    : ''}
+\`);
 export const Foo = (function () { }) \`
 foo
 \`;
