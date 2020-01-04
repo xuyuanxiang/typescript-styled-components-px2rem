@@ -53,4 +53,29 @@ describe('e2e', () => {
     });
     expect(transformed).toMatchSnapshot();
   });
+
+  it('should polyfill px2rem when really used', function() {
+    const options = {
+      rootValue: 100,
+      unitPrecision: 5,
+      minPixelValue: 2,
+      multiplier: 1,
+      tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
+      transformRuntime: true,
+    };
+    const transformed = ts.transpileModule('const foo = 1', {
+      fileName: 'case.txt',
+      compilerOptions: {
+        skipLibCheck: true,
+        target: ts.ScriptTarget.ES2015,
+        module: ts.ModuleKind.ES2015,
+        outDir: 'dist',
+        rootDir: 'src',
+        strict: true,
+        esModuleInterop: true,
+      },
+      transformers: { before: [transform(options)] },
+    });
+    expect(transformed).toMatchSnapshot();
+  });
 });

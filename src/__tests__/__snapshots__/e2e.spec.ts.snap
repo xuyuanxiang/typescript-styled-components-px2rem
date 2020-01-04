@@ -1,23 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`e2e should polyfill px2rem when really used 1`] = `
+Object {
+  "diagnostics": Array [],
+  "outputText": "\\"use strict\\";
+const foo = 1;
+",
+  "sourceMapText": undefined,
+}
+`;
+
 exports[`e2e should transform runtime 1`] = `
 Object {
   "diagnostics": Array [],
   "outputText": "import styled, { css, createGlobalStyle, keyframes } from 'styled-components';
 const Animation = keyframes \`
   from {
-    transform: translateX(1rem);
+    transform: translateX(100px);
   }
 
   to {
-    transform: translateX(-1rem);
+    transform: translateX(-100px);
   }
 \`;
 export const FunctionExpression = styled.button \`
-  width: \${(...args) => px2rem_1(function (props) {
+  width: \${function (props) {
     return props.width;
-}, ...args)}; /* Block Body */
-  \${props => (props.disabled ? \\"height: 4rem\\" : \\"height: 2rem\\")};
+}}px; /* Block Body */
+  \${props => (props.disabled ? 'height: 400px' : 'height: 200px')};
 \`;
 const height = '44';
 export const ArrowFunction = styled.input.attrs(props => ({
@@ -26,35 +36,36 @@ export const ArrowFunction = styled.input.attrs(props => ({
     width: props.width || 100,
 })) \`
   color: palevioletred;
-  font-size: 0.14rem;
+  font-size: 14px;
   border: 1px solid palevioletred;
-  border-radius: 0.08rem;
-  width: \${props => px2rem_1(props.width)}; /* PropertyAccess Body */
-  height: \${() => px2rem_1(height)}; /* Identifier Body */
-  line-height: \${() => px2rem_1('44')}; /* StringLiteral Body */
-  margin: \${() => px2rem_1(32)}; /* NumericLiteral Body */
+  border-radius: 8px;
+  width: \${props => props.width}px; /* PropertyAccess Body */
+  height: \${() => height}px; /* Identifier Body */
+  line-height: \${() => '44'}px; /* StringLiteral Body */
+  margin: \${() => 32}px; /* NumericLiteral Body */
   padding: \${props => props.size};
 \`;
 export const ArrowFunctionWithBlockBody = styled.button \`
-  width: \${props => px2rem_1(() => {
+  width: \${props => {
     if (props.width) {
         return props.width;
     }
     else {
         return 0;
     }
-})}; /* Block Body */
-  \${props => (props.disabled ? \\"height: 4rem\\" : \\"height: 2rem\\")};
+}}px; /* Block Body */
+  \${props => (props.disabled ? 'height: 400px' : 'height: 200px')};
 \`;
 export const ArrowFunctionWithBinaryBody = styled.button \`
-  \${props => props.disabled && \`
-    width: 2rem;
-    font-size: 0.14rem;
+  \${props => props.disabled &&
+    \`
+    width: 200px;
+    font-size: 14px;
   \`};
-  height: \${props => px2rem_1(!props.disabled && props.height)}; /* Binary Body */
+  height: \${props => !props.disabled && props.height}px; /* Binary Body */
 \`;
 export const ArrowFunctionWithConditionalBody = styled.button \`
-  height: \${props => (props.height ? px2rem_1(height) : px2rem_1(100))}; /* Conditional Body */
+  height: \${props => (props.height ? height : 100)}px; /* Conditional Body */
 \`;
 const fontSize = 18;
 function getHeight() {
@@ -62,54 +73,55 @@ function getHeight() {
     return height / 2;
 }
 const mixins = css \`
-  padding: 0 0.16rem;
-  margin: 0.16rem 0.32rem 0.16rem 0.32rem;
+  padding: 0 16px;
+  margin: 16px 32px 16px 32px;
 \`;
 export const GlobalStyle = createGlobalStyle \`
   html body {
     \${mixins};
-    font-size: \${px2rem_1(fontSize)}; /* Identifier */
-    width: 10.24rem;
-    height: \${px2rem_1(getHeight())}; /* CallExpression */
+    font-size: \${fontSize}px; /* Identifier */
+    width: 1024px;
+    height: \${getHeight()}px; /* CallExpression */
   }
 \`;
 export const StyledButton = styled.button \`
-  width: 1.2rem;
-  height: 0.32rem;
-  font-size: 0.14rem;
+  width: 120px;
+  height: 32px;
+  font-size: 14px;
 \`;
 export const ExtendStyledButton = styled(StyledButton)(({ padding }) => \`
-  padding-left: 0.15rem;
+  padding-left: 15px;
   \${padding
     ? \`
-      padding-left: 0.25rem;
-  \` : ''}
+      padding-left: 25px;
+  \`
+    : ''}
 \`);
 export const PropertyAccessExpression = styled.button(props => \`
   display: inline;
-  width: \${px2rem_1(props.width)};
+  width: \${props.width}px;
   height: \${props.height};
-  font-size: 0.16rem;
+  font-size: 16px;
 \`);
 export const ThemeConsumer = styled.div \`
-  font-size: \${props => px2rem_1(props.theme.fontSize)};
+  font-size: \${props => props.theme.fontSize}px;
   color: \${props => props.theme.color};
 \`;
 export const ConditionalExpression = function ({ fontSize }) {
     const StyledButton = styled.button \`
-    font-size: \${typeof fontSize === 'number' ? px2rem_1(fontSize) : props => { var _a; return px2rem_1((_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize); }};
+    font-size: \${typeof fontSize === 'number' ? fontSize : props => { var _a; return (_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize; }}px;
   \`;
     return />;;
 };
 export const ConditionalExpressionWhenTrue = function ({ fontSize }) {
     const StyledButton = styled.button \`
-    font-size: \${typeof fontSize !== 'number' ? props => { var _a; return px2rem_1((_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize); } : px2rem_1(fontSize)};
+    font-size: \${typeof fontSize !== 'number' ? props => { var _a; return (_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize; } : fontSize}px;
   \`;
     return />;;
 };
 export const ConditionalExpressionWhenFalse = function ({ fontSize }) {
     const StyledButton = styled.button \`
-    font-size: \${typeof fontSize === 'number' ? px2rem_1(fontSize) : px2rem_1(16)};
+    font-size: \${typeof fontSize === 'number' ? fontSize : 16}px;
   \`;
     return />;;
 };
@@ -118,12 +130,13 @@ function calc() {
     return 20;
 }
 export const BinaryExpression = styled.button \`
-  \${condition || \`
-    width: 2rem;
+  \${condition ||
+    \`
+    width: 200px;
   \`};
-  height: \${px2rem_1(condition || 100)};
-  padding: \${px2rem_1(40 + 50)};
-  line-height: \${px2rem_1(calc() - 2)};
+  height: \${condition || 100}px;
+  padding: \${40 + 50}px;
+  line-height: \${calc() - 2}px;
 \`;
 export const ConditaionalExpression = styled.div(props => \`
   flex: 0 0 30%;

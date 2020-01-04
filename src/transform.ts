@@ -5,6 +5,7 @@ import { createToken, isArrowFunction, isPropertyAccessExpression } from 'typesc
 import createPx2rem from './px2rem';
 
 let _px2rem: ts.Identifier | undefined;
+let _used: boolean = false;
 
 function isStyledTagged(node: ts.TaggedTemplateExpression): boolean {
   const tag = node.tag;
@@ -59,6 +60,7 @@ function isPureExpression(
 }
 
 function createCallPx2rem(px2rem: ts.Identifier, ...expression: ts.Expression[]): ts.CallExpression {
+  _used = true;
   return ts.createCall(px2rem, undefined, expression);
 }
 
@@ -241,9 +243,11 @@ export const transformerFactory: ts.TransformerFactory<ts.SourceFile> = context 
     } else {
       _px2rem = undefined;
     }
-    if (ts.isSourceFile(node) && _px2rem) {
-      node = ts.updateSourceFileNode(node, [...node.statements, createPx2rem(_px2rem)]);
+    _used = false;
+    const sourceFile = ts.visitNode(node, visitor);
+    if (_used && _px2rem) {
+      return ts.updateSourceFileNode(sourceFile, [...node.statements, createPx2rem(_px2rem)]);
     }
-    return ts.visitNode(node, visitor);
+    return sourceFile;
   };
 };
