@@ -4,6 +4,7 @@ import TestUtils from 'react-dom/test-utils';
 import { ThemeProvider } from 'styled-components';
 import {
   StyledButton,
+  FunctionExpression,
   PropertyAccessExpression,
   ArrowFunctionWithBlockBody,
   ArrowFunctionWithBinaryBody,
@@ -169,6 +170,19 @@ it('should transform <ArrowFunctionWithConditionalBody/>', function() {
     expect(style.height).toBe('1rem');
   } else {
     throw new Error('ArrowFunctionWithConditionalBody should be render');
+  }
+});
+
+it('should transform <FunctionExpression/>', function() {
+  TestUtils.act(() => {
+    ReactDOM.render(<FunctionExpression id="btnId" width={64}/>, div);
+  });
+  const button: HTMLElement | null = div.querySelector('button#btnId');
+  if (button) {
+    const style = getComputedStyle(button);
+    expect(style.width).toBe('0.64rem');
+  } else {
+    throw new Error('FunctionExpression should be render');
   }
 });
 

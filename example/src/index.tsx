@@ -10,6 +10,12 @@ const Animation = keyframes`
     transform: translateX(-100px);
   }
 `;
+export const FunctionExpression = styled.button<{ width?: number | string }>`
+  width: ${function(props) {
+    return props.width;
+  }}px; /* Block Body */
+  ${props => (props.disabled ? 'height: 400px' : 'height: 200px')};
+`;
 
 const height = '44';
 export const ArrowFunction = styled.input.attrs(props => ({

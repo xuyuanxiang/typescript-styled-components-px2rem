@@ -197,6 +197,45 @@ If enabled `transformRuntime` option, all supported expressions embedded in temp
 
 **Note:** Only expression that end with `px` will be processed.
 
+### FunctionExpression
+
+source code:
+
+```typescript
+import styled from 'styled-components';
+
+export const FunctionExpression = styled.button<{ width?: number | string }>`
+  width: ${function(props) {
+    return props.width;
+  }}px; /* Block Body */
+  ${props => (props.disabled ? 'height: 400px' : 'height: 200px')};
+`;
+```
+
+compiled:
+
+```javascript
+import styled from 'styled-components';
+
+export const FunctionExpression = styled.button`
+  width: ${(...args) =>
+    px2rem_1(function(props) {
+      return props.width;
+    }, ...args)}; /* Block Body */
+  ${props => (props.disabled ? 'height: 4rem' : 'height: 2rem')};
+`;
+
+function px2rem_1(input, ...args) {
+  if (typeof input === 'function') return px2rem_1(input(...args));
+  var value = parseFloat(input);
+  var pixels = Number.isNaN(value) ? 0 : value;
+  if (pixels < 2) return `${pixels}px`;
+  var multiplier = Math.pow(10, 5 + 1);
+  var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
+  return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
+}
+```
+
 ### ArrowFunctionExpression
 
 source code:
@@ -250,10 +289,10 @@ compiled:
 import styled from 'styled-components';
 const height = '44';
 export const ArrowFunction = styled.input.attrs(props => ({
-    type: 'password',
-    size: props.size || '16px',
-    width: props.width || 100,
-})) `
+  type: 'password',
+  size: props.size || '16px',
+  width: props.width || 100,
+}))`
   color: palevioletred;
   font-size: 0.14rem;
   border: 1px solid palevioletred;
@@ -264,25 +303,27 @@ export const ArrowFunction = styled.input.attrs(props => ({
   margin: ${() => px2rem_1(32)}; /* NumericLiteral Body */
   padding: ${props => props.size};
 `;
-export const ArrowFunctionWithBlockBody = styled.button `
-  width: ${props => px2rem_1(() => {
-    if (props.width) {
+export const ArrowFunctionWithBlockBody = styled.button`
+  width: ${props =>
+    px2rem_1(() => {
+      if (props.width) {
         return props.width;
-    }
-    else {
+      } else {
         return 0;
-    }
-})}; /* Block Body */
-  ${props => (props.disabled ? "height: 4rem" : "height: 2rem")};
+      }
+    })}; /* Block Body */
+  ${props => (props.disabled ? 'height: 4rem' : 'height: 2rem')};
 `;
-export const ArrowFunctionWithBinaryBody = styled.button `
-  ${props => props.disabled && `
+export const ArrowFunctionWithBinaryBody = styled.button`
+  ${props =>
+    props.disabled &&
+    `
     width: 2rem;
     font-size: 0.14rem;
   `};
   height: ${props => px2rem_1(!props.disabled && props.height)}; /* Binary Body */
 `;
-export const ArrowFunctionWithConditionalBody = styled.button `
+export const ArrowFunctionWithConditionalBody = styled.button`
   height: ${props => (props.height ? px2rem_1(height) : px2rem_1(100))}; /* Conditional Body */
 `;
 function px2rem_1(input, ...args) {
@@ -367,11 +408,11 @@ export const ConditionalExpression = function({ fontSize }) {
   `;
   return React.createElement(StyledButton, null);
 };
-export const ConditionalExpressionWhenTrue = function ({ fontSize }) {
-    const StyledButton = styled.button `
+export const ConditionalExpressionWhenTrue = function({ fontSize }) {
+  const StyledButton = styled.button`
     font-size: ${typeof fontSize !== 'number' ? props => px2rem_1(props?.theme.fontSize) : px2rem_1(fontSize)};
   `;
-    return React.createElement(StyledButton, null);
+  return React.createElement(StyledButton, null);
 };
 function px2rem_1(input, ...args) {
   if (typeof input === 'function') return px2rem_1(input(...args));
@@ -451,10 +492,11 @@ export const MixinsButton = styled.button`
 `;
 const condition = false;
 function calc() {
-    return 20;
+  return 20;
 }
-export const BinaryExpression = styled.button `
-  ${condition || `
+export const BinaryExpression = styled.button`
+  ${condition ||
+    `
     width: 2rem;
   `};
   height: ${px2rem_1(condition || 100)};

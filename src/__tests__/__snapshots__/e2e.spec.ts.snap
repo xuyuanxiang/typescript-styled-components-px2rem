@@ -13,6 +13,12 @@ const Animation = keyframes \`
     transform: translateX(-1rem);
   }
 \`;
+export const FunctionExpression = styled.button \`
+  width: \${(...args) => px2rem_1(function (props) {
+    return props.width;
+}, ...args)}; /* Block Body */
+  \${props => (props.disabled ? \\"height: 4rem\\" : \\"height: 2rem\\")};
+\`;
 const height = '44';
 export const ArrowFunction = styled.input.attrs(props => ({
     type: 'password',
@@ -141,6 +147,12 @@ const Animation = keyframes \`
   to {
     transform: translateX(-1rem);
   }
+\`;
+export const FunctionExpression = styled.button \`
+  width: \${function (props) {
+    return props.width;
+}}px; /* Block Body */
+  \${props => (props.disabled ? \\"height: 4rem\\" : \\"height: 2rem\\")};
 \`;
 const height = '44';
 export const ArrowFunction = styled.input.attrs(props => ({

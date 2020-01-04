@@ -3,6 +3,7 @@ import { replace } from './replace';
 import configuration from './configuration';
 import { createToken, isArrowFunction } from 'typescript';
 import createPx2rem from './px2rem';
+import { callExpression } from '@babel/types';
 
 let _px2rem: ts.Identifier | undefined;
 
@@ -124,6 +125,24 @@ function createTemplateSpanExpressionVisitor(context: ts.TransformationContext, 
           createCallPx2rem(px2rem, node.whenFalse),
         );
       }
+    } else if (ts.isFunctionExpression(node)) {
+      return ts.createArrowFunction(
+        undefined,
+        undefined,
+        [
+          ts.createParameter(
+            undefined,
+            undefined,
+            ts.createToken(ts.SyntaxKind.DotDotDotToken),
+            'args',
+            undefined,
+            undefined,
+          ),
+        ],
+        undefined,
+        ts.createToken(ts.SyntaxKind.EqualsGreaterThanToken),
+        createCallPx2rem(px2rem, node, ts.createSpread(ts.createIdentifier('args'))),
+      );
     }
     // else if (ts.isBinaryExpression(node)) {
     //   switch (node.operatorToken.kind) {
