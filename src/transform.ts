@@ -177,7 +177,6 @@ function createTemplateSpanExpressionVisitor(context: ts.TransformationContext, 
 function createStyledVisitor(context: ts.TransformationContext): ts.Visitor {
   const visitor: ts.Visitor = node => {
     if (ts.isNoSubstitutionTemplateLiteral(node)) {
-      console.log('NoSubstitutionTemplateLiteral', node.kind);
       return createIfDifference(node.text, replaced => ts.createNoSubstitutionTemplateLiteral(replaced), node);
     } else if (ts.isTemplateHead(node)) {
       return createIfDifference(node.text, replaced => ts.createTemplateHead(replaced), node);

@@ -1,6 +1,6 @@
 {
   "name": "typescript-styled-components-px2rem",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "TypeScript transformer for convert px to rem units of styled-components",
   "keywords": [
     "px2rem",

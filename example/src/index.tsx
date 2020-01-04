@@ -142,19 +142,3 @@ export const BinaryExpression = styled.button`
   padding: ${40 + 50}px;
   line-height: ${calc() - 2}px;
 `;
-export const ConditaionalExpression = styled.div<{ icon: string }>(
-  props => `
-  flex: 0 0 30%;
-  padding-left: 0.15rem;
-  ${
-    props.icon
-      ? `
-     background-position: 0.09rem center;
-     background-repeat: no-repeat;
-     background-size: 0.09rem 0.15rem;
-     padding-left: 0.25rem;
-  `
-      : ''
-  }
-`,
-);
