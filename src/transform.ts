@@ -12,13 +12,21 @@ function isStyledTagged(node: ts.TaggedTemplateExpression): boolean {
   if (ts.isIdentifier(tag)) {
     return isStyled(tag);
   } else if (ts.isCallExpression(tag)) {
-    if (ts.isIdentifier(tag.expression)) {
-      return isStyled(tag.expression);
-    } else if (ts.isPropertyAccessExpression(tag.expression)) {
-      return isStyledMember(tag.expression);
-    }
+    return isStyledFunction(tag);
   } else if (ts.isPropertyAccessExpression(tag)) {
     return isStyledMember(tag);
+  }
+  return false;
+}
+
+function isStyledFunction(call: ts.CallExpression): boolean {
+  const expression = call.expression;
+  if (isPropertyAccessExpression(expression)) {
+    return isStyledMember(expression);
+  } else if (ts.isCallExpression(expression)) {
+    return isStyledFunction(expression);
+  } else if (ts.isIdentifier(expression)) {
+    return isStyled(expression);
   }
   return false;
 }
@@ -219,18 +227,6 @@ function createStyledVisitor(context: ts.TransformationContext): ts.Visitor {
   };
 
   return visitor;
-}
-
-function isStyledFunction(call: ts.CallExpression): boolean {
-  const expression = call.expression;
-  if (isPropertyAccessExpression(expression)) {
-    return isStyledMember(expression);
-  } else if (ts.isCallExpression(expression)) {
-    return isStyledFunction(expression);
-  } else if (ts.isIdentifier(expression)) {
-    return isStyled(expression);
-  }
-  return false;
 }
 
 export const transformerFactory: ts.TransformerFactory<ts.SourceFile> = context => {
