@@ -55,8 +55,8 @@
   "scripts": {
     "test": "jest --no-cache --coverage",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "build": "tsc",
-    "watch": "tsc -w"
+    "build": "tsc -p .",
+    "watch": "tsc -w -p ."
   },
   "husky": {
     "hooks": {
