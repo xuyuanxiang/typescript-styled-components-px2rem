@@ -1,19 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`e2e should polyfill px2rem when really used 1`] = `
-Object {
-  "diagnostics": Array [],
-  "outputText": "\\"use strict\\";
+"\\"use strict\\";
 const foo = 1;
-",
-  "sourceMapText": undefined,
-}
+"
 `;
 
 exports[`e2e should transform runtime 1`] = `
-Object {
-  "diagnostics": Array [],
-  "outputText": "import styled, { css, createGlobalStyle, keyframes } from 'styled-components';
+"import styled, { css, createGlobalStyle, keyframes } from 'styled-components';
 const Animation = keyframes \`
   from {
     transform: translateX(1rem);
@@ -37,7 +31,7 @@ export const ArrowFunction = styled.input.attrs(props => ({
 })) \`
   color: palevioletred;
   font-size: 0.14rem;
-  border: 1px solid palevioletred;
+  border: 0.01rem solid palevioletred;
   border-radius: 0.08rem;
   width: \${props => px2rem_1(props.width)}; /* PropertyAccess Body */
   height: \${() => px2rem_1(height)}; /* Identifier Body */
@@ -153,18 +147,21 @@ foo
 const Bar = [].foo \`
  bar
 \`;
+const ArrayExpressionCallee = [styled](props => \`
+  color: palevioletred;
+  font-size: 14px;
+  border: 1px solid palevioletred;
+  border-radius: 8px;
+  width: \${props.width}px;
+\`);
 function px2rem_1(input, ...args) { if (typeof input === \\"function\\")
-    return px2rem_1(input(...args)); var value = parseFloat(input); var pixels = Number.isNaN(value) ? 0 : value; if (pixels < 2)
+    return px2rem_1(input(...args), ...args); var value = parseFloat(input); var pixels = Number.isNaN(value) ? 0 : value; if (Math.abs(pixels) < 0)
     return \`\${pixels}px\`; var multiplier = Math.pow(10, 5 + 1); var wholeNumber = Math.floor((pixels * 1) / 100 * multiplier); return \`\${(Math.round(wholeNumber / 10) * 10) / multiplier}rem\`; }
-",
-  "sourceMapText": undefined,
-}
+"
 `;
 
 exports[`e2e should work 1`] = `
-Object {
-  "diagnostics": Array [],
-  "outputText": "import styled, { css, createGlobalStyle, keyframes } from 'styled-components';
+"import styled, { css, createGlobalStyle, keyframes } from 'styled-components';
 const Animation = keyframes \`
   from {
     transform: translateX(1rem);
@@ -188,7 +185,7 @@ export const ArrowFunction = styled.input.attrs(props => ({
 })) \`
   color: palevioletred;
   font-size: 0.14rem;
-  border: 1px solid palevioletred;
+  border: 0.01rem solid palevioletred;
   border-radius: 0.08rem;
   width: \${props => props.width}px; /* PropertyAccess Body */
   height: \${() => height}px; /* Identifier Body */
@@ -304,7 +301,12 @@ foo
 const Bar = [].foo \`
  bar
 \`;
-",
-  "sourceMapText": undefined,
-}
+const ArrayExpressionCallee = [styled](props => \`
+  color: palevioletred;
+  font-size: 14px;
+  border: 1px solid palevioletred;
+  border-radius: 8px;
+  width: \${props.width}px;
+\`);
+"
 `;

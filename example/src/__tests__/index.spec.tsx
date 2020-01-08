@@ -73,7 +73,7 @@ it('should transform <ArrowFunction/>', function() {
     const style = getComputedStyle(input);
     expect(style.color).toBe('palevioletred');
     expect(style.fontSize).toBe('0.14rem');
-    expect(style.border).toBe('1px solid palevioletred');
+    expect(style.border).toBe('0.01rem solid palevioletred');
     expect(style.borderRadius).toBe('0.08rem');
     expect(style.width).toBe('3.2rem');
     expect(style.padding).toBe('16px');
@@ -95,7 +95,7 @@ it('should transform <GlobalStyle/>', function() {
     );
   });
   const style = getComputedStyle(document.body);
-  expect(style.padding).toBe('0px 0.16rem');
+  expect(style.padding).toBe('0.01rem 0.16rem');
   expect(style.margin).toBe('0.16rem 0.32rem 0.16rem 0.32rem');
   expect(style.fontSize).toBe('0.18rem');
   expect(style.width).toBe('10.24rem');

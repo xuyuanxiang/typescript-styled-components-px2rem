@@ -54,7 +54,7 @@ export default {
               transform: 'typescript-styled-components-px2rem',
               rootValue: 100,
               unitPrecision: 5,
-              minPixelValue: 2,
+              minPixelValue: 0,
               multiplier: 1,
               tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
               transformRuntime: false,
@@ -78,7 +78,7 @@ const createCustomTransformer = require('typescript-styled-components-px2rem').d
 const customTransformer = createCustomTransformer({
   rootValue: 100,
   unitPrecision: 5,
-  minPixelValue: 2,
+  minPixelValue: 0,
   multiplier: 1,
   tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
   transformRuntime: false,
@@ -130,7 +130,7 @@ tsconfig.json:
         "type": "config",
         "rootValue": 100,
         "unitPrecision": 5,
-        "minPixelValue": 2,
+        "minPixelValue": 0,
         "multiplier": 1,
         "tags": ["styled", "css", "createGlobalStyle", "keyframes"],
         "transformRuntime": false
@@ -169,7 +169,7 @@ tsconfig.json:
 | :-- | :-: | :-: | :-- | --: |
 | rootValue | number | false | 100 | The root element font size |
 | unitPrecision | number | false | 5 | The decimal numbers to allow the REM units to grow to |
-| minPixelValue | number | false | 2 | Set the minimum pixel value to replace |
+| minPixelValue | number | false | 0 | Set the minimum pixel value to replace |
 | multiplier | number | false | 1 | The multiplier of input value |
 | tags | string[] | false | ["styled", "css", "createGlobalStyle", "keyframes"] | [styled-components](https://www.styled-components.com/) template literal [tagged](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) |
 | transformRuntime | boolean | false | false | since 1.1.0，enable transformation of all expressions that embedded in template strings |
@@ -226,10 +226,10 @@ export const FunctionExpression = styled.button`
 `;
 
 function px2rem_1(input, ...args) {
-  if (typeof input === 'function') return px2rem_1(input(...args));
+  if (typeof input === 'function') return px2rem_1(input(...args), ...args);
   var value = parseFloat(input);
   var pixels = Number.isNaN(value) ? 0 : value;
-  if (pixels < 2) return `${pixels}px`;
+  if (Math.abs(pixels) < 0) return `${pixels}px`;
   var multiplier = Math.pow(10, 5 + 1);
   var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
   return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
@@ -327,10 +327,10 @@ export const ArrowFunctionWithConditionalBody = styled.button`
   height: ${props => (props.height ? px2rem_1(height) : px2rem_1(100))}; /* Conditional Body */
 `;
 function px2rem_1(input, ...args) {
-  if (typeof input === 'function') return px2rem_1(input(...args));
+  if (typeof input === 'function') return px2rem_1(input(...args), ...args);
   var value = parseFloat(input);
   var pixels = Number.isNaN(value) ? 0 : value;
-  if (pixels < 2) return `${pixels}px`;
+  if (Math.abs(pixels) < 0) return `${pixels}px`;
   var multiplier = Math.pow(10, 5 + 1);
   var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
   return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
@@ -363,10 +363,10 @@ export const PropertyAccessExpression = styled.button(
 `,
 );
 function px2rem_1(input, ...args) {
-  if (typeof input === 'function') return px2rem_1(input(...args));
+  if (typeof input === 'function') return px2rem_1(input(...args), ...args);
   var value = parseFloat(input);
   var pixels = Number.isNaN(value) ? 0 : value;
-  if (pixels < 2) return `${pixels}px`;
+  if (Math.abs(pixels) < 0) return `${pixels}px`;
   var multiplier = Math.pow(10, 5 + 1);
   var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
   return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
@@ -415,10 +415,10 @@ export const ConditionalExpressionWhenTrue = function({ fontSize }) {
   return React.createElement(StyledButton, null);
 };
 function px2rem_1(input, ...args) {
-  if (typeof input === 'function') return px2rem_1(input(...args));
+  if (typeof input === 'function') return px2rem_1(input(...args), ...args);
   var value = parseFloat(input);
   var pixels = Number.isNaN(value) ? 0 : value;
-  if (pixels < 2) return `${pixels}px`;
+  if (Math.abs(pixels) < 0) return `${pixels}px`;
   var multiplier = Math.pow(10, 5 + 1);
   var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
   return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
@@ -503,11 +503,12 @@ export const BinaryExpression = styled.button`
   padding: ${px2rem_1(40 + 50)};
   line-height: ${px2rem_1(calc() - 2)};
 `;
+
 function px2rem_1(input, ...args) {
-  if (typeof input === 'function') return px2rem_1(input(...args));
+  if (typeof input === 'function') return px2rem_1(input(...args), ...args);
   var value = parseFloat(input);
   var pixels = Number.isNaN(value) ? 0 : value;
-  if (pixels < 2) return `${pixels}px`;
+  if (Math.abs(pixels) < 0) return `${pixels}px`;
   var multiplier = Math.pow(10, 5 + 1);
   var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
   return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;

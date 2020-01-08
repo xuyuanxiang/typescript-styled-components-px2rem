@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import { replace } from './replace';
 import configuration from './configuration';
 import { createToken, isArrowFunction, isPropertyAccessExpression } from 'typescript';
-import createPx2rem from './px2rem';
+import createPx2rem from './createPx2rem';
 
 let _px2rem: ts.Identifier | undefined;
 let _used: boolean = false;
@@ -160,31 +160,6 @@ function createTemplateSpanExpressionVisitor(context: ts.TransformationContext, 
         createCallPx2rem(px2rem, node, ts.createSpread(ts.createIdentifier('args'))),
       );
     }
-    // else if (ts.isBinaryExpression(node)) {
-    //   switch (node.operatorToken.kind) {
-    //     case ts.SyntaxKind.AmpersandAmpersandToken:
-    //       if (isPureExpression(node.right)) {
-    //         return ts.updateBinary(node, node.left, createCallPx2rem(px2rem, node.right), node.operatorToken);
-    //       }
-    //       break;
-    //     case ts.SyntaxKind.BarBarToken:
-    //       if (isPureExpression(node.left) && isPureExpression(node.right)) {
-    //         return ts.updateBinary(
-    //           node,
-    //           createCallPx2rem(px2rem, node.left),
-    //           createCallPx2rem(px2rem, node.right),
-    //           node.operatorToken,
-    //         );
-    //       } else if (isPureExpression(node.left)) {
-    //         node = ts.updateBinary(node, createCallPx2rem(px2rem, node.left), node.right, node.operatorToken);
-    //       } else if (isPureExpression(node.right)) {
-    //         node = ts.updateBinary(node, node.left, createCallPx2rem(px2rem, node.right), node.operatorToken);
-    //       }
-    //       break;
-    //     default:
-    //       return createCallPx2rem(px2rem, node);
-    //   }
-    // }
     return ts.visitEachChild(node, visitor, context);
   };
 
@@ -249,7 +224,10 @@ export const transformerFactory: ts.TransformerFactory<ts.SourceFile> = context 
     _used = false;
     const sourceFile = ts.visitNode(node, visitor);
     if (_used && _px2rem) {
-      return ts.updateSourceFileNode(sourceFile, [...sourceFile.statements, createPx2rem(_px2rem)]);
+      return ts.updateSourceFileNode(sourceFile, [
+        ...sourceFile.statements,
+        createPx2rem(_px2rem, configuration.config),
+      ]);
     }
     return sourceFile;
   };

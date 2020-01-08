@@ -63,7 +63,7 @@ function getHeight() {
   return height / 2;
 }
 const mixins = css`
-  padding: 0 16px;
+  padding: 1px 16px;
   margin: 16px 32px 16px 32px;
 `;
 export const GlobalStyle = createGlobalStyle`

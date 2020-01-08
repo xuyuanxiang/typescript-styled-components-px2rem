@@ -1,7 +1,9 @@
 import * as ts from 'typescript';
-import configuration from './configuration';
+import { IConfiguration } from './configuration';
 
-export default (_px2rem: ts.Identifier) => {
+export type IPx2remOptions = Pick<IConfiguration, 'rootValue' | 'unitPrecision' | 'multiplier' | 'minPixelValue'>;
+
+export default (_px2rem: ts.Identifier, config: IPx2remOptions): ts.FunctionDeclaration => {
   const input = ts.createIdentifier('input');
   const value = ts.createIdentifier('value');
   const pixels = ts.createIdentifier('pixels');
@@ -31,7 +33,7 @@ export default (_px2rem: ts.Identifier) => {
     ],
     ts.createKeywordTypeNode(ts.SyntaxKind.StringKeyword),
     ts.createBlock([
-      //  if (typeof input === 'function') return px2rem(input(...args));
+      //  if (typeof input === 'function') return px2rem(input(...args), ...args);
       ts.createIf(
         ts.createBinary(
           ts.createTypeOf(input),
@@ -41,6 +43,7 @@ export default (_px2rem: ts.Identifier) => {
         ts.createReturn(
           ts.createCall(_px2rem, undefined, [
             ts.createCall(input, undefined, [ts.createSpread(ts.createIdentifier('args'))]),
+            ts.createSpread(ts.createIdentifier('args')),
           ]),
         ),
         undefined,
@@ -73,12 +76,12 @@ export default (_px2rem: ts.Identifier) => {
           ),
         ]),
       ),
-      // if (pixels < minPixelValue) return `${pixels}px`;
+      // if (Math.abs(pixels) < minPixelValue) return `${pixels}px`;
       ts.createIf(
         ts.createBinary(
-          pixels,
+          ts.createCall(ts.createPropertyAccess(ts.createIdentifier('Math'), 'abs'), undefined, [pixels]),
           ts.SyntaxKind.LessThanToken,
-          ts.createNumericLiteral(configuration.config.minPixelValue + ''),
+          ts.createNumericLiteral(config.minPixelValue + ''),
         ),
         ts.createReturn(
           ts.createTemplateExpression(ts.createTemplateHead(''), [
@@ -97,7 +100,7 @@ export default (_px2rem: ts.Identifier) => {
             ts.createCall(ts.createPropertyAccess(ts.createIdentifier('Math'), 'pow'), undefined, [
               ts.createNumericLiteral('10'),
               ts.createBinary(
-                ts.createNumericLiteral(configuration.config.unitPrecision + ''),
+                ts.createNumericLiteral(config.unitPrecision + ''),
                 ts.SyntaxKind.PlusToken,
                 ts.createNumericLiteral('1'),
               ),
@@ -119,11 +122,11 @@ export default (_px2rem: ts.Identifier) => {
                     ts.createBinary(
                       pixels,
                       ts.SyntaxKind.AsteriskToken,
-                      ts.createNumericLiteral(configuration.config.multiplier + ''),
+                      ts.createNumericLiteral(config.multiplier + ''),
                     ),
                   ),
                   ts.SyntaxKind.SlashToken,
-                  ts.createNumericLiteral(configuration.config.rootValue + ''),
+                  ts.createNumericLiteral(config.rootValue + ''),
                 ),
                 ts.SyntaxKind.AsteriskToken,
                 multiplier,
