@@ -1,6 +1,6 @@
 {
   "name": "typescript-styled-components-px2rem",
-  "version": "1.4.7",
+  "version": "1.4.8",
   "description": "TypeScript transformer for convert px to rem units of styled-components",
   "keywords": [
     "px2rem",
@@ -15,7 +15,7 @@
   "bugs": {
     "url": "https://github.com/xuyuanxiang/typescript-styled-components-px2rem/issues"
   },
-  "author": "xuyuanxiang <hi@xuyuanxaing.cn>",
+  "author": "xuyuanxiang <hi@xuyuanxiang.cn>",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
