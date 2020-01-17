@@ -23,6 +23,7 @@ deploy:
     tags: true
     repo: xuyuanxiang/typescript-styled-components-px2rem
 scripts:
+  - npm test
   - npm install codecov -g
 after_success:
   - codecov --token=f4ab01e7-6a3c-49f4-ac8d-903ff8368b2c -f coverage/*.json
