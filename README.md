@@ -366,7 +366,7 @@ import styled from 'styled-components';
 export const PropertyAccessExpression = styled.button<{ width: number; height: string }>(
   props => `
   width: ${props.width}px;
-  height: ${props.height};
+  height: ${props.height}; /* Note: Only expression end with 'px' will be processed. */
 `,
 );
 ```
@@ -378,7 +378,7 @@ import styled from 'styled-components';
 export const PropertyAccessExpression = styled.button(
   props => `
   width: ${px2rem_1(props.width)};
-  height: ${props.height};
+  height: ${props.height}; /* Note: Only expression end with 'px' will be processed. */
 `,
 );
 function px2rem_1(input, ...args) {
@@ -483,7 +483,7 @@ export const BinaryExpression = styled.button`
     width: 200px;
   `};
   height: ${condition || 100}px;
-  padding: ${40 + 50}px;
+  padding: ${40 + 50}px 8px ${4}px 16px;
   line-height: ${calc() - 2}px;
 `;
 ```
@@ -519,7 +519,7 @@ export const BinaryExpression = styled.button`
     width: 2rem;
   `};
   height: ${px2rem_1(condition || 100)};
-  padding: ${px2rem_1(40 + 50)};
+  padding: ${px2rem_1(40 + 50)} 0.08rem ${px2rem_1(4)} 0.16rem;
   line-height: ${px2rem_1(calc() - 2)};
 `;
 
