@@ -125,7 +125,8 @@ export const BinaryExpression = styled.button`
     width: 200px;
   `};
   height: ${condition || 100}px;
-  padding: ${40 + 50}px 16px ${4}px 32px;
+  padding: ${40 + 50}px 16px ${4}px 8.5px;
+  margin: ${(48 - 18) / 2}px 16px;
   line-height: ${calc() - 2}px;
   border-radius: 32px;
   background-color: red;

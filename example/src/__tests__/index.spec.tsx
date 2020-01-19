@@ -170,7 +170,8 @@ it('should transform <BinaryExpression/>', function() {
     const style = getComputedStyle(button);
     expect(style.width).toBe('2rem');
     expect(style.height).toBe('1rem');
-    expect(style.padding).toBe('0.9rem 0.16rem 0.04rem 0.32rem');
+    expect(style.padding).toBe('0.9rem 0.16rem 0.04rem 0.085rem');
+    expect(style.margin).toBe('0.15rem 0.16rem');
     expect(style.lineHeight).toBe('0.18rem');
     expect(style.backgroundColor).toBe('red');
     expect(style.borderRadius).toBe('0.32rem');

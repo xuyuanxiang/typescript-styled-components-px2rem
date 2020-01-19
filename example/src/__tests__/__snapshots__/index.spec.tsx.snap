@@ -255,7 +255,7 @@ exports[`should transform <BinaryExpression/> 1`] = `
 .flosVL{width:1.2rem;height:0.32rem;font-size:0.14rem;padding-left:0.15rem;padding-left:0.25rem;}
       
 /* sc-component-id: sc-gzVnrw */
-.yHKPK{width:2rem;height:1rem;padding:0.9rem 0.16rem 0.04rem 0.32rem;line-height:0.18rem;border-radius:0.32rem;background-color:red;}
+.hQoOKQ{width:2rem;height:1rem;padding:0.9rem 0.16rem 0.04rem 0.085rem;margin:0.15rem 0.16rem;line-height:0.18rem;border-radius:0.32rem;background-color:red;}
       
 /* sc-component-id: sc-htoDjs */
 
@@ -267,7 +267,7 @@ exports[`should transform <BinaryExpression/> 1`] = `
   <body>
     <div>
       <button
-        class="sc-gzVnrw yHKPK"
+        class="sc-gzVnrw hQoOKQ"
         id="btnId"
       />
     </div>
@@ -309,7 +309,7 @@ exports[`should transform <ConditionalExpression/> with ThemeProvider's fontSize
 .flosVL{width:1.2rem;height:0.32rem;font-size:0.14rem;padding-left:0.15rem;padding-left:0.25rem;}
       
 /* sc-component-id: sc-gzVnrw */
-.yHKPK{width:2rem;height:1rem;padding:0.9rem 0.16rem 0.04rem 0.32rem;line-height:0.18rem;border-radius:0.32rem;background-color:red;}
+.hQoOKQ{width:2rem;height:1rem;padding:0.9rem 0.16rem 0.04rem 0.085rem;margin:0.15rem 0.16rem;line-height:0.18rem;border-radius:0.32rem;background-color:red;}
       
 /* sc-component-id: sc-htoDjs */
 .dDgCKr{display:inline;width:2rem;padding:0.08rem 0.16rem;height:44px;font-size:0.16rem;}
@@ -365,7 +365,7 @@ exports[`should transform <ConditionalExpression/> with self fontSize 1`] = `
 .flosVL{width:1.2rem;height:0.32rem;font-size:0.14rem;padding-left:0.15rem;padding-left:0.25rem;}
       
 /* sc-component-id: sc-gzVnrw */
-.yHKPK{width:2rem;height:1rem;padding:0.9rem 0.16rem 0.04rem 0.32rem;line-height:0.18rem;border-radius:0.32rem;background-color:red;}
+.hQoOKQ{width:2rem;height:1rem;padding:0.9rem 0.16rem 0.04rem 0.085rem;margin:0.15rem 0.16rem;line-height:0.18rem;border-radius:0.32rem;background-color:red;}
       
 /* sc-component-id: sc-htoDjs */
 .dDgCKr{display:inline;width:2rem;padding:0.08rem 0.16rem;height:44px;font-size:0.16rem;}
