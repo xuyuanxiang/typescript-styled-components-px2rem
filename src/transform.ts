@@ -166,21 +166,9 @@ function createTemplateSpanExpressionVisitor(context: ts.TransformationContext, 
   return visitor;
 }
 
-function createStyledVisitor(context: ts.TransformationContext): ts.Visitor {
+function createTemplateSpanVisitor(context: ts.TransformationContext): ts.Visitor {
   const visitor: ts.Visitor = node => {
-    if (ts.isNoSubstitutionTemplateLiteral(node)) {
-      return createIfDifference(node.text, replaced => ts.createNoSubstitutionTemplateLiteral(replaced), node);
-    } else if (ts.isTemplateHead(node)) {
-      return createIfDifference(node.text, replaced => ts.createTemplateHead(replaced), node);
-    } else if (ts.isStringLiteral(node)) {
-      return createIfDifference(node.text, replaced => ts.createStringLiteral(replaced), node);
-    } else if (ts.isTemplateTail(node)) {
-      return createIfDifference(node.text, replaced => ts.createTemplateTail(replaced), node);
-    } else if (ts.isTemplateMiddle(node)) {
-      return createIfDifference(node.text, replaced => ts.createTemplateMiddle(replaced), node);
-    }
-
-    if (configuration.config.transformRuntime && _px2rem) {
+    if (_px2rem) {
       if (ts.isTemplateSpan(node) && node.literal.text && node.literal.text.startsWith('px')) {
         const text = node.literal.text.replace(/^px/, '');
         if (isPureExpression(node.expression)) {
@@ -197,8 +185,34 @@ function createStyledVisitor(context: ts.TransformationContext): ts.Visitor {
           );
         }
       }
+      return ts.visitEachChild(node, visitor, context);
+    } else {
+      return node;
     }
-    return ts.visitEachChild(node, visitor, context);
+  };
+
+  return visitor;
+}
+
+function createStyledVisitor(context: ts.TransformationContext): ts.Visitor {
+  const visitor: ts.Visitor = node => {
+    if (ts.isNoSubstitutionTemplateLiteral(node)) {
+      return createIfDifference(node.text, replaced => ts.createNoSubstitutionTemplateLiteral(replaced), node);
+    } else if (ts.isTemplateHead(node)) {
+      return createIfDifference(node.text, replaced => ts.createTemplateHead(replaced), node);
+    } else if (ts.isStringLiteral(node)) {
+      return createIfDifference(node.text, replaced => ts.createStringLiteral(replaced), node);
+    } else if (ts.isTemplateTail(node)) {
+      return createIfDifference(node.text, replaced => ts.createTemplateTail(replaced), node);
+    } else if (ts.isTemplateMiddle(node)) {
+      return createIfDifference(node.text, replaced => ts.createTemplateMiddle(replaced), node);
+    }
+
+    const result = ts.visitEachChild(node, visitor, context);
+    if (configuration.config.transformRuntime) {
+      return ts.visitNode(result, createTemplateSpanVisitor(context));
+    }
+    return result;
   };
 
   return visitor;

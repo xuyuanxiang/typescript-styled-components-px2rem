@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`embedded ArrowFunctionExpression should transform BinaryExpression Body 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.hRVDXl{color:palevioletred;border:0.01rem solid palevioletred;border-radius:0.08rem;width:3.2rem;height:0.44rem;line-height:0.44rem;margin:0.32rem;padding:0;}
+      
+/* sc-component-id: sc-bwzfXH */
+
+      
+/* sc-component-id: sc-htpNat */
+.hKHuWL{font-size:0.18rem;color:black;margin:0.24rem 0.08rem 0.24rem 0rem;border:0.02rem solid darkgray;border-radius:0.2rem;}
+      
+/* sc-component-id: sc-bxivhb */
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <button
+        class="sc-htpNat hKHuWL"
+        disabled=""
+        id="buttonId"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`embedded ArrowFunctionExpression should transform Block Body 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.hRVDXl{color:palevioletred;border:0.01rem solid palevioletred;border-radius:0.08rem;width:3.2rem;height:0.44rem;line-height:0.44rem;margin:0.32rem;padding:0;}
+      
+/* sc-component-id: sc-bwzfXH */
+.enWAqc{font-size:0.18rem;color:black;width:3.2rem;}
+      
+/* sc-component-id: sc-htpNat */
+.hKHuWL{font-size:0.18rem;color:black;margin:0.24rem 0.08rem 0.24rem 0rem;border:0.02rem solid darkgray;border-radius:0.2rem;}
+      
+/* sc-component-id: sc-bxivhb */
+.cYEBPM{font-size:0.18rem;color:black;width:2.8rem;height:2rem;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <button
+        class="sc-bwzfXH enWAqc"
+        id="buttonId"
+        width="320"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`embedded ArrowFunctionExpression should transform ConditionalExpression Body 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.hRVDXl{color:palevioletred;border:0.01rem solid palevioletred;border-radius:0.08rem;width:3.2rem;height:0.44rem;line-height:0.44rem;margin:0.32rem;padding:0;}
+      
+/* sc-component-id: sc-bwzfXH */
+
+      
+/* sc-component-id: sc-htpNat */
+.hKHuWL{font-size:0.18rem;color:black;margin:0.24rem 0.08rem 0.24rem 0rem;border:0.02rem solid darkgray;border-radius:0.2rem;}
+      
+/* sc-component-id: sc-bxivhb */
+.cYEBPM{font-size:0.18rem;color:black;width:2.8rem;height:2rem;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <button
+        class="sc-bxivhb cYEBPM"
+        id="buttonId"
+        width="280"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`embedded ArrowFunctionExpression should transform PropertyAccess, Identifier, StringLiteral, NumericLiteral Body 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.hRVDXl{color:palevioletred;border:0.01rem solid palevioletred;border-radius:0.08rem;width:3.2rem;height:0.44rem;line-height:0.44rem;margin:0.32rem;padding:0;}
+      
+/* sc-component-id: sc-bwzfXH */
+
+      
+/* sc-component-id: sc-htpNat */
+
+      
+/* sc-component-id: sc-bxivhb */
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <input
+        class="sc-bdVaJa hRVDXl"
+        id="inputId"
+        type="password"
+        width="320"
+      />
+    </div>
+  </body>
+</html>
+`;

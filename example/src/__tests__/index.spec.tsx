@@ -6,15 +6,9 @@ import {
   StyledButton,
   FunctionExpression,
   PropertyAccessExpression,
-  ArrowFunctionWithBlockBody,
-  ArrowFunctionWithBinaryBody,
-  ArrowFunctionWithConditionalBody,
   GlobalStyle,
   ExtendStyledButton,
-  ArrowFunction,
   ThemeConsumer,
-  ConditionalExpression,
-  BinaryExpression,
 } from '../index';
 
 const div: HTMLDivElement = document.createElement('div');
@@ -28,62 +22,7 @@ afterEach(() => {
   document.body.removeChild(div);
 });
 
-it("should transform <ConditionalExpression/> with ThemeProvider's fontSize", function() {
-  TestUtils.act(() => {
-    ReactDOM.render(
-      <ThemeProvider theme={{ fontSize: 48 }}>
-        <ConditionalExpression />
-      </ThemeProvider>,
-      div,
-    );
-  });
-  const button = div.querySelector('button');
-  if (button) {
-    const style = getComputedStyle(button);
-    expect(style.fontSize).toBe('0.48rem');
-  } else {
-    throw new Error('ConditionalExpression should be render');
-  }
-});
 
-it('should transform <ConditionalExpression/> with self fontSize', function() {
-  TestUtils.act(() => {
-    ReactDOM.render(
-      <ThemeProvider theme={{ fontSize: 48 }}>
-        <ConditionalExpression fontSize={24} />
-      </ThemeProvider>,
-      div,
-    );
-  });
-  const button = div.querySelector('button');
-  if (button) {
-    const style = getComputedStyle(button);
-    expect(style.fontSize).toBe('0.24rem');
-  } else {
-    throw new Error('ConditionalExpression should be render');
-  }
-});
-
-it('should transform <ArrowFunction/>', function() {
-  TestUtils.act(() => {
-    ReactDOM.render(<ArrowFunction id="inputId" width={320} />, div);
-  });
-  const input = div.querySelector('input#inputId');
-  if (input) {
-    const style = getComputedStyle(input);
-    expect(style.color).toBe('palevioletred');
-    expect(style.fontSize).toBe('0.14rem');
-    expect(style.border).toBe('0.01rem solid palevioletred');
-    expect(style.borderRadius).toBe('0.08rem');
-    expect(style.width).toBe('3.2rem');
-    expect(style.padding).toBe('16px');
-    expect(style.margin).toBe('0.32rem');
-    expect(style.lineHeight).toBe('0.44rem');
-    expect(style.height).toBe('0.44rem');
-  } else {
-    throw new Error('ArrowFunction should be render');
-  }
-});
 
 it('should transform <GlobalStyle/>', function() {
   TestUtils.act(() => {
@@ -130,49 +69,9 @@ it('should transform <ExtendStyledButton/>', function() {
   }
 });
 
-it('should transform <ArrowFunctionWithBlockBody/>', function() {
-  TestUtils.act(() => {
-    ReactDOM.render(<ArrowFunctionWithBlockBody id="btnId" width="160" />, div);
-  });
-  const button: HTMLElement | null = div.querySelector('button#btnId');
-  if (button) {
-    const style = getComputedStyle(button);
-    expect(style.height).toBe('2rem');
-    expect(style.width).toBe('1.6rem');
-  } else {
-    throw new Error('ArrowFunctionWithBlockBody should be render');
-  }
-});
-
-it('should transform <ArrowFunctionWithBinaryBody/>', function() {
-  TestUtils.act(() => {
-    ReactDOM.render(<ArrowFunctionWithBinaryBody id="btnId" height={120} />, div);
-  });
-  const button: HTMLElement | null = div.querySelector('button#btnId');
-  if (button) {
-    const style = getComputedStyle(button);
-    expect(style.height).toBe('1.2rem');
-  } else {
-    throw new Error('ArrowFunctionWithBinaryBody should be render');
-  }
-});
-
-it('should transform <ArrowFunctionWithConditionalBody/>', function() {
-  TestUtils.act(() => {
-    ReactDOM.render(<ArrowFunctionWithConditionalBody id="btnId" />, div);
-  });
-  const button: HTMLElement | null = div.querySelector('button#btnId');
-  if (button) {
-    const style = getComputedStyle(button);
-    expect(style.height).toBe('1rem');
-  } else {
-    throw new Error('ArrowFunctionWithConditionalBody should be render');
-  }
-});
-
 it('should transform <FunctionExpression/>', function() {
   TestUtils.act(() => {
-    ReactDOM.render(<FunctionExpression id="btnId" width={64}/>, div);
+    ReactDOM.render(<FunctionExpression id="btnId" width={64} />, div);
   });
   const button: HTMLElement | null = div.querySelector('button#btnId');
   if (button) {
@@ -215,21 +114,5 @@ it('should transform <ThemeConsumer/>', function() {
     expect(style.color).toBe('rgb(0, 0, 0)');
   } else {
     throw new Error('ThemeConsumer should be render');
-  }
-});
-
-it('should transform <BinaryExpression/>', function() {
-  TestUtils.act(() => {
-    ReactDOM.render(<BinaryExpression id="btnId" />, div);
-  });
-  const consumer = div.querySelector('button#btnId');
-  if (consumer) {
-    const style = getComputedStyle(consumer);
-    expect(style.width).toBe('2rem');
-    expect(style.height).toBe('1rem');
-    expect(style.padding).toBe('0.9rem');
-    expect(style.lineHeight).toBe('0.18rem');
-  } else {
-    throw new Error('BinaryExpression should be render');
   }
 });

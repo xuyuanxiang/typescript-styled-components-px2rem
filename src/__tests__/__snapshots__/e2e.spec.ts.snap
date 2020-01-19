@@ -26,7 +26,7 @@ export const FunctionExpression = styled.button \`
 const height = '44';
 export const ArrowFunction = styled.input.attrs(props => ({
     type: 'password',
-    size: props.size || '16px',
+    size: props.size || \\"0.16rem\\",
     width: props.width || 100,
 })) \`
   color: palevioletred;
@@ -126,7 +126,7 @@ export const BinaryExpression = styled.button \`
     width: 2rem;
   \`};
   height: \${px2rem_1(condition || 100)};
-  padding: \${px2rem_1(40 + 50)};
+  padding: \${px2rem_1(40 + 50)} 0.18rem \${px2rem_1('4')} 0.12rem;
   line-height: \${px2rem_1(calc() - 2)};
 \`;
 export const ConditaionalExpression = styled.div(props => \`
@@ -180,7 +180,7 @@ export const FunctionExpression = styled.button \`
 const height = '44';
 export const ArrowFunction = styled.input.attrs(props => ({
     type: 'password',
-    size: props.size || '16px',
+    size: props.size || \\"0.16rem\\",
     width: props.width || 100,
 })) \`
   color: palevioletred;
@@ -280,7 +280,7 @@ export const BinaryExpression = styled.button \`
     width: 2rem;
   \`};
   height: \${condition || 100}px;
-  padding: \${40 + 50}px;
+  padding: \${40 + 50}px 0.18rem \${'4'}px 0.12rem;
   line-height: \${calc() - 2}px;
 \`;
 export const ConditaionalExpression = styled.div(props => \`

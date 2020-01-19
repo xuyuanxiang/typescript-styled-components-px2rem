@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform BinaryExpression 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.joKdKm{width:2rem;height:1rem;padding:0.9rem 0.16rem 0.04rem 0.32rem;line-height:0.18rem;border-radius:0.32rem;background-color:red;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <button
+        class="sc-bdVaJa joKdKm"
+        id="btnId"
+      />
+    </div>
+  </body>
+</html>
+`;

@@ -17,51 +17,14 @@ export const FunctionExpression = styled.button<{ width?: number | string }>`
   ${props => (props.disabled ? 'height: 400px' : 'height: 200px')};
 `;
 
-const height = '44';
-export const ArrowFunction = styled.input.attrs(props => ({
-  type: 'password',
-  size: props.size || '16px',
-  width: props.width || 100,
-}))`
-  color: palevioletred;
-  font-size: 14px;
-  border: 1px solid palevioletred;
-  border-radius: 8px;
-  width: ${props => props.width}px; /* PropertyAccess Body */
-  height: ${() => height}px; /* Identifier Body */
-  line-height: ${() => '44'}px; /* StringLiteral Body */
-  margin: ${() => 32}px; /* NumericLiteral Body */
-  padding: ${props => props.size};
-`;
-export const ArrowFunctionWithBlockBody = styled.button<{ width?: number | string }>`
-  width: ${props => {
-    if (props.width) {
-      return props.width;
-    } else {
-      return 0;
-    }
-  }}px; /* Block Body */
-  ${props => (props.disabled ? 'height: 400px' : 'height: 200px')};
-`;
-export const ArrowFunctionWithBinaryBody = styled.button<{ height?: number }>`
-  ${props =>
-    props.disabled &&
-    `
-    width: 200px;
-    font-size: 14px;
-  `};
-  height: ${props => !props.disabled && props.height}px; /* Binary Body */
-`;
-export const ArrowFunctionWithConditionalBody = styled.button<{ height?: number }>`
-  height: ${props => (props.height ? height : 100)}px; /* Conditional Body */
-`;
-
 const fontSize = 18;
+
 function getHeight() {
   const height = 100;
 
   return height / 2;
 }
+
 const mixins = css`
   padding: 1px 16px;
   margin: 16px 32px 16px 32px;
@@ -97,7 +60,8 @@ export const PropertyAccessExpression = styled.button<{ width: number; height: s
   props => `
   display: inline;
   width: ${props.width}px;
-  height: ${props.height};
+  padding: 8px 16px;
+  height: ${props.height}; /* should ignored */
   font-size: 16px;
 `,
 );
@@ -107,38 +71,4 @@ export const ThemeConsumer = styled.div`
   color: ${props => props.theme.color};
 `;
 
-export const ConditionalExpression = function({ fontSize }: { fontSize?: unknown }) {
-  const StyledButton = styled.button`
-    font-size: ${typeof fontSize === 'number' ? fontSize : props => props?.theme.fontSize}px;
-  `;
 
-  return <StyledButton />;
-};
-export const ConditionalExpressionWhenTrue = function({ fontSize }: { fontSize?: unknown }) {
-  const StyledButton = styled.button`
-    font-size: ${typeof fontSize !== 'number' ? props => props?.theme.fontSize : fontSize}px;
-  `;
-
-  return <StyledButton />;
-};
-export const ConditionalExpressionWhenFalse = function({ fontSize }: { fontSize?: unknown }) {
-  const StyledButton = styled.button`
-    font-size: ${typeof fontSize === 'number' ? fontSize : 16}px;
-  `;
-
-  return <StyledButton />;
-};
-
-const condition = false;
-function calc() {
-  return 20;
-}
-export const BinaryExpression = styled.button`
-  ${condition ||
-    `
-    width: 200px;
-  `};
-  height: ${condition || 100}px;
-  padding: ${40 + 50}px;
-  line-height: ${calc() - 2}px;
-`;
