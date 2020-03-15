@@ -1,6 +1,6 @@
 {
   "name": "typescript-styled-components-px2rem",
-  "version": "1.4.5",
+  "version": "1.5.1",
   "description": "TypeScript transformer for convert px to rem units of styled-components",
   "keywords": [
     "px2rem",
@@ -15,13 +15,15 @@
   "bugs": {
     "url": "https://github.com/xuyuanxiang/typescript-styled-components-px2rem/issues"
   },
-  "author": "xuyuanxiang <hi@xuyuanxaing.cn>",
+  "author": "xuyuanxiang <hi@xuyuanxiang.cn>",
   "license": "MIT",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "typings": "lib/index.d.ts",
   "files": [
-    "lib"
+    "lib",
+    "src",
+    "types"
   ],
   "directories": {
     "lib": "lib",
@@ -39,7 +41,6 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.25",
-    "coveralls": "^3.0.9",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
@@ -54,9 +55,8 @@
   "scripts": {
     "test": "jest --no-cache --coverage",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "build": "tsc",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/.bin/coveralls",
-    "watch": "tsc -w"
+    "build": "tsc -p .",
+    "watch": "tsc -w -p ."
   },
   "husky": {
     "hooks": {

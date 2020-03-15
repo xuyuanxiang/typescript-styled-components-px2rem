@@ -1,0 +1,391 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should transform <ArrowFunction/> with BinaryExpression Body 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.goTzKp{width:0.64rem;height:2rem;}
+      
+/* sc-component-id: sc-bwzfXH */
+.kxmYtg{color:palevioletred;border:0.01rem solid palevioletred;border-radius:0.08rem;width:3.2rem;height:0.44rem;line-height:0.44rem;margin:0.32rem;padding:0.16rem;}
+      
+/* sc-component-id: sc-htpNat */
+
+      
+/* sc-component-id: sc-bxivhb */
+.fKFPjB{font-size:0.18rem;color:black;margin:0.24rem 0.08rem 0.24rem 0rem;border:0.02rem solid darkgray;border-radius:0.2rem;}
+      
+/* sc-component-id: sc-ifAKCX */
+
+      
+/* sc-component-id: sc-global-1091363788 */
+
+      
+/* sc-component-id: sc-EHOje */
+.eGkYlO{width:1.2rem;height:0.32rem;font-size:0.14rem;}
+      
+/* sc-component-id: sc-bZQynM */
+.flosVL{width:1.2rem;height:0.32rem;font-size:0.14rem;padding-left:0.15rem;padding-left:0.25rem;}
+      
+/* sc-component-id: sc-gzVnrw */
+
+      
+/* sc-component-id: sc-htoDjs */
+
+      
+/* sc-component-id: sc-dnqmqq */
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <button
+        class="sc-bxivhb fKFPjB"
+        disabled=""
+        id="buttonId"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`should transform <ArrowFunction/> with Block Body 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.goTzKp{width:0.64rem;height:2rem;}
+      
+/* sc-component-id: sc-bwzfXH */
+.kxmYtg{color:palevioletred;border:0.01rem solid palevioletred;border-radius:0.08rem;width:3.2rem;height:0.44rem;line-height:0.44rem;margin:0.32rem;padding:0.16rem;}
+      
+/* sc-component-id: sc-htpNat */
+.ebENzJ{font-size:0.18rem;color:black;width:3.2rem;}
+      
+/* sc-component-id: sc-bxivhb */
+.fKFPjB{font-size:0.18rem;color:black;margin:0.24rem 0.08rem 0.24rem 0rem;border:0.02rem solid darkgray;border-radius:0.2rem;}
+      
+/* sc-component-id: sc-ifAKCX */
+.hUsDcx{font-size:0.18rem;color:black;width:2.8rem;height:2rem;}
+      
+/* sc-component-id: sc-global-1091363788 */
+
+      
+/* sc-component-id: sc-EHOje */
+.eGkYlO{width:1.2rem;height:0.32rem;font-size:0.14rem;}
+      
+/* sc-component-id: sc-bZQynM */
+.flosVL{width:1.2rem;height:0.32rem;font-size:0.14rem;padding-left:0.15rem;padding-left:0.25rem;}
+      
+/* sc-component-id: sc-gzVnrw */
+
+      
+/* sc-component-id: sc-htoDjs */
+
+      
+/* sc-component-id: sc-dnqmqq */
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <button
+        class="sc-htpNat ebENzJ"
+        id="buttonId"
+        width="320"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`should transform <ArrowFunction/> with ConditionalExpression Body 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.goTzKp{width:0.64rem;height:2rem;}
+      
+/* sc-component-id: sc-bwzfXH */
+.kxmYtg{color:palevioletred;border:0.01rem solid palevioletred;border-radius:0.08rem;width:3.2rem;height:0.44rem;line-height:0.44rem;margin:0.32rem;padding:0.16rem;}
+      
+/* sc-component-id: sc-htpNat */
+
+      
+/* sc-component-id: sc-bxivhb */
+.fKFPjB{font-size:0.18rem;color:black;margin:0.24rem 0.08rem 0.24rem 0rem;border:0.02rem solid darkgray;border-radius:0.2rem;}
+      
+/* sc-component-id: sc-ifAKCX */
+.hUsDcx{font-size:0.18rem;color:black;width:2.8rem;height:2rem;}
+      
+/* sc-component-id: sc-global-1091363788 */
+
+      
+/* sc-component-id: sc-EHOje */
+.eGkYlO{width:1.2rem;height:0.32rem;font-size:0.14rem;}
+      
+/* sc-component-id: sc-bZQynM */
+.flosVL{width:1.2rem;height:0.32rem;font-size:0.14rem;padding-left:0.15rem;padding-left:0.25rem;}
+      
+/* sc-component-id: sc-gzVnrw */
+
+      
+/* sc-component-id: sc-htoDjs */
+
+      
+/* sc-component-id: sc-dnqmqq */
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <button
+        class="sc-ifAKCX hUsDcx"
+        id="buttonId"
+        width="280"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`should transform <ArrowFunction/> with PropertyAccess, Identifier, StringLiteral, NumericLiteral Body 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.goTzKp{width:0.64rem;height:2rem;}
+      
+/* sc-component-id: sc-bwzfXH */
+.kxmYtg{color:palevioletred;border:0.01rem solid palevioletred;border-radius:0.08rem;width:3.2rem;height:0.44rem;line-height:0.44rem;margin:0.32rem;padding:0.16rem;}
+      
+/* sc-component-id: sc-htpNat */
+
+      
+/* sc-component-id: sc-bxivhb */
+
+      
+/* sc-component-id: sc-ifAKCX */
+
+      
+/* sc-component-id: sc-global-1091363788 */
+
+      
+/* sc-component-id: sc-EHOje */
+.eGkYlO{width:1.2rem;height:0.32rem;font-size:0.14rem;}
+      
+/* sc-component-id: sc-bZQynM */
+.flosVL{width:1.2rem;height:0.32rem;font-size:0.14rem;padding-left:0.15rem;padding-left:0.25rem;}
+      
+/* sc-component-id: sc-gzVnrw */
+
+      
+/* sc-component-id: sc-htoDjs */
+
+      
+/* sc-component-id: sc-dnqmqq */
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <input
+        class="sc-bwzfXH kxmYtg"
+        id="inputId"
+        type="password"
+        width="320"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`should transform <BinaryExpression/> 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.goTzKp{width:0.64rem;height:2rem;}
+      
+/* sc-component-id: sc-bwzfXH */
+.kxmYtg{color:palevioletred;border:0.01rem solid palevioletred;border-radius:0.08rem;width:3.2rem;height:0.44rem;line-height:0.44rem;margin:0.32rem;padding:0.16rem;}
+      
+/* sc-component-id: sc-htpNat */
+.ebENzJ{font-size:0.18rem;color:black;width:3.2rem;}
+      
+/* sc-component-id: sc-bxivhb */
+.fKFPjB{font-size:0.18rem;color:black;margin:0.24rem 0.08rem 0.24rem 0rem;border:0.02rem solid darkgray;border-radius:0.2rem;}
+      
+/* sc-component-id: sc-ifAKCX */
+.hUsDcx{font-size:0.18rem;color:black;width:2.8rem;height:2rem;}
+      
+/* sc-component-id: sc-global-1091363788 */
+
+      
+/* sc-component-id: sc-EHOje */
+.eGkYlO{width:1.2rem;height:0.32rem;font-size:0.14rem;}
+      
+/* sc-component-id: sc-bZQynM */
+.flosVL{width:1.2rem;height:0.32rem;font-size:0.14rem;padding-left:0.15rem;padding-left:0.25rem;}
+      
+/* sc-component-id: sc-gzVnrw */
+.hQoOKQ{width:2rem;height:1rem;padding:0.9rem 0.16rem 0.04rem 0.085rem;margin:0.15rem 0.16rem;line-height:0.18rem;border-radius:0.32rem;background-color:red;}
+      
+/* sc-component-id: sc-htoDjs */
+
+      
+/* sc-component-id: sc-dnqmqq */
+
+    </style>
+  </head>
+  <body>
+    <div>
+      <button
+        class="sc-gzVnrw hQoOKQ"
+        id="btnId"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`should transform <ConditionalExpression/> with ThemeProvider's fontSize 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.goTzKp{width:0.64rem;height:2rem;}
+      
+/* sc-component-id: sc-bwzfXH */
+.kxmYtg{color:palevioletred;border:0.01rem solid palevioletred;border-radius:0.08rem;width:3.2rem;height:0.44rem;line-height:0.44rem;margin:0.32rem;padding:0.16rem;}
+      
+/* sc-component-id: sc-htpNat */
+.ebENzJ{font-size:0.18rem;color:black;width:3.2rem;}
+      
+/* sc-component-id: sc-bxivhb */
+.fKFPjB{font-size:0.18rem;color:black;margin:0.24rem 0.08rem 0.24rem 0rem;border:0.02rem solid darkgray;border-radius:0.2rem;}
+      
+/* sc-component-id: sc-ifAKCX */
+.hUsDcx{font-size:0.18rem;color:black;width:2.8rem;height:2rem;}
+      
+/* sc-component-id: sc-global-1091363788 */
+
+      
+/* sc-component-id: sc-EHOje */
+.eGkYlO{width:1.2rem;height:0.32rem;font-size:0.14rem;}
+      
+/* sc-component-id: sc-bZQynM */
+.flosVL{width:1.2rem;height:0.32rem;font-size:0.14rem;padding-left:0.15rem;padding-left:0.25rem;}
+      
+/* sc-component-id: sc-gzVnrw */
+.hQoOKQ{width:2rem;height:1rem;padding:0.9rem 0.16rem 0.04rem 0.085rem;margin:0.15rem 0.16rem;line-height:0.18rem;border-radius:0.32rem;background-color:red;}
+      
+/* sc-component-id: sc-htoDjs */
+.dDgCKr{display:inline;width:2rem;padding:0.08rem 0.16rem;height:44px;font-size:0.16rem;}
+      
+/* sc-component-id: sc-dnqmqq */
+.fvDhlR{font-size:0.18rem;color:#000000;}
+      
+/* sc-component-id: sc-iwsKbI */
+.caYOqE{font-size:0.48rem;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <button
+        class="sc-iwsKbI caYOqE"
+      />
+    </div>
+  </body>
+</html>
+`;
+
+exports[`should transform <ConditionalExpression/> with self fontSize 1`] = `
+<html>
+  <head>
+    <style
+      data-styled=""
+      data-styled-version="4.4.1"
+    >
+      
+      
+/* sc-component-id: sc-bdVaJa */
+.goTzKp{width:0.64rem;height:2rem;}
+      
+/* sc-component-id: sc-bwzfXH */
+.kxmYtg{color:palevioletred;border:0.01rem solid palevioletred;border-radius:0.08rem;width:3.2rem;height:0.44rem;line-height:0.44rem;margin:0.32rem;padding:0.16rem;}
+      
+/* sc-component-id: sc-htpNat */
+.ebENzJ{font-size:0.18rem;color:black;width:3.2rem;}
+      
+/* sc-component-id: sc-bxivhb */
+.fKFPjB{font-size:0.18rem;color:black;margin:0.24rem 0.08rem 0.24rem 0rem;border:0.02rem solid darkgray;border-radius:0.2rem;}
+      
+/* sc-component-id: sc-ifAKCX */
+.hUsDcx{font-size:0.18rem;color:black;width:2.8rem;height:2rem;}
+      
+/* sc-component-id: sc-global-1091363788 */
+
+      
+/* sc-component-id: sc-EHOje */
+.eGkYlO{width:1.2rem;height:0.32rem;font-size:0.14rem;}
+      
+/* sc-component-id: sc-bZQynM */
+.flosVL{width:1.2rem;height:0.32rem;font-size:0.14rem;padding-left:0.15rem;padding-left:0.25rem;}
+      
+/* sc-component-id: sc-gzVnrw */
+.hQoOKQ{width:2rem;height:1rem;padding:0.9rem 0.16rem 0.04rem 0.085rem;margin:0.15rem 0.16rem;line-height:0.18rem;border-radius:0.32rem;background-color:red;}
+      
+/* sc-component-id: sc-htoDjs */
+.dDgCKr{display:inline;width:2rem;padding:0.08rem 0.16rem;height:44px;font-size:0.16rem;}
+      
+/* sc-component-id: sc-dnqmqq */
+.fvDhlR{font-size:0.18rem;color:#000000;}
+      
+/* sc-component-id: sc-iwsKbI */
+.caYOqE{font-size:0.48rem;}
+      
+/* sc-component-id: sc-gZMcBi */
+.jTQcdx{font-size:0.24rem;}
+    </style>
+  </head>
+  <body>
+    <div>
+      <button
+        class="sc-gZMcBi jTQcdx"
+      />
+    </div>
+  </body>
+</html>
+`;

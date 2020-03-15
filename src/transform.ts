@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import { replace } from './replace';
 import configuration from './configuration';
 import { createToken, isArrowFunction, isPropertyAccessExpression } from 'typescript';
-import createPx2rem from './px2rem';
+import createPx2rem from './createPx2rem';
 
 let _px2rem: ts.Identifier | undefined;
 let _used: boolean = false;
@@ -12,13 +12,21 @@ function isStyledTagged(node: ts.TaggedTemplateExpression): boolean {
   if (ts.isIdentifier(tag)) {
     return isStyled(tag);
   } else if (ts.isCallExpression(tag)) {
-    if (ts.isIdentifier(tag.expression)) {
-      return isStyled(tag.expression);
-    } else if (ts.isPropertyAccessExpression(tag.expression)) {
-      return isStyledMember(tag.expression);
-    }
+    return isStyledFunction(tag);
   } else if (ts.isPropertyAccessExpression(tag)) {
     return isStyledMember(tag);
+  }
+  return false;
+}
+
+function isStyledFunction(call: ts.CallExpression): boolean {
+  const expression = call.expression;
+  if (isPropertyAccessExpression(expression)) {
+    return isStyledMember(expression);
+  } else if (ts.isCallExpression(expression)) {
+    return isStyledFunction(expression);
+  } else if (ts.isIdentifier(expression)) {
+    return isStyled(expression);
   }
   return false;
 }
@@ -152,32 +160,35 @@ function createTemplateSpanExpressionVisitor(context: ts.TransformationContext, 
         createCallPx2rem(px2rem, node, ts.createSpread(ts.createIdentifier('args'))),
       );
     }
-    // else if (ts.isBinaryExpression(node)) {
-    //   switch (node.operatorToken.kind) {
-    //     case ts.SyntaxKind.AmpersandAmpersandToken:
-    //       if (isPureExpression(node.right)) {
-    //         return ts.updateBinary(node, node.left, createCallPx2rem(px2rem, node.right), node.operatorToken);
-    //       }
-    //       break;
-    //     case ts.SyntaxKind.BarBarToken:
-    //       if (isPureExpression(node.left) && isPureExpression(node.right)) {
-    //         return ts.updateBinary(
-    //           node,
-    //           createCallPx2rem(px2rem, node.left),
-    //           createCallPx2rem(px2rem, node.right),
-    //           node.operatorToken,
-    //         );
-    //       } else if (isPureExpression(node.left)) {
-    //         node = ts.updateBinary(node, createCallPx2rem(px2rem, node.left), node.right, node.operatorToken);
-    //       } else if (isPureExpression(node.right)) {
-    //         node = ts.updateBinary(node, node.left, createCallPx2rem(px2rem, node.right), node.operatorToken);
-    //       }
-    //       break;
-    //     default:
-    //       return createCallPx2rem(px2rem, node);
-    //   }
-    // }
     return ts.visitEachChild(node, visitor, context);
+  };
+
+  return visitor;
+}
+
+function createTemplateSpanVisitor(context: ts.TransformationContext): ts.Visitor {
+  const visitor: ts.Visitor = node => {
+    if (_px2rem) {
+      if (ts.isTemplateSpan(node) && node.literal.text && node.literal.text.startsWith('px')) {
+        const text = node.literal.text.replace(/^px/, '');
+        if (isPureExpression(node.expression)) {
+          node = ts.updateTemplateSpan(
+            node,
+            createCallPx2rem(_px2rem, node.expression),
+            ts.isTemplateMiddle(node.literal) ? ts.createTemplateMiddle(text) : ts.createTemplateTail(text),
+          );
+        } else {
+          node = ts.updateTemplateSpan(
+            node,
+            ts.visitNode(node.expression, createTemplateSpanExpressionVisitor(context, _px2rem)),
+            ts.isTemplateMiddle(node.literal) ? ts.createTemplateMiddle(text) : ts.createTemplateTail(text),
+          );
+        }
+      }
+      return ts.visitEachChild(node, visitor, context);
+    } else {
+      return node;
+    }
   };
 
   return visitor;
@@ -197,40 +208,14 @@ function createStyledVisitor(context: ts.TransformationContext): ts.Visitor {
       return createIfDifference(node.text, replaced => ts.createTemplateMiddle(replaced), node);
     }
 
-    if (configuration.config.transformRuntime && _px2rem) {
-      if (ts.isTemplateSpan(node) && node.literal.text && node.literal.text.startsWith('px')) {
-        const text = node.literal.text.replace(/^px/, '');
-        if (isPureExpression(node.expression)) {
-          node = ts.updateTemplateSpan(
-            node,
-            createCallPx2rem(_px2rem, node.expression),
-            ts.isTemplateMiddle(node.literal) ? ts.createTemplateMiddle(text) : ts.createTemplateTail(text),
-          );
-        } else {
-          node = ts.updateTemplateSpan(
-            node,
-            ts.visitNode(node.expression, createTemplateSpanExpressionVisitor(context, _px2rem)),
-            ts.isTemplateMiddle(node.literal) ? ts.createTemplateMiddle(text) : ts.createTemplateTail(text),
-          );
-        }
-      }
+    const result = ts.visitEachChild(node, visitor, context);
+    if (configuration.config.transformRuntime) {
+      return ts.visitNode(result, createTemplateSpanVisitor(context));
     }
-    return ts.visitEachChild(node, visitor, context);
+    return result;
   };
 
   return visitor;
-}
-
-function isStyledFunction(call: ts.CallExpression): boolean {
-  const expression = call.expression;
-  if (isPropertyAccessExpression(expression)) {
-    return isStyledMember(expression);
-  } else if (ts.isCallExpression(expression)) {
-    return isStyledFunction(expression);
-  } else if (ts.isIdentifier(expression)) {
-    return isStyled(expression);
-  }
-  return false;
 }
 
 export const transformerFactory: ts.TransformerFactory<ts.SourceFile> = context => {
@@ -253,7 +238,10 @@ export const transformerFactory: ts.TransformerFactory<ts.SourceFile> = context 
     _used = false;
     const sourceFile = ts.visitNode(node, visitor);
     if (_used && _px2rem) {
-      return ts.updateSourceFileNode(sourceFile, [...sourceFile.statements, createPx2rem(_px2rem)]);
+      return ts.updateSourceFileNode(sourceFile, [
+        ...sourceFile.statements,
+        createPx2rem(_px2rem, configuration.config),
+      ]);
     }
     return sourceFile;
   };

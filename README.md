@@ -1,6 +1,8 @@
 # typescript-styled-components-px2rem [![MIT](https://img.shields.io/github/license/xuyuanxiang/typescript-styled-components-px2rem?style=plastic)](https://github.com/xuyuanxiang/typescript-styled-components-px2rem/blob/master/LICENSE)
 
-[![npm version](https://img.shields.io/npm/v/typescript-styled-components-px2rem.svg?style=flat-square)](https://www.npmjs.com/package/typescript-styled-components-px2rem) [![Build Status](https://api.travis-ci.org/xuyuanxiang/typescript-styled-components-px2rem.svg)](https://travis-ci.org/xuyuanxiang/typescript-styled-components-px2rem) [![Coverage Status](https://coveralls.io/repos/github/xuyuanxiang/typescript-styled-components-px2rem/badge.svg)](https://coveralls.io/github/xuyuanxiang/typescript-styled-components-px2rem)
+[![npm version](https://img.shields.io/npm/v/typescript-styled-components-px2rem.svg?style=flat-square)](https://www.npmjs.com/package/typescript-styled-components-px2rem) 
+[![Build Status](https://api.travis-ci.org/xuyuanxiang/typescript-styled-components-px2rem.svg)](https://travis-ci.org/xuyuanxiang/typescript-styled-components-px2rem) 
+[![codecov](https://codecov.io/gh/xuyuanxiang/typescript-styled-components-px2rem/branch/master/graph/badge.svg)](https://codecov.io/gh/xuyuanxiang/typescript-styled-components-px2rem)
 
 TypeScript transformer for convert `px` to `rem` units of [styled-components](https://www.styled-components.com/)
 
@@ -9,6 +11,23 @@ TypeScript transformer for convert `px` to `rem` units of [styled-components](ht
 2. Add a runtime `px2rem` function polyfill to process expression embedded in template strings when enable [transformRuntime](#transform-runtime) option.
 
 Babel plugin with similar functionality：[babel-plugin-styled-components-px2rem](https://github.com/xuyuanxiang/babel-plugin-styled-components-px2rem).
+
+## Table of Contents
+
+- [Requirement](#requirement)
+- [Usage](#usage)
+  * [ttypescript](#ttypescript)
+  * [rollup](#rollup)
+  * [webpack](#webpack)
+  * [Jest](#jest)
+- [Composition](#composition)
+- [Options](#options)
+- [Transform Runtime](#transform-runtime)
+  * [FunctionExpression](#functionexpression)
+  * [ArrowFunctionExpression](#arrowfunctionexpression)
+  * [PropertyAccessExpression](#propertyaccessexpression)
+  * [ConditionalExpression](#conditionalexpression)
+  * [Other Expressions](#other-expressions)
 
 ## Requirement
 
@@ -54,7 +73,7 @@ export default {
               transform: 'typescript-styled-components-px2rem',
               rootValue: 100,
               unitPrecision: 5,
-              minPixelValue: 2,
+              minPixelValue: 0,
               multiplier: 1,
               tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
               transformRuntime: false,
@@ -78,7 +97,7 @@ const createCustomTransformer = require('typescript-styled-components-px2rem').d
 const customTransformer = createCustomTransformer({
   rootValue: 100,
   unitPrecision: 5,
-  minPixelValue: 2,
+  minPixelValue: 0,
   multiplier: 1,
   tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
   transformRuntime: false,
@@ -130,7 +149,7 @@ tsconfig.json:
         "type": "config",
         "rootValue": 100,
         "unitPrecision": 5,
-        "minPixelValue": 2,
+        "minPixelValue": 0,
         "multiplier": 1,
         "tags": ["styled", "css", "createGlobalStyle", "keyframes"],
         "transformRuntime": false
@@ -142,7 +161,7 @@ tsconfig.json:
 
 ## Composition
 
-It should put before [typescript-plugin-styled-components](https://github.com/Igorbek/typescript-plugin-styled-components)
+It should be put before [typescript-plugin-styled-components](https://github.com/Igorbek/typescript-plugin-styled-components)
 
 tsconfig.json:
 
@@ -169,7 +188,7 @@ tsconfig.json:
 | :-- | :-: | :-: | :-- | --: |
 | rootValue | number | false | 100 | The root element font size |
 | unitPrecision | number | false | 5 | The decimal numbers to allow the REM units to grow to |
-| minPixelValue | number | false | 2 | Set the minimum pixel value to replace |
+| minPixelValue | number | false | 0 | Set the minimum pixel value to replace |
 | multiplier | number | false | 1 | The multiplier of input value |
 | tags | string[] | false | ["styled", "css", "createGlobalStyle", "keyframes"] | [styled-components](https://www.styled-components.com/) template literal [tagged](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals) |
 | transformRuntime | boolean | false | false | since 1.1.0，enable transformation of all expressions that embedded in template strings |
@@ -189,7 +208,7 @@ const fixedVal = toFixed((pixels * multiplier) / rootValue, unitPrecision);
 return `${fixedVal}rem`;
 ```
 
-Remaining options ara consistent with [postcss-plugin-px2rem](https://github.com/pigcan/postcss-plugin-px2rem#readme).
+Remaining options are consistent with [postcss-plugin-px2rem](https://github.com/pigcan/postcss-plugin-px2rem#readme).
 
 ## Transform Runtime
 
@@ -226,10 +245,10 @@ export const FunctionExpression = styled.button`
 `;
 
 function px2rem_1(input, ...args) {
-  if (typeof input === 'function') return px2rem_1(input(...args));
+  if (typeof input === 'function') return px2rem_1(input(...args), ...args);
   var value = parseFloat(input);
   var pixels = Number.isNaN(value) ? 0 : value;
-  if (pixels < 2) return `${pixels}px`;
+  if (Math.abs(pixels) < 0) return `${pixels}px`;
   var multiplier = Math.pow(10, 5 + 1);
   var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
   return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
@@ -290,7 +309,7 @@ import styled from 'styled-components';
 const height = '44';
 export const ArrowFunction = styled.input.attrs(props => ({
   type: 'password',
-  size: props.size || '16px',
+  size: props.size || '0.16rem',
   width: props.width || 100,
 }))`
   color: palevioletred;
@@ -327,10 +346,10 @@ export const ArrowFunctionWithConditionalBody = styled.button`
   height: ${props => (props.height ? px2rem_1(height) : px2rem_1(100))}; /* Conditional Body */
 `;
 function px2rem_1(input, ...args) {
-  if (typeof input === 'function') return px2rem_1(input(...args));
+  if (typeof input === 'function') return px2rem_1(input(...args), ...args);
   var value = parseFloat(input);
   var pixels = Number.isNaN(value) ? 0 : value;
-  if (pixels < 2) return `${pixels}px`;
+  if (Math.abs(pixels) < 0) return `${pixels}px`;
   var multiplier = Math.pow(10, 5 + 1);
   var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
   return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
@@ -347,7 +366,7 @@ import styled from 'styled-components';
 export const PropertyAccessExpression = styled.button<{ width: number; height: string }>(
   props => `
   width: ${props.width}px;
-  height: ${props.height};
+  height: ${props.height}; /* Note: Only expression end with 'px' will be processed. */
 `,
 );
 ```
@@ -359,14 +378,14 @@ import styled from 'styled-components';
 export const PropertyAccessExpression = styled.button(
   props => `
   width: ${px2rem_1(props.width)};
-  height: ${props.height};
+  height: ${props.height}; /* Note: Only expression end with 'px' will be processed. */
 `,
 );
 function px2rem_1(input, ...args) {
-  if (typeof input === 'function') return px2rem_1(input(...args));
+  if (typeof input === 'function') return px2rem_1(input(...args), ...args);
   var value = parseFloat(input);
   var pixels = Number.isNaN(value) ? 0 : value;
-  if (pixels < 2) return `${pixels}px`;
+  if (Math.abs(pixels) < 0) return `${pixels}px`;
   var multiplier = Math.pow(10, 5 + 1);
   var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
   return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
@@ -415,10 +434,10 @@ export const ConditionalExpressionWhenTrue = function({ fontSize }) {
   return React.createElement(StyledButton, null);
 };
 function px2rem_1(input, ...args) {
-  if (typeof input === 'function') return px2rem_1(input(...args));
+  if (typeof input === 'function') return px2rem_1(input(...args), ...args);
   var value = parseFloat(input);
   var pixels = Number.isNaN(value) ? 0 : value;
-  if (pixels < 2) return `${pixels}px`;
+  if (Math.abs(pixels) < 0) return `${pixels}px`;
   var multiplier = Math.pow(10, 5 + 1);
   var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
   return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
@@ -464,7 +483,7 @@ export const BinaryExpression = styled.button`
     width: 200px;
   `};
   height: ${condition || 100}px;
-  padding: ${40 + 50}px;
+  padding: ${40 + 50}px 8px ${4}px 16px;
   line-height: ${calc() - 2}px;
 `;
 ```
@@ -500,14 +519,15 @@ export const BinaryExpression = styled.button`
     width: 2rem;
   `};
   height: ${px2rem_1(condition || 100)};
-  padding: ${px2rem_1(40 + 50)};
+  padding: ${px2rem_1(40 + 50)} 0.08rem ${px2rem_1(4)} 0.16rem;
   line-height: ${px2rem_1(calc() - 2)};
 `;
+
 function px2rem_1(input, ...args) {
-  if (typeof input === 'function') return px2rem_1(input(...args));
+  if (typeof input === 'function') return px2rem_1(input(...args), ...args);
   var value = parseFloat(input);
   var pixels = Number.isNaN(value) ? 0 : value;
-  if (pixels < 2) return `${pixels}px`;
+  if (Math.abs(pixels) < 0) return `${pixels}px`;
   var multiplier = Math.pow(10, 5 + 1);
   var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
   return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;

@@ -5,7 +5,7 @@ describe('configuration', () => {
     expect(configuration.config).toEqual({
       rootValue: 100,
       unitPrecision: 5,
-      minPixelValue: 2,
+      minPixelValue: 0,
       multiplier: 1,
       tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
       propWhiteList: [],
@@ -22,7 +22,7 @@ describe('configuration', () => {
     expect(configuration.config).toEqual({
       rootValue: 100,
       unitPrecision: 5,
-      minPixelValue: 2,
+      minPixelValue: 0,
       multiplier: 1,
       tags: ['styled', 'css', 'createGlobalStyle', 'keyframes'],
       propWhiteList: [],
@@ -38,7 +38,7 @@ describe('configuration', () => {
     expect(configuration.config).toEqual({
       rootValue: 75,
       unitPrecision: 5,
-      minPixelValue: 2,
+      minPixelValue: 0,
       multiplier: 1,
       tags: ['sty', 'inject'],
       propWhiteList: [],
