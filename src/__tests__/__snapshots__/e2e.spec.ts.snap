@@ -101,13 +101,13 @@ export const ThemeConsumer = styled.div \`
 \`;
 export const ConditionalExpression = function ({ fontSize }) {
     const StyledButton = styled.button \`
-    font-size: \${typeof fontSize === 'number' ? px2rem_1(fontSize) : props => { var _a; return px2rem_1((_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize); }};
+    font-size: \${typeof fontSize === 'number' ? px2rem_1(fontSize) : props => px2rem_1(props === null || props === void 0 ? void 0 : props.theme.fontSize)};
   \`;
     return />;;
 };
 export const ConditionalExpressionWhenTrue = function ({ fontSize }) {
     const StyledButton = styled.button \`
-    font-size: \${typeof fontSize !== 'number' ? props => { var _a; return px2rem_1((_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize); } : px2rem_1(fontSize)};
+    font-size: \${typeof fontSize !== 'number' ? props => px2rem_1(props === null || props === void 0 ? void 0 : props.theme.fontSize) : px2rem_1(fontSize)};
   \`;
     return />;;
 };
@@ -255,13 +255,13 @@ export const ThemeConsumer = styled.div \`
 \`;
 export const ConditionalExpression = function ({ fontSize }) {
     const StyledButton = styled.button \`
-    font-size: \${typeof fontSize === 'number' ? fontSize : props => { var _a; return (_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize; }}px;
+    font-size: \${typeof fontSize === 'number' ? fontSize : props => props === null || props === void 0 ? void 0 : props.theme.fontSize}px;
   \`;
     return />;;
 };
 export const ConditionalExpressionWhenTrue = function ({ fontSize }) {
     const StyledButton = styled.button \`
-    font-size: \${typeof fontSize !== 'number' ? props => { var _a; return (_a = props) === null || _a === void 0 ? void 0 : _a.theme.fontSize; } : fontSize}px;
+    font-size: \${typeof fontSize !== 'number' ? props => props === null || props === void 0 ? void 0 : props.theme.fontSize : fontSize}px;
   \`;
     return />;;
 };
