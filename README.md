@@ -28,6 +28,7 @@ Babel plugin with similar functionality：[babel-plugin-styled-components-px2rem
   * [PropertyAccessExpression](#propertyaccessexpression)
   * [ConditionalExpression](#conditionalexpression)
   * [Other Expressions](#other-expressions)
+- [Polyfill](#Polyfill)
 
 ## Requirement
 
@@ -532,4 +533,13 @@ function px2rem_1(input, ...args) {
   var wholeNumber = Math.floor(((pixels * 1) / 100) * multiplier);
   return `${(Math.round(wholeNumber / 10) * 10) / multiplier}rem`;
 }
+```
+
+# Polyfill
+
+Maybe you need import some polyfills from `core-js` only once in your entry file to support outdated user agent like: `iOS 7.x`, `iOS 8.x` and `android 4.x`:
+
+```javascript
+import 'core-js/es/number/is-nan';
+import 'core-js/es/parse-float';
 ```
