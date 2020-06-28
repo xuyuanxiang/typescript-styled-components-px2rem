@@ -1,6 +1,7 @@
 # typescript-styled-components-px2rem [![MIT](https://img.shields.io/github/license/xuyuanxiang/typescript-styled-components-px2rem?style=plastic)](https://github.com/xuyuanxiang/typescript-styled-components-px2rem/blob/master/LICENSE)
 
 [![npm version](https://img.shields.io/npm/v/typescript-styled-components-px2rem.svg?style=flat-square)](https://www.npmjs.com/package/typescript-styled-components-px2rem) 
+![NPM Downloads](https://badgen.net/npm/dt/typescript-styled-components-px2rem) 
 [![Build Status](https://api.travis-ci.org/xuyuanxiang/typescript-styled-components-px2rem.svg)](https://travis-ci.org/xuyuanxiang/typescript-styled-components-px2rem) 
 [![codecov](https://codecov.io/gh/xuyuanxiang/typescript-styled-components-px2rem/branch/master/graph/badge.svg)](https://codecov.io/gh/xuyuanxiang/typescript-styled-components-px2rem)
 
